@@ -5,7 +5,21 @@ block scripts
 		//javascript vars here
 
 block content
-	.index-container.this-is-an-additional-class
-		.main-contents
-			div#this-is-an-id
-				span This is text
+	nav.header
+	a(href='/')#site-name
+		| Fantasy eSports
+	if user
+		ul.nav-list
+			//- if the user is logged in, display options only relevant to logged-in users (log out, view teams, etc.)
+	else
+		ul.nav-list
+			li
+				#signup
+					span
+						i.fa.fa-fw.fa-user-plus
+						| Signup
+			li
+				z#login
+					span
+						i.fa.fa-fw.fa-sign-in
+						| Login

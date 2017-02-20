@@ -20,14 +20,16 @@ const MongoStore       = require('connect-mongo')(session);
 dotenv.load({ path: '.env.config' });
 
 //Controllers (routes)
-const indexController = require('./controllers/index');
+const indexController    = require('./controllers/index');
+const userController     = require('./controllers/manageUser');
+const notFoundController = require('./controllers/404');
 
 //Passport configuration
 const passportConfig = require('./config/passport');
 
 //Connect to MongoDB
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGOLAB_URI);
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://fantasy-esports:jajajoos@ds157479.mlab.com:57479/fantasy-esports');
 
 mongoose.connection.on('error', () => {
 	console.error('MongoDB Connection Error. Please make sure that MongoDB is running.');
@@ -71,10 +73,6 @@ app.get('/', indexController.index);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.getLogout);
-app.get('/forgot', userController.getForgot);
-app.post('/forgot', userController.postForgot);
-app.get('/reset/:token', userController.getReset);
-app.post('/reset/:token', userController.postReset);
 app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
 
