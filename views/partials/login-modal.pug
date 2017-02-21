@@ -1,0 +1,39 @@
+.cd-user-modal
+	.cd-user-modal-container
+		ul.cd-switcher
+			li
+				a(href="#0") Sign in
+			li
+				a(href="#0") Sign up
+		#cd-login
+			form.cd-form
+				p.fieldset
+					label.image-replace.cd-email(for="signin-email") E-mail
+					input.full-width.has-padding.has-border#signin-email(type="email" placeholder="E-mail")
+					span.cd-error-message Error message here!
+				p.fieldset
+					label.image-replace.cd-password(for="signin-password") Password
+					input.full-width.has-padding.has-border#signin-password(type="password" placeholder="Password")
+					span.cd-error-message Error message here!
+				p.fieldset
+					input.full-width(type="submit" value="Login")
+		#cd-signup
+			form.cd-form
+				p.fieldset
+					label.image-replace.cd-username(for="signin-username") Username
+					input.full-width.has-padding.has-border#signin-username(type="text" placeholder="Username")
+					span.cd-error-message Error message here!
+				p.fieldset
+					label.image-replace.cd-email(for="signin-email") E-mail
+					input.full-width.has-padding.has-border#signin-email(type="email" placeholder="E-mail")
+					span.cd-error-message Error message here!
+				p.fieldset
+					label.image-replace.cd-password(for="signin-password") Password
+					input.full-width.has-padding.has-border#signin-password(type="password" placeholder="Password")
+					span.cd-error-message Error message here!
+				p.fieldset
+					input.full-width(type="submit" value="Create Account")
+		a.cd-close-form(href="#0") Close
+
+script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
+script(src="js/lib/login-modal.js")

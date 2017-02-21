@@ -1,25 +1,27 @@
 extends layout
 
 block scripts
+	script(src='../dist/js/lib/login-modal.js')
 	script(type='text/javascript').
 		//javascript vars here
 
 block content
-	nav.header
-	a(href='/')#site-name
-		| Fantasy eSports
-	if user
-		ul.nav-list
-			//- if the user is logged in, display options only relevant to logged-in users (log out, view teams, etc.)
-	else
-		ul.nav-list
-			li
-				#signup
-					span
-						i.fa.fa-fw.fa-user-plus
-						| Signup
-			li
-				z#login
-					span
-						i.fa.fa-fw.fa-sign-in
-						| Login
+	nav.nav-bar
+		a(href='/')#site-name
+			| Fantasy eSports
+		if user
+			ul.nav-list
+				//- if the user is logged in, display options only relevant to logged-in users (log out, view teams, etc.)
+		else
+			include partials/login-modal
+			ul.nav-list
+				li
+					#signup
+						span
+							i.fa.fa-fw.fa-user-plus
+							| Signup
+				li
+					#signin
+						span
+							i.fa.fa-fw.fa-sign-in
+							| Login
