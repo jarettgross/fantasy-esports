@@ -3,5 +3,32 @@
   padding: 0;
   font-size: 16px; }
 
-#signin, #signup {
-  cursor: pointer; }
+.nav-list {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  justify-content: space-between;
+  list-style: none;
+  padding: 15px 5%;
+  background-color: black;
+  color: white; }
+
+#signin, #signup, #logout {
+  cursor: pointer;
+  display: inline-block; }
+
+#signin {
+  margin-right: 30px; }
+
+#signup {
+  border-style: solid;
+  border-radius: 15px;
+  padding: 5px;
+  background-color: white;
+  color: black; }

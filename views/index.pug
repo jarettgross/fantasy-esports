@@ -6,10 +6,11 @@ block scripts
 
 block content
 	nav.nav-bar
-		a(href='/')#site-name
-			| Fantasy eSports
 		if user
 			ul.nav-list
+				li
+					a(href='/')#site-name
+					| Fantasy eSports
 				//- if the user is logged in, display options only relevant to logged-in users (log out, view teams, etc.)
 				li
 					a(href='/logout')#logout
@@ -20,12 +21,14 @@ block content
 			include partials/login-modal
 			ul.nav-list
 				li
-					#signup
-						span
-							i.fa.fa-fw.fa-user-plus
-							| Signup
+					a(href='/')#site-name
+					| Fantasy eSports
 				li
 					#signin
 						span
 							i.fa.fa-fw.fa-sign-in
 							| Login
+					#signup
+						span
+							i.fa.fa-fw.fa-user-plus
+							| Signup

@@ -30,6 +30,28 @@
 // 4) Index
 //-----------------
 
-#signin, #signup {
+.nav-list {
+	@include flexbox;
+	@include justify-content(space-between);
+	list-style: none;
+	padding: 15px 5%;
+	background-color: black;
+	color: white;
+}
+
+#signin, #signup, #logout {
 	cursor: pointer;
+	display: inline-block;
+}
+
+#signin {
+	margin-right: 30px;
+}
+
+#signup {
+	border-style: solid;
+	border-radius: 15px;
+	padding: 5px;
+	background-color: white;
+	color: black;
 }
