@@ -10,9 +10,11 @@ player_Ids = ['9216', '7594', '2553', '334', '7592', '7167', '9032', '8738' '926
 			  '695', '483', '161', '7528', '7412', '317', '3849', '3347', '7168', '3055', '8374', '339', '2469', '7154', '7322', '7398', '7443',
 			  '429', '1485', '629', '8528', '2757', '964', '3847', '338', '885', '8183', '4959', '4954', '484', '5386', '2023', '8346', '6904',
 			  '7429', '2730', '8095', '8520', '9078', '8507', '472', '735', '1146', '165', '3997', '8413', '9217', '9256', '8370', '7511', '7390',
-			  '2644', '7687', '7403', '7796', '8523', '8716', '2131', '147', '7156', '41', '7499', '7170']
-event_Ids = ['2471']	#Currently only 1 event_Id. If we want multiple events in one scrape, then I'll have to modify how we store the data a bit.
-event_Names = ['ELEAGUE Major 2017']
+			  '2644', '7687', '7403', '7796', '8523', '8716', '2131', '147', '7156', '41', '7499', '7170', '798', '7440', '8797', '9219', '29', '8735',
+			  '8248', '39', '7527', '8349', '203', '7148', '884', '557', '8738', '8345', '5287', '1866', '7256', '499', '21']
+#fox/jkaem=Faze, RUBINO=North
+event_Ids = ['2062']	#Currently only 1 event_Id. If we want multiple events in one scrape, then I'll have to modify how we store the data a bit.
+event_Names = ['ESL One Cologne 2016']
 
 valid_Player_Ids = [ ]	#In case we input a playerID who did not play a game at the given event, then that ID will not be output to the csv.
 player_Names = [ ]	#Nicknames like coldzera.
@@ -57,7 +59,10 @@ def get_player_stats(page_url, player_Id):
 		damage.append(totalDamage)
 		assists.append(totalAssist)
 		birth_Names.append(realName[0])
-		ages.append(int(age[0]))
+		if (age[0] == '-'):
+			ages.append('-')
+		else:
+			ages.append(int(age[0]))
 		countries.append(country[0].strip()) #Strip() removed leading/ending whitespace.
 		teams.append(team[0])
 
@@ -79,4 +84,3 @@ with open(fileName, 'w+') as csvfile:	#w+ means it will create the file if there
 	for i in range(0, len(valid_Player_Ids)):
 		spamwriter.writerow([player_Names[i], valid_Player_Ids[i], kills[i], headshots[i], deaths[i], rounds_Played[i], damage[i],
 							 assists[i], birth_Names[i], ages[i], countries[i], teams[i]])
-
