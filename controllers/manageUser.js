@@ -114,9 +114,6 @@ module.exports = {
 
 	getLogout: function(req, res, next) {
 		req.logout();
-		return res.send({
-			success:  true,
-			redirect: '/'
-		});
+		return res.redirect('/');
 	}
 };

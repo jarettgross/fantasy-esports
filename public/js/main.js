@@ -36,19 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 	});
 
-	$('#logout').click(function(event) {
-		event.preventDefault();
-		$.get('/logout',
-			'',
-			function(data) {
-				if (data.success) {
-					window.location = data.redirect;
-				} else {
-					//Error
-				}
-			});
-	});
-
 	//=================
 	// TEAM SELECT
 	//=================
