@@ -5,12 +5,6 @@ const User     = require('../models/User');
 const request  = require('request');
 
 module.exports = {
-	getSignup: function(req, res, next) {
-		if (req.user) return res.redirect('/');
-		res.render('signup', { 
-			//pass variables to front-end here
-		});
-	},
 
 	postSignup: function(req, res, next) {
 		req.assert('username', 'Username must be at least 3 characters long').len(3);
@@ -24,7 +18,6 @@ module.exports = {
 		const errors = req.validationErrors();
 
 		if (errors) {
-			console.log("errors");
 			var errorMsgs = [];
 			for (var i = 0; i < errors.length; i++) {
 				errorMsgs.push(errors[i].msg);
@@ -87,41 +80,43 @@ module.exports = {
 		});
 	},
 
-	getLogin: function(req, res, next) {
-		if (req.user) {
-			res.redirect('/');
-		} else {
-			res.render('login', {
-				//pass login variables to front-end here
-			});
-		}
-	},
-
 	postLogin: function(req, res, next) {
-		req.assert('username', 'Username cannot be blank').notEmpty();
+		req.assert('email', 'Email cannot be blank').notEmpty();
 		req.assert('password', 'Password cannot be blank').notEmpty();
 		const errors = req.validationErrors();
 
 		if (errors) {
 			req.flash('errors', errors);
-			return res.redirect('/login');
+			return res.send({
+				success:  false,
+				redirect: '/'
+			});
 		}
 
 		passport.authenticate('local', function(err, user, info) {
 			if (err) return next(err);
 			if (!user) {
 				req.flash('errors', info);
-				return res.redirect('/login');
+				return res.send({
+					success:  false,
+					redirect: '/'
+				});
 			}
 			req.logIn(user, function(err) {
 				if (err) return next(err);
-				res.redirect('/');
+				return res.send({
+					success:  true,
+					redirect: '/'
+				});
 			});
 		})(req, res, next);
 	},
 
 	getLogout: function(req, res, next) {
 		req.logout();
-		res.redirect('/');
+		return res.send({
+			success:  true,
+			redirect: '/'
+		});
 	}
 };

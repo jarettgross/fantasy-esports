@@ -11,6 +11,11 @@ block content
 		if user
 			ul.nav-list
 				//- if the user is logged in, display options only relevant to logged-in users (log out, view teams, etc.)
+				li
+					#logout
+						span
+							i.fa.fa-fw.fa-user
+							| Logout
 		else
 			include partials/login-modal
 			ul.nav-list

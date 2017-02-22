@@ -70,12 +70,10 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 //Index
 app.get('/', indexController.index);
 
-//Signup, login
-app.get('/login', userController.getLogin);
+//Signup, login, logout
 app.post('/login', userController.postLogin);
-app.get('/logout', userController.getLogout);
-app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
+app.get('/logout', userController.getLogout);
 
 //Anything else (404)
 app.get('*', notFoundController.notFound);

@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			$('#signup-form').serialize(),
 			function(data) {
 				if (data.success) {
-					//Success
+					window.location = data.redirect;
 				} else {
 					//Error
 				}
@@ -29,7 +29,20 @@ document.addEventListener('DOMContentLoaded', function() {
 			$('#login-form').serialize(),
 			function(data) {
 				if (data.success) {
-					//Success
+					window.location = data.redirect;
+				} else {
+					//Error
+				}
+			});
+	});
+
+	$('#logout').click(function(event) {
+		event.preventDefault();
+		$.get('/logout',
+			'',
+			function(data) {
+				if (data.success) {
+					window.location = data.redirect;
 				} else {
 					//Error
 				}
