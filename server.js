@@ -63,9 +63,10 @@ app.use(function(req, res, next) {
 
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
-/***********
-**APP ROUTES
-************/
+//==============
+//APP ROUTES
+//==============
+
 //Index
 app.get('/', indexController.index);
 
@@ -79,9 +80,9 @@ app.post('/signup', userController.postSignup);
 //Anything else (404)
 app.get('*', notFoundController.notFound);
 
-/***********
-**END app routes
-************/
+//==============
+//END APP ROUTES
+//==============
 
 //Create the server
 http.createServer(app).listen(app.get('port'), function() {

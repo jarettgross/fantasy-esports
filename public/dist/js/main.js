@@ -1,1 +1,1 @@
-document.addEventListener("DOMContentLoaded",function(){});
+document.addEventListener("DOMContentLoaded",function(){$("#signup-form").submit(function(n){console.log("testme"),n.preventDefault(),$.post("/signup",$("#signup-form").serialize(),function(n){n.success})}),$("#login-form").submit(function(n){n.preventDefault(),$.post("/login",$("#login-form").serialize(),function(n){n.success})})});

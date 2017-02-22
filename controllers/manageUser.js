@@ -16,7 +16,6 @@ module.exports = {
 		req.assert('username', 'Username must be at least 3 characters long').len(3);
 		req.assert('username', 'Invalid username').matches(/^[a-zA-Z0-9.\-_$@*!]{3,30}$/);
 		req.assert('password', 'Password must be at least 6 characters long').matches(/^[\s\S]{6,60}$/);
-		req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
 		req.assert('email', 'Invalid email').isEmail();
 		req.assert('email', 'Email must be at least 3 characters long').matches(/^[\s\S]{3,60}$/);
 
@@ -25,6 +24,7 @@ module.exports = {
 		const errors = req.validationErrors();
 
 		if (errors) {
+			console.log("errors");
 			var errorMsgs = [];
 			for (var i = 0; i < errors.length; i++) {
 				errorMsgs.push(errors[i].msg);
