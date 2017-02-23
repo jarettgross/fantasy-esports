@@ -5,10 +5,16 @@ const shortid  = require('shortid');
 
 const userSchema = new mongoose.Schema({
 
-    _id:                  { type: String, required: true, unique: true, default: shortid.generate },
-    username:             { type: String, required: true, unique: true },
-    password:             { type: String, required: true },
-    email:                { type: String, required: true, unique: true, lowercase: true },
+    _id:      { type: String, required: true, unique: true, default: shortid.generate },
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    email:    { type: String, required: true, unique: true, lowercase: true },
+
+    contests: [{
+        id:     { type: String, required: true },
+        team:   [String],
+        points: Number
+    }]
 
 }, { timestamps: true });
 

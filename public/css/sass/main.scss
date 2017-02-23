@@ -1,25 +1,24 @@
 //Table of Contents
-//-----------------
+//====================
 // 1)  Imports
 // 2)  Variables
 // 3)  Scaffolding
 // 4)  Index
-
-//----------------------
-//----------------------
-//----------------------
+//====================
 
 
 // 1) Imports
-//-----------------
+//====================
 @import 'mixins';
 
 // 2) Variables
-//-----------------
+//====================
+$primary-color: #F76D74;
+$dark-primary-color: #D63A42;
 
 
 // 3) Scaffolding
-//-----------------
+//====================
 
 * {
     margin: 0;
@@ -28,7 +27,7 @@
 }
 
 // 4) Index
-//-----------------
+//====================
 
 .nav-list {
 	@include flexbox;
@@ -37,6 +36,11 @@
 	padding: 15px 5%;
 	background-color: black;
 	color: white;
+}
+
+#site-name {
+	vertical-align: -moz-middle-with-baseline;
+	color: $primary-color;
 }
 
 #signin, #signup, #logout {
@@ -49,9 +53,15 @@
 }
 
 #signup {
+	color: white;
 	border-style: solid;
 	border-radius: 15px;
+	border-color: transparent;
 	padding: 5px;
-	background-color: white;
-	color: black;
+	background-color: $primary-color;
+	@include transition(background-color .2s ease);
+
+	&:hover {
+		background-color: $dark-primary-color;
+	}
 }

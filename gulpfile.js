@@ -4,6 +4,7 @@ const concat      = require('gulp-concat');
 const sass        = require('gulp-sass');
 const runSequence = require('run-sequence');
 const uglify      = require('gulp-uglify');
+const nodemon     = require('gulp-nodemon');
 
 gulp.task('build-css', function() {
 	return gulp.src('./public/css/sass/*.scss')
@@ -30,4 +31,18 @@ gulp.task('uglify-js', function() {
 		.pipe(gulp.dest('./public/dist/js'));
 });
 
-gulp.task('default', ['compile-css', 'uglify-js']);
+gulp.task('start', function() {
+	nodemon({ script: 'server.js' })
+		.once('exit', function() {
+			console.log('Exiting process');
+			process.exit();
+		});
+});
+
+//Watch task
+gulp.task('watch-css', function() {
+    gulp.watch('./public/css/sass/*.scss', ['compile-css']);
+});
+
+//Default task for distribution
+gulp.task('default', ['start', 'watch-css', 'uglify-js']);

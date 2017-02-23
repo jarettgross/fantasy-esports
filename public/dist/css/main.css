@@ -19,6 +19,10 @@
   background-color: black;
   color: white; }
 
+#site-name {
+  vertical-align: -moz-middle-with-baseline;
+  color: #F76D74; }
+
 #signin, #signup, #logout {
   cursor: pointer;
   display: inline-block; }
@@ -27,8 +31,16 @@
   margin-right: 30px; }
 
 #signup {
+  color: white;
   border-style: solid;
   border-radius: 15px;
+  border-color: transparent;
   padding: 5px;
-  background-color: white;
-  color: black; }
+  background-color: #F76D74;
+  -webkit-transition: background-color 0.2s ease;
+  -moz-transition: background-color 0.2s ease;
+  -ms-transition: background-color 0.2s ease;
+  -o-transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease; }
+  #signup:hover {
+    background-color: #D63A42; }
