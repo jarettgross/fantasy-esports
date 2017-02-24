@@ -22,6 +22,8 @@ ages = [ ]
 countries = [ ]
 teams = [ ]
 
+#Comment out line 38 in gulpfile.js if you want to start the server using gulp command to load the css
+
 def get_player_stats(page_url, player_Id):
         page = requests.get(page_url)
         content = html.fromstring(page.content)
@@ -35,32 +37,52 @@ def get_player_stats(page_url, player_Id):
         age = content.xpath("//*[@id='back']/div[3]/div[3]/div/div[2]/div[2]/div[5]/div/div[2]/text()")
         country = content.xpath("//*[@id='back']/div[3]/div[3]/div/div[2]/div[2]/div[7]/div/div[2]/text()")
         team = content.xpath("//*[@id='back']/div[3]/div[3]/div/div[2]/div[2]/div[9]/div/div[2]/a/text()")
+        if (player_Id % 100 == 0):
+                print(player_Id)
         
-        if (player_Id % 500 == 0):
-            print(player_Id)
         
-        if (len(rounds) > 0 and int(rounds[0]) > 0 and name[0] != 'N/A'):
+        if (len(rounds) > 0 and int(rounds[0]) > 0 and len(name) > 0 and name[0] != 'N/A' and len(kill) > 0 and kill[0] > 0):
                 valid_Player_Ids.append(player_Id)
                 player_Names.append(name[0])
+                
                 kills.append(int(kill[0]))
-                headshots.append(headshot[0])
-                deaths.append(int(death[0]))
+                if (len(headshot) > 0):
+                        headshots.append(headshot[0])
+                else:
+                        headshots.append('0')
+                if (len(death) > 0):
+                        deaths.append(int(death[0]))
+                else:
+                        deaths.append(0)
+                
                 rounds_Played.append(int(rounds[0]))
                 
-                totalAssist = int(int(rounds[0]) * float(assistsARound[0]))
+                if (len(assistsARound) > 0):
+                        totalAssist = int(int(rounds[0]) * float(assistsARound[0]))
+                else:
+                        totalAssist = 0
                 
                 assists.append(totalAssist)
-                birth_Names.append(realName[0])
+                if (len(realName) > 0):
+                        birth_Names.append(realName[0])
+                else:
+                        birth_Names.append('Unknown')
+                
                 if (age[0] == '-'):
                         ages.append('-')
                 else:
                         ages.append(int(age[0]))
-                countries.append(country[0].strip()) #Strip() removes leading/ending whitespace.
-                teams.append(team[0])
+                if (len(countries) > 0):
+                        countries.append(country[0].strip()) #Strip() removes leading/ending whitespace.
+                else:
+                        countries.append('Unkown')
+                if (len(team) > 0):
+                        teams.append(team[0])
+                else:
+                        teams.append('No team')
 
-
-
-for i in range (0, 13360):
+#14000 max
+for i in range (12560, 13365):
     get_player_stats('http://www.hltv.org/?pageid=173&playerid=' + str(i), i)
 
 
@@ -69,7 +91,7 @@ print("data retrieved")
 
 fileName = 'AllStats.csv'
 
-with open(fileName, 'w+') as csvfile:   #w+ means it will create the file if there is not one, or rewrite it if there is. If you want to append to file, use a+.
+with open(fileName, 'a') as csvfile:   #w+ means it will create the file if there is not one, or rewrite it if there is. If you want to append to file, use a+.
         spamwriter = csv.writer(csvfile, delimiter=',',
                                                         quotechar='"', quoting=csv.QUOTE_MINIMAL)
         #spamwriter.writerow(["Name", "PlayerID", "Kills", "Headshot%", "Deaths", "Rounds Played", "Assists", "Birth Name", "Age", "Country", "Current Team"])
