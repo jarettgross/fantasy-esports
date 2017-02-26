@@ -44,3 +44,53 @@
   transition: background-color 0.2s ease; }
   #signup:hover {
     background-color: #D63A42; }
+
+#index-wrapper {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+  margin-top: 5%; }
+
+.contest-listing {
+  width: 50%;
+  margin: auto;
+  margin-bottom: 10px;
+  padding: 0 30px;
+  height: 50px;
+  line-height: 2.8;
+  border-style: solid;
+  border-radius: 60px;
+  border-width: 2px;
+  border-color: black;
+  background-color: #F76D74;
+  color: white;
+  -webkit-transition: background-color 0.2s ease;
+  -moz-transition: background-color 0.2s ease;
+  -ms-transition: background-color 0.2s ease;
+  -o-transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease; }
+  .contest-listing:hover {
+    background-color: #D63A42; }
+  .contest-listing > div {
+    display: inline-block; }
+  .contest-listing .contest-name {
+    width: 40%; }
+  .contest-listing .contest-date {
+    width: 30%;
+    text-align: center; }
+  .contest-listing .contest-entry-count {
+    width: 30%;
+    text-align: right; }

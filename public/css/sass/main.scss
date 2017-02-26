@@ -65,3 +65,48 @@ $dark-primary-color: #D63A42;
 		background-color: $dark-primary-color;
 	}
 }
+
+#index-wrapper {
+	@include flexbox;
+	@include flex-direction(column);
+	@include justify-content(center);
+	margin-top: 5%;
+}
+
+.contest-listing {
+	width: 50%;
+	margin: auto;
+	margin-bottom: 10px;
+	padding: 0 30px;
+	height: 50px;
+	line-height: 2.8;
+	border-style: solid;
+	border-radius: 60px;
+	border-width: 2px;
+	border-color: black;
+	background-color: $primary-color;
+	color: white;
+	@include transition(background-color .2s ease);
+
+	&:hover {
+		background-color: $dark-primary-color;
+	}
+
+	> div {
+		display: inline-block;
+	}
+
+	.contest-name {
+		width: 40%;
+	}
+
+	.contest-date {
+		width: 30%;
+		text-align: center;
+	}
+
+	.contest-entry-count {
+		width: 30%;
+		text-align: right;
+	}
+}

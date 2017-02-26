@@ -2,15 +2,16 @@ extends layout
 
 block scripts
 	script(type='text/javascript').
-		//javascript vars here
+		//javascript vars
+		var contests = JSON.parse("#{contests}".replace(/&quot;/g,'"'));
 
 block content
 	nav.nav-bar
+		//- if the user is logged in, display options only relevant to logged-in users (log out, view teams, etc.)
 		if user
 			ul.nav-list
 				li
 					a(href='/')#site-name Fantasy eSports
-				//- if the user is logged in, display options only relevant to logged-in users (log out, view teams, etc.)
 				li
 					a(href='/logout')#logout
 						span
@@ -30,3 +31,4 @@ block content
 						span
 							i.fa.fa-fw.fa-user-plus
 							| Signup
+	.section-wrapper#index-wrapper

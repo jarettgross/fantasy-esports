@@ -39,10 +39,10 @@ gulp.task('start', function() {
 		});
 });
 
-//Watch task
-gulp.task('watch-css', function() {
-    gulp.watch('./public/css/sass/*.scss', ['compile-css']);
-});
+//Watch task - not working currently
+// gulp.task('watch-css', function() {
+//     gulp.watch('./public/css/sass/*.scss', ['compile-css']);
+// });
 
 //Default task for distribution
-gulp.task('default', ['start', 'watch-css', 'uglify-js']);
+gulp.task('default', ['start', 'compile-css', 'uglify-js']);
