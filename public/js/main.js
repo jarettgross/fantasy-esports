@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				for(var j = 0; j < user_ids.length; j++){
 					if(idHolder.concat(user_ids[j]) === allPlayers[i][1]){
 						players.push(allPlayers[i]);
+						sessionStorage.setItem(user_ids[j], user_ids[j]);
 						console.log(allPlayers[i]);
 					}
 				}
@@ -122,6 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 				var team = players[i][10].split(":");
 				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(team[1]).addClass('player-team'));
+
+				//$('#draft-wrapper').append($('<a/>').attr('href', '/draft/' + contests[0].id).addClass('player-add'));
+				//$('#index-wrapper').append($('<a/>').attr('href', '/contest/' + contests[i]._id).addClass('contest-listing'));
 				//$('#draft-wrapper').find('a.draft-listing').last().append($('<div/>').text(players[i][10]).addClass('player-team'));
 			}
 		};
