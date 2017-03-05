@@ -45,4 +45,4 @@ gulp.task('start', function() {
 // });
 
 //Default task for distribution
-gulp.task('default', ['start', 'compile-css', 'uglify-js']);
+gulp.task('default', ['compile-css']);
