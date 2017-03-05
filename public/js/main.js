@@ -58,10 +58,26 @@ document.addEventListener('DOMContentLoaded', function() {
 	// TEAM SELECT
 	//=================
 	if ($('.section-wrapper').attr('id') === 'draft-wrapper') {
-		//Relevent contestInfo should be saved in a value called contestInfo
+		//Relevant contestInfo should be saved in a value called contestInfo
+		var allText = "";
+		var csv = new XMLHttpRequest();	//NOTE: This doesn't work yet. Need to find a way to read in the CSV file content.
+		csv.open("GET", "AllStats.csv", true);
+		
+		csv.onreadystatechange = function ()
+		{
+			if(csv.readyState === 4)
+			{
+				if(csv.status === 200 || csv.status == 0)
+				{
+					allText = csv.responseText;
+				}
+			}
+		}
+		csv.send(null);
+		
 		var user_ids = contestInfo.entries.user_ids;
 		
-		var allPlayers = $.csv.toObjects("AllStats.csv");
+		var allPlayers = $.csv.toObjects(csv);
 		
 		var players = [];
 		
@@ -70,11 +86,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			for (var j = 0; j<user_ids,length; j++) {
 				if (user_ids[j] === allPlayers[i]["PlayerID"]) {
                     players.push(allPlayers[i]);
+					console.log(allPlayers[i]);
                 }
 			}
 		}
-		
-		
+		//console.log(players);
 	}
 
 });
