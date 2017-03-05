@@ -9,8 +9,9 @@ module.exports = {
 			if (contest !== null) {
 				//Contest was found in database
 				//Do stuff here
-				res.render('contest', {
+				res.render('draft', {
 					//send variables to front-end
+					contestInfo: JSON.stringify(contest)
 				});
 			} else {
 				res.redirect('/404');

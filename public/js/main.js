@@ -57,8 +57,25 @@ document.addEventListener('DOMContentLoaded', function() {
 	//=================
 	// TEAM SELECT
 	//=================
-
-	//Code here
+	if ($('.section-wrapper').attr('id') === 'draft-wrapper') {
+		//Relevent contestInfo should be saved in a value called contestInfo
+		var user_ids = contestInfo.entries.user_ids;
+		
+		var allPlayers = $.csv.toObjects("AllStats.csv");
+		
+		var players = [];
+		
+		
+		for (var i = 0; i<allPlayers.length; i++) {
+			for (var j = 0; j<user_ids,length; j++) {
+				if (user_ids[j] === allPlayers[i]["PlayerID"]) {
+                    players.push(allPlayers[i]);
+                }
+			}
+		}
+		
+		
+	}
 
 });
 
