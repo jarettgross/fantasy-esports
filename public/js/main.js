@@ -59,38 +59,39 @@ document.addEventListener('DOMContentLoaded', function() {
 	//=================
 	if ($('.section-wrapper').attr('id') === 'draft-wrapper') {
 		//Relevant contestInfo should be saved in a value called contestInfo
-		var allText = "";
-		var csv = new XMLHttpRequest();	//NOTE: This doesn't work yet. Need to find a way to read in the CSV file content.
-		csv.open("GET", "AllStats.csv", true);
+		var csv = new XMLHttpRequest();
+		csv.open('GET', "../js/lib/AllStats.csv", true);
+		csv.onreadystatechange = function(){
+			if (csv.status == 404) {
+                console.log("ERROR");
+            }
+			if(csv.readyState == 4 && csv.status == 200) {
+				console.log(csv.statusText);
+				console.log(csv.responseText);
+				var allPlayers = $.csv.toObjects(csv.responseText);
+			}
+		};
+		csv.send();
 		
-		csv.onreadystatechange = function ()
-		{
-			if(csv.readyState === 4)
-			{
-				if(csv.status === 200 || csv.status == 0)
-				{
-					allText = csv.responseText;
+		/*reader.onload = function(event) {
+			var csv = event.target.result;
+		
+			var user_ids = contestInfo.entries.user_ids;
+		
+			var allPlayers = $.csv.toObjects(csv);
+			
+			var players = [];
+		
+		
+			for (var i = 0; i<allPlayers.length; i++) {
+				for (var j = 0; j<user_ids,length; j++) {
+					if (user_ids[j] === allPlayers[i]["PlayerID"]) {
+						players.push(allPlayers[i]);
+						console.log(allPlayers[i]);
+					}
 				}
 			}
-		}
-		csv.send(null);
-		
-		var user_ids = contestInfo.entries.user_ids;
-		
-		var allPlayers = $.csv.toObjects(csv);
-		
-		var players = [];
-		
-		
-		for (var i = 0; i<allPlayers.length; i++) {
-			for (var j = 0; j<user_ids,length; j++) {
-				if (user_ids[j] === allPlayers[i]["PlayerID"]) {
-                    players.push(allPlayers[i]);
-					console.log(allPlayers[i]);
-                }
-			}
-		}
-		//console.log(players);
+		}*/
 	}
 
 });
@@ -98,3 +99,9 @@ document.addEventListener('DOMContentLoaded', function() {
 //==================
 // HELPER FUNCTIONS
 //==================
+
+function readFile() {
+	if(reader.readyState==4) {
+		console.log(reader.responseText);
+    }
+}
