@@ -81,7 +81,7 @@ app.get('/logout', userController.getLogout);
 app.get('/contest/:id', contestController.getInfo);
 
 //View Player Draft
-app.get('/draft/:id', contestController.getInfo);
+app.get('/draft/:id', draftController.getInfo);
 
 //Anything else (404)
 app.get('*', notFoundController.notFound);
