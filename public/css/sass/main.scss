@@ -110,3 +110,43 @@ $dark-primary-color: #D63A42;
 		text-align: right;
 	}
 }
+
+.draft-listing {
+	margin: auto;
+	margin-bottom: 10px;
+	padding: 0 30px;
+	height: 50px;
+	color: black;
+
+	> div {
+		display: inline-block;
+	}
+
+	.player-name {
+		width: 10%;
+	}
+
+	.player-kills {
+		width: 10%;
+	}
+
+	.player-headshots{
+		width: 10%;
+	}
+
+	.player-deaths {
+		width: 10%;
+	}
+
+	.player-roundsP{
+		width: 10%;
+	}
+
+	.player-assists{
+		width: 10%;
+	}
+
+	.player-team{
+		width: 10%;
+	}
+}

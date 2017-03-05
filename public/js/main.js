@@ -75,15 +75,54 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 			var players = [];
 
+			var idHolder = "PlayerID:";
+
 			var user_ids = contestInfo.entries.user_ids;
 
 			for(var i = 0; i<allPlayers.length; i++){
 				for(var j = 0; j < user_ids.length; j++){
-					if("PlayerID:1" === allPlayers[i][1]){
+					if(idHolder.concat(user_ids[j]) === allPlayers[i][1]){
 						players.push(allPlayers[i]);
 						console.log(allPlayers[i]);
 					}
 				}
+			}
+
+			for (var i = 0; i < players.length; i++) {
+				if(i == 0){
+					$('#draft-wrapper').append($('<div/>').addClass('draft-listing'));
+					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Name").addClass('player-name'));
+					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Kills").addClass('player-kills'));
+					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Headshot %").addClass('player-headshots'));
+					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Deaths").addClass('player-deaths'));
+					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("# Rounds Played").addClass('player-roundsP'));
+					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Assists").addClass('player-assists'));
+					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Team Name").addClass('player-team'));
+
+				}
+				console.log(players[i][0]);
+				$('#draft-wrapper').append($('<div/>').addClass('draft-listing'));
+				var names = players[i][0].split(":");
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(names[1]).addClass('player-name'));
+
+				var kills = players[i][2].split(":");
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(kills[1]).addClass('player-kills'));
+
+				var headshots = players[i][3].split(":");
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(headshots[1]).addClass('player-headshots'));
+
+				var deaths = players[i][4].split(":");
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(deaths[1]).addClass('player-deaths'));
+
+				var roundsP = players[i][5].split(":");
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(roundsP[1]).addClass('player-roundsP'));
+
+				var assists = players[i][6].split(":");
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(assists[1]).addClass('player-assists'));
+
+				var team = players[i][10].split(":");
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(team[1]).addClass('player-team'));
+				//$('#draft-wrapper').find('a.draft-listing').last().append($('<div/>').text(players[i][10]).addClass('player-team'));
 			}
 		};
 		csv.send();
@@ -123,6 +162,7 @@ function readFile() {
     }
 }
 
+//Code from: http://stackoverflow.com/questions/7431268/how-to-read-data-from-csv-file-using-javascript
 function processData(allText) {
     var allTextLines = allText.split(/\r\n|\n/);
     var headers = allTextLines[0].split(',');

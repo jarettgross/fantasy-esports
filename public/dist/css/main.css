@@ -94,3 +94,26 @@
   .contest-listing .contest-entry-count {
     width: 30%;
     text-align: right; }
+
+.draft-listing {
+  margin: auto;
+  margin-bottom: 10px;
+  padding: 0 30px;
+  height: 50px;
+  color: black; }
+  .draft-listing > div {
+    display: inline-block; }
+  .draft-listing .player-name {
+    width: 10%; }
+  .draft-listing .player-kills {
+    width: 10%; }
+  .draft-listing .player-headshots {
+    width: 10%; }
+  .draft-listing .player-deaths {
+    width: 10%; }
+  .draft-listing .player-roundsP {
+    width: 10%; }
+  .draft-listing .player-assists {
+    width: 10%; }
+  .draft-listing .player-team {
+    width: 10%; }
