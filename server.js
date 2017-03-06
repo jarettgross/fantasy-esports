@@ -23,7 +23,9 @@ dotenv.load({ path: '.env.config' });
 const indexController    = require('./controllers/index');
 const userController     = require('./controllers/manageUser');
 const contestController  = require('./controllers/contest');
+const draftController  = require('./controllers/draft');
 const notFoundController = require('./controllers/404');
+const confirmController  = require('./controllers/confirm');
 
 //Passport configuration
 const passportConfig = require('./config/passport');
@@ -78,6 +80,12 @@ app.get('/logout', userController.getLogout);
 
 //View contest
 app.get('/contest/:id', contestController.getInfo);
+
+//View Player Draft
+app.get('/draft/:id', draftController.getInfo);
+
+//Go to confirm Screen
+app.get('/confirm/:id', confirmController.getInfo);
 
 //Anything else (404)
 app.get('*', notFoundController.notFound);
