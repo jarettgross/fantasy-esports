@@ -83,7 +83,6 @@ app.get('/contest/:id', contestController.getInfo);
 
 //View Player Draft
 app.get('/draft/:id', draftController.getInfo);
-app.get('/draft/:id', draftController.getInfo2);
 
 //Go to confirm Screen
 app.get('/confirm/:id', confirmController.getInfo);

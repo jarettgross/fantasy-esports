@@ -77,8 +77,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 
 		//Create Draft button
-		$('#contest-wrapper').append($('<a/>').attr('href', '/draft/' + contests._id).addClass('contest-listing'));
-		$('#contest-wrapper').find('a.contest-listing').last().append($('<div/>').text("Draft").addClass('draft-button'));
+		$('#contest-wrapper').append($('<a/>').attr('href', '/draft/' + contests._id).addClass('contest-listing2'));
+		$('#contest-wrapper').find('a.contest-listing2').last().append($('<div/>').text("Draft").addClass('draft-button'));
 	}
 
 	//================

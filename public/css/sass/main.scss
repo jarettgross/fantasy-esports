@@ -203,3 +203,26 @@ $dark-primary-color: #D63A42;
 		display: inline-block;
 	}
 }
+
+.contest-listing2 {
+	width: 50%;
+	margin-bottom: 10px;
+	padding: 0 30px;
+	height: 50px;
+	line-height: 2.8;
+	border-style: solid;
+	border-radius: 60px;
+	border-width: 2px;
+	border-color: black;
+	background-color: $primary-color;
+	color: white;
+	@include transition(background-color .2s ease);
+
+	&:hover {
+		background-color: $dark-primary-color;
+	}
+
+	> div {
+		display: inline-block;
+	}
+}
