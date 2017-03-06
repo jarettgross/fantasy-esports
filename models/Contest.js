@@ -8,6 +8,7 @@ const contestSchema = new mongoose.Schema({
     startDate:         { type: String, required: true },
     endDate:           { type: String, required: true },
     maxSalary:         { type: Number, required: true },
+    players:           [Number],
 
     entries: {
         numMax:     { type: Number, required: true },
