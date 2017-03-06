@@ -119,3 +119,43 @@
     width: 10%; }
   .draft-listing .player-add {
     width: 10%; }
+
+#contest-wrapper {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+  margin-top: 5%; }
+
+.contest-details {
+  margin: auto;
+  margin-bottom: 10px;
+  padding: 0 30px;
+  height: 50px;
+  color: black; }
+  .contest-details > div {
+    display: inline-block; }
+  .contest-details .contest-name {
+    width: 10%; }
+  .contest-details .contest-startdate {
+    width: 10%; }
+  .contest-details .contest-enddate {
+    width: 10%; }
+  .contest-details .contest-salary {
+    width: 10%; }
+  .contest-details .contest-entries {
+    width: 10%; }
+  .contest-details .contest-entry-count {
+    width: 10%; }
