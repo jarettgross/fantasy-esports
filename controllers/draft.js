@@ -11,7 +11,7 @@ module.exports = {
 				//Do stuff here
 				res.render('draft', {
 					//send variables to front-end
-					contestInfo2: JSON.stringify(contest)
+					contestInfo: JSON.stringify(contest)
 				});
 			} else {
 				res.redirect('/404');
