@@ -17,13 +17,16 @@ module.exports = {
 				res.redirect('/404');
 			}
 		});
-		
+	}
+
+	getInfo2: function(req, res, next) {
+
 		User.findById(req.params.id, function(err, users){
 			if(users !== null) {
 				//Do stuff here
-				res.render('users',{
+				res.render('draft',{
 					//Send to front
-					users: Json.stringify(users)
+					userInfo: JSON.stringify(users)
 				});
 			} else{
 				res.redirect('/404');

@@ -3,10 +3,9 @@ extends layout
 block scripts		
 	script(src='../js/lib/jquery_csv_min.js')
 	script(type='text/javascript').
-		//javascript vars
-		var contestInfo = JSON.parse("#{contestInfo}".replace(/&quot;/g,'"'));
-	script(type='text/javascript').
 		var userInfo = JSON.parse("#{userInfo}".replace(/&quot;/g,'"'));
+	script(type='text/javascript').
+		var contestInfo = JSON.parse("#{contestInfo}".replace(/&quot;/g,'"'));
 
 
 block content
