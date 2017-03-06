@@ -17,5 +17,17 @@ module.exports = {
 				res.redirect('/404');
 			}
 		});
+		
+		User.findById(req.params.id, function(err, users){
+			if(users !== null) {
+				//Do stuff here
+				res.render('users',{
+					//Send to front
+					users: Json.stringify(users)
+				});
+			} else{
+				res.redirect('/404');
+			}
+		});
 	}
 };

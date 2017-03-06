@@ -5,6 +5,9 @@ block scripts
 	script(type='text/javascript').
 		//javascript vars
 		var contestInfo = JSON.parse("#{contestInfo}".replace(/&quot;/g,'"'));
+	script(type='text/javascript').
+		var userInfo = JSON.parse("#{userInfo}".replace(/&quot;/g,'"'));
+
 
 block content
 	//Body of site
