@@ -154,3 +154,10 @@ $dark-primary-color: #D63A42;
 		width: 10%;
 	}
 }
+
+#contest-wrapper {
+	@include flexbox;
+	@include flex-direction(column);
+	@include justify-content(center);
+	margin-top: 5%;
+}
