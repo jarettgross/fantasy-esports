@@ -54,6 +54,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		//Code here
 	}
 
+	//================
+	// CONFIRM PAGE
+	//================
+	if($('.section-wrapper').attr('id') === 'confirm-wrapper'){
+
+	}
 	//=================
 	// TEAM SELECT
 	//=================
@@ -78,6 +84,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			var idHolder = "PlayerID:";
 
 			var user_ids = contestInfo.entries.user_ids;
+
+			console.log(contestInfo);
 
 			for(var i = 0; i<allPlayers.length; i++){
 				for(var j = 0; j < user_ids.length; j++){
@@ -124,7 +132,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				var team = players[i][10].split(":");
 				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(team[1]).addClass('player-team'));
 
-				//$('#draft-wrapper').append($('<a/>').attr('href', '/draft/' + contests[0].id).addClass('player-add'));
+				$('#draft-wrapper').append($('<a/>').attr({'href' : '#' , 'onclick' : 'hider()'}).addClass('draft-listing'));
+				$('#draft-wrapper').find('a.draft-listing').last().append($('<div/>').text('Add\n').addClass('player-add'));
+
+				//$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contests[i].name).addClass('contest-name'));
 				//$('#index-wrapper').append($('<a/>').attr('href', '/contest/' + contests[i]._id).addClass('contest-listing'));
 				//$('#draft-wrapper').find('a.draft-listing').last().append($('<div/>').text(players[i][10]).addClass('player-team'));
 			}
@@ -159,6 +170,9 @@ document.addEventListener('DOMContentLoaded', function() {
 //==================
 // HELPER FUNCTIONS
 //==================
+function hider(){
+	console.log("Works");
+}
 
 function readFile() {
 	if(reader.readyState==4) {
