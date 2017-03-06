@@ -104,22 +104,18 @@ document.addEventListener('DOMContentLoaded', function() {
 				//console.log(csv.responseText);
 				//var allPlayers = $.csv.toObjects(csv.responseText);
 				allPlayers = processData(csv.responseText);
-				console.log(allPlayers);
 			}
 			var players = [];
 
 			var idHolder = "PlayerID:";
 
-			var user_ids = contestInfo.entries.user_ids;
-
-			console.log(contestInfo);
+			var user_ids = contestInfo.players;
 
 			for(var i = 0; i<allPlayers.length; i++){
 				for(var j = 0; j < user_ids.length; j++){
 					if(idHolder.concat(user_ids[j]) === allPlayers[i][1]){
 						players.push(allPlayers[i]);
 						sessionStorage.setItem(user_ids[j], user_ids[j]);
-						console.log(allPlayers[i]);
 					}
 				}
 			}
@@ -136,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function() {
 					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Team Name").addClass('player-team'));
 
 				}
-				console.log(players[i][0]);
 				$('#draft-wrapper').append($('<div/>').addClass('draft-listing'));
 				var names = players[i][0].split(":");
 				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(names[1]).addClass('player-name'));
@@ -159,12 +154,15 @@ document.addEventListener('DOMContentLoaded', function() {
 				var team = players[i][10].split(":");
 				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(team[1]).addClass('player-team'));
 
-				$('#draft-wrapper').append($('<a/>').attr({'href' : '#' , 'onclick' : 'hider()'}).addClass('draft-listing'));
-				$('#draft-wrapper').find('a.draft-listing').last().append($('<div/>').text('Add\n').addClass('player-add'));
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text('Add').addClass('player-add'));
+			}
 
-				//$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contests[i].name).addClass('contest-name'));
-				//$('#index-wrapper').append($('<a/>').attr('href', '/contest/' + contests[i]._id).addClass('contest-listing'));
-				//$('#draft-wrapper').find('a.draft-listing').last().append($('<div/>').text(players[i][10]).addClass('player-team'));
+			var playerAdder = document.querySelectorAll('.player-add');
+
+			for(var i = 0; i < playerAdder.length; i++){
+				var tempId = players[i][1].split(":");
+				playerAdder[i].id = tempId[1];
+				playerAdder[i].onclick = hider;
 			}
 		};
 		csv.send();
@@ -198,7 +196,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // HELPER FUNCTIONS
 //==================
 function hider(){
-	console.log("Works");
+	if(this.id != 0){
+		console.log(this.id);
+	}
 }
 
 function readFile() {
