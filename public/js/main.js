@@ -70,15 +70,15 @@ document.addEventListener('DOMContentLoaded', function() {
 		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contests.maxSalary).addClass('contest-salary'));
 		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contests.entries.numCurrent + '/' + contests.entries.numMax).addClass('contest-entry-count'));
 
+		$('#contest-wrapper').append($('<div/>').text("Contest Players: ").addClass('contest-entries'));
 		$('#contest-wrapper').append($('<div/>').addClass('player-details'));
 		//List all usernames corresponding to the user ids that are in the contest entries
 		for (var i = 0; i < contests.entries.length; i++) {
 		}
 
 		//Create Draft button
-		$('#contest-wrapper').append($('<div/>').addClass('contest-details'));
 		$('#contest-wrapper').append($('<a/>').attr('href', '/draft/' + contests._id).addClass('contest-listing'));
-		$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text("Draft").addClass('draft-button'));
+		$('#contest-wrapper').find('a.contest-listing').last().append($('<div/>').text("Draft").addClass('draft-button'));
 	}
 
 	//================
