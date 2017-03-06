@@ -199,6 +199,13 @@ function hider(){
 	if(this.id != 0){
 		console.log(this.id);
 	}
+	if(document.getElementById(this.id).innerHTML === 'Add'){
+		document.getElementById(this.id).innerHTML = 'Remove';
+	}
+	else{
+		document.getElementById(this.id).innerHTML = 'Add';
+	}
+
 }
 
 function readFile() {
