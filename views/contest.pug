@@ -3,6 +3,8 @@ extends layout
 block scripts
 	script(type='text/javascript').
 		//javascript vars
+		var contests = JSON.parse("#{contests}".replace(/&quot;/g,'"'));
 
 block content
+	//Body of site
 	.section-wrapper#contest-wrapper
