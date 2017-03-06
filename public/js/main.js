@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		//Create Draft button
 		$('#contest-wrapper').append($('<div/>').addClass('contest-details'));
-		$('#contest-wrapper').append($('<a/>').attr('href', '/contest/' + contests._id + '/draft').addClass('contest-listing'));
+		$('#contest-wrapper').append($('<a/>').attr('href', '/draft/' + contests._id).addClass('contest-listing'));
 		$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text("Draft").addClass('draft-button'));
 	}
 
