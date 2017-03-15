@@ -23,7 +23,7 @@ dotenv.load({ path: '.env.config' });
 const indexController    = require('./controllers/index');
 const userController     = require('./controllers/manageUser');
 const contestController  = require('./controllers/contest');
-const draftController  = require('./controllers/draft');
+const draftController    = require('./controllers/draft');
 const notFoundController = require('./controllers/404');
 const confirmController  = require('./controllers/confirm');
 
