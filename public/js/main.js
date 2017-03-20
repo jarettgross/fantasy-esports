@@ -166,28 +166,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		};
 		csv.send();
-		
-		
-
-		/*reader.onload = function(event) {
-			var csv = event.target.result;
-		
-			var user_ids = contestInfo.entries.user_ids;
-		
-			var allPlayers = $.csv.toObjects(csv);
-			
-			var players = [];
-		
-		
-			for (var i = 0; i<allPlayers.length; i++) {
-				for (var j = 0; j<user_ids,length; j++) {
-					if (user_ids[j] === allPlayers[i]["PlayerID"]) {
-						players.push(allPlayers[i]);
-						console.log(allPlayers[i]);
-					}
-				}
-			}
-		}*/
 	}
 
 });
