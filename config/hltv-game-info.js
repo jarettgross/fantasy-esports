@@ -4,6 +4,7 @@ var cheerio = require('cheerio');
 
 module.exports = (callback) => {
 
+	//Returns array of games with information (status, tournament, id)
 	request('http://www.hltv.org/matches/', (err, response, body) => {
 		if (err || response.statusCode !== 200) {
 			callback(new Error(`Request failed: ${response.statusCode}`));
@@ -87,12 +88,10 @@ module.exports = (callback) => {
 
 const hltvGameInfo = require('./config/hltv-game-info');
  
-hltvGameInfo((err, games) => {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log(games);
-    }
+hltvGameInfo(function(games) {
+	if (games.length > 1) {
+		//Do stuff
+	}
 });
 
 */
