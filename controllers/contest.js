@@ -9,7 +9,7 @@ module.exports = {
 
 		Contest.findById(req.params.id, function(err, contest) {
 			if (contest !== null) {
-				
+
 				hltvGameInfo(function(games) {
 					if (games.length > 1) {
 						var cleanedName = contest.name.replace(/\s+/g, '-').toLowerCase();
@@ -28,7 +28,45 @@ module.exports = {
 					    			var players2 = team2.players;
 
 					    			//Can get (rating, kills, assists, deaths)
-					    			//Take data for each player and update database appropriately
+					    			//Take data for each player and update each user's score who has these players
+
+					    			var userIDs = contest.entries.user_ids;
+									for (var i = 0; i < userIDs.length; i++) {
+										//Find each user who entered this contest
+										User.findById(userIDs[i], function(err, user) {
+											//Find this contest in User database
+											for (var j = 0; j < user.contests.length; j++) {
+												if (user.contests[j].id === req.params.id) {
+													//For each player on the user's team
+													for (var k = 0; k < user.contests[j].teams.length; k++) {
+
+														//Check if the player received an updated score, and update database
+														for (var m = 0; m < players1.length; m++) {
+															var player = players1[m];
+															if (player.hltvid === user.contests[j].teams[k]) {
+																//FIXME: scoring algorithm
+																user.contests[j].points = 0;
+																var playerScore = player.rating + player.kills + player.assists - player.deaths;
+																//FIXME: this won't work properly since it doesn't subtract the score that this player previously had
+																user.contests[j].points += playerScore;
+															}
+														}
+
+														for (var n = 0; n < players2.length; n++) {
+															var player = players2[n];
+															if (player.hltvid === user.contests[j].teams[k]) {
+																//FIXME: scoring algorithm
+																var playerScore = player.rating + player.kills + player.assists - player.deaths;
+																//FIXME: this won't work properly since it doesn't subtract the score that this player previously had
+																user.contests[j].points += playerScore;
+															}
+														}
+
+													}
+												}
+											}
+										});
+									}
 					    		});
 					    	}
 					    }
