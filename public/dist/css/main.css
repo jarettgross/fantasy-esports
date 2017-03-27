@@ -3,6 +3,9 @@
   padding: 0;
   font-size: 16px; }
 
+.section-wrapper {
+  margin-top: 8%; }
+
 .nav-list {
   display: -webkit-box;
   display: -webkit-flex;
@@ -64,8 +67,7 @@
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   -moz-justify-content: center;
-  justify-content: center;
-  margin-top: 8%; }
+  justify-content: center; }
 
 .contest-listing {
   width: 50%;
@@ -156,8 +158,7 @@
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   -moz-justify-content: center;
-  justify-content: center;
-  margin-top: 5%; }
+  justify-content: center; }
 
 .contest-details {
   height: 50px;
