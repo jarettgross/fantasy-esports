@@ -2,7 +2,7 @@ const Contest = require('../models/Contest');
 const User    = require('../models/User');
 
 module.exports = {
-	getUserInfo: function(req, res, next){
+	postUserInfo: function(req, res, next){
 		
 		User.findById(req.params.id, function(err, users){
 			if(users !== null) {
