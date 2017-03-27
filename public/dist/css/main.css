@@ -17,7 +17,10 @@
   list-style: none;
   padding: 15px 5%;
   background-color: black;
-  color: white; }
+  color: white;
+  position: fixed;
+  width: 100%;
+  top: 0; }
 
 #site-name {
   vertical-align: -moz-middle-with-baseline;
@@ -62,7 +65,7 @@
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
-  margin-top: 5%; }
+  margin-top: 8%; }
 
 .contest-listing {
   width: 50%;

@@ -7,4 +7,6 @@ block scripts
 
 block content
 	include partials/header
-	.section-wrapper#index-wrapper
+	if !user
+		.section-wrapper#index-wrapper
+	else
