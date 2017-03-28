@@ -47,7 +47,7 @@ def get_contest_info(pathToContest, i, j):
                         location[0] = 'Online'
                 prizePot = content.xpath(pathToContest + "/div[4]/span/text()")
                 teams = content.xpath(pathToContest + "/div[6]/span/text()")
-        if teams[0] == 'TBA':
+        if len(teams) == 0 or teams[0] == 'TBA':
                 return;
         
         contestPage = requests.get(page_url + contestLink[0])
@@ -82,8 +82,10 @@ def get_contest_info(pathToContest, i, j):
         idString = contestName[0] + str(i) + str(j)
         contestID = idString.replace(" ", "")
         
+        #encodeID2 = contestID.encode('bz2')     #uu is an option, so is zip
+        #print(encodeID2)
         encodedID = base64.b64encode(contestID)
-        shortenedID = encodedID[0:len(encodedID)/2]
+        shortenedID = encodedID[len(encodedID)/2:len(encodedID)]
         
         contest = {
         "_id": shortenedID,
@@ -106,8 +108,8 @@ def get_contest_info(pathToContest, i, j):
         else:   #The contest exists, check to see if there are more players attending now.
                 oldIdList = contestDict['players']
                 if len(oldIdList) < len(idList):        #Update the list to include all of the new players
-                        db.ProductData.update_one({
-                                '_id': contestDict['_id']
+                        db.contests.update_one({
+                                'name': contestDict['name']
                         },{
                                 '$set': {
                                         'players': idList
@@ -118,8 +120,8 @@ def get_contest_info(pathToContest, i, j):
                         print('NOT updated player list')
 
 
-for i in range (1, 3): #Controls the number of months to look ahead.
-        for j in range (1, 10):  #controls the number of expected tournaments in a month.
+for i in range (1, 7): #Controls the number of months to look ahead.
+        for j in range (1, 20):  #controls the number of possible tournaments to look for in a month.
                 get_contest_info("//*[@id='back']/div[3]/div[3]/div/div[2]/div[" + str(i) + "]/div[" + str(j) + "]/div/div[2]", i, j)
 
 
