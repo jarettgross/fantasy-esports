@@ -94,4 +94,12 @@ hltvGameInfo(function(games) {
 	}
 });
 
+
+Data format: Array of
+{
+	status,
+	tournament,
+	id
+}
+
 */

@@ -95,6 +95,10 @@ app.get('*', notFoundController.notFound);
 //END APP ROUTES
 //==============
 
+//Cron Job
+const cronJob = require('./config/cron-jobs');
+//cronJob.dailyScrape.start();
+
 //Create the server
 http.createServer(app).listen(app.get('port'), function() {
 	console.log('App listening on port %d', app.get('port'));
