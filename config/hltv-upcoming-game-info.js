@@ -4,7 +4,8 @@ var cheerio = require('cheerio');
 
 module.exports = (callback) => {
 
-	//Returns array of upcoming games with information (id, hour, minute, date(month, day, year)
+	//Returns array of upcoming games with information (id, date)
+	//*NOTE: The times saved in the javascript date object correspond to CEST/CET (European time).*
 	request('http://www.hltv.org/matches/', (err, response, body) => {
 		if (err || response.statusCode !== 200) {
 			callback(new Error(`Request failed: ${response.statusCode}`));
@@ -107,10 +108,10 @@ module.exports = (callback) => {
 					var matchTime = $timeCell.text();
 					
 					game.id = matchInfo.substring(0, 7);
-					game.hour = matchTime.substring(0, 2);
-					game.minute = matchTime.substring(3, matchTime.length);
-					game.date = dateInfo[dateIndex];
-					console.log(game);
+					gameDate = dateInfo[dateIndex];
+					
+					game.date = new Date(gameDate.month + " " + gameDate.day + ", " + gameDate.year + " " + matchTime + ":00 GMT");
+					
 					gameInfo.push(game);
 				}
 				else {
@@ -153,7 +154,7 @@ function parseDate(month, dateString) {
 /* USAGE
 
 const hltvUpcomingGameInfo = require('./config/hltv-upcoming-game-info');
- 
+*NOTE: The times saved in the javascript date object correspond to CEST/CET (European time).*
 hltvUpcomingGameInfo(function(games) {
 	if (games.length > 1) {
 		//Do stuff
@@ -162,8 +163,6 @@ hltvUpcomingGameInfo(function(games) {
 
 Each game has the following format:
 { id: '2308833',
-  hour: '12',
-  minute: '00',
-  date: { month: 'May', day: '14', year: '2017' } }
+  date: 2017-05-14T12:00:00.000Z }
 
 */
