@@ -176,7 +176,18 @@ document.addEventListener('DOMContentLoaded', function() {
 function hider(){
 	if(this.id != 0){
 		console.log(this.id);
+		console.log("front End");
+		//console.log('draft:' + contestInfo._id);
 	}
+	$.post('/draft:'+contestInfo._id,
+		{num: this.id},
+		function(data) {
+			if (data.success) {
+				window.location = data.redirect;
+			} else {
+				//Error
+			}
+		});
 	if(document.getElementById(this.id).innerHTML === 'Add'){
 		document.getElementById(this.id).innerHTML = 'Remove';
 	}

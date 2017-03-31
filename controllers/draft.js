@@ -3,18 +3,10 @@ const User    = require('../models/User');
 
 module.exports = {
 	postUserInfo: function(req, res, next){
+		console.log("reached");
+		const user = req.user;
 		
-		User.findById(req.params.id, function(err, users){
-			if(users !== null) {
-				//Do stuff here
-				res.render('draft',{
-					//Send to front
-					userInfo: JSON.stringify(users)
-				});
-			} else{
-				res.redirect('/404');
-			}
-		});
+		console.log(req.body.num);
 	},
 
 	getInfo: function(req, res, next) {
