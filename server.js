@@ -96,7 +96,7 @@ app.get('*', notFoundController.notFound);
 //==============
 
 //Cron Job
-const cronJob = require('./config/cron-jobs');
+//const cronJob = require('./config/daily-scrape-cron');
 //cronJob.dailyScrape.start();
 
 //Create the server

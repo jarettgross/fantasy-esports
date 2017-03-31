@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	if($('.section-wrapper').attr('id') === 'confirm-wrapper'){
 
 	}
+
 	//=================
 	// TEAM SELECT
 	//=================
@@ -95,33 +96,32 @@ document.addEventListener('DOMContentLoaded', function() {
 		var csv = new XMLHttpRequest();
 		csv.open('GET', "../js/lib/AllStats.csv", true);
 		var allPlayers = [];
-		csv.onreadystatechange = function(){
-			if (csv.status == 404) {
-                console.log("ERROR");
+		csv.onreadystatechange = function() {
+			if (csv.status === 404) {
+                console.log('CSV not found');
             }
-			if(csv.readyState == 4 && csv.status == 200) {
-				//console.log(csv.statusText);
-				//console.log(csv.responseText);
-				//var allPlayers = $.csv.toObjects(csv.responseText);
+
+            //Grab all player data from CSV
+			if (csv.readyState == 4 && csv.status == 200) {
 				allPlayers = processData(csv.responseText);
 			}
-			var players = [];
-
-			var idHolder = "PlayerID:";
 
 			var user_ids = contestInfo.players;
 
-			for(var i = 0; i<allPlayers.length; i++){
-				for(var j = 0; j < user_ids.length; j++){
-					if(idHolder.concat(user_ids[j]) === allPlayers[i][1]){
+			//Get player data for each player that is in the contest
+			var players = [];
+			for (var i = 0; i < allPlayers.length; i++) {
+				for (var j = 0; j < user_ids.length; j++) {
+					var playerID = parseInt(allPlayers[i][1].split(':')[1]);
+					if (playerID === user_ids[j]) {
 						players.push(allPlayers[i]);
-						sessionStorage.setItem(user_ids[j], user_ids[j]);
 					}
 				}
 			}
 
 			for (var i = 0; i < players.length; i++) {
-				if(i == 0){
+				//Set headers of columns
+				if (i === 0) {
 					$('#draft-wrapper').append($('<div/>').addClass('draft-listing'));
 					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Name").addClass('player-name'));
 					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Kills").addClass('player-kills'));
@@ -130,78 +130,71 @@ document.addEventListener('DOMContentLoaded', function() {
 					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("# Rounds Played").addClass('player-roundsP'));
 					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Assists").addClass('player-assists'));
 					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Team Name").addClass('player-team'));
-
 				}
+
+				//Display data in divs for each player
 				$('#draft-wrapper').append($('<div/>').addClass('draft-listing'));
-				var names = players[i][0].split(":");
-				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(names[1]).addClass('player-name'));
 
-				var kills = players[i][2].split(":");
-				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(kills[1]).addClass('player-kills'));
+				var names = players[i][0].split(":")[1];
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(names).addClass('player-name'));
 
-				var headshots = players[i][3].split(":");
-				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(headshots[1]).addClass('player-headshots'));
+				var kills = players[i][2].split(":")[1];
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(kills).addClass('player-kills'));
 
-				var deaths = players[i][4].split(":");
-				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(deaths[1]).addClass('player-deaths'));
+				var headshots = players[i][3].split(":")[1];
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(headshots).addClass('player-headshots'));
 
-				var roundsP = players[i][5].split(":");
-				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(roundsP[1]).addClass('player-roundsP'));
+				var deaths = players[i][4].split(":")[1];
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(deaths).addClass('player-deaths'));
 
-				var assists = players[i][6].split(":");
-				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(assists[1]).addClass('player-assists'));
+				var roundsPlayed = players[i][5].split(":")[1];
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(roundsPlayed).addClass('player-roundsP'));
 
-				var team = players[i][10].split(":");
-				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(team[1]).addClass('player-team'));
+				var assists = players[i][6].split(":")[1];
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(assists).addClass('player-assists'));
 
-				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text('Add').addClass('player-add'));
+				var team = players[i][10].split(":")[1];
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(team).addClass('player-team'));
+
+				var playerID = players[i][1].split(":")[1];
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text('Add').attr('id', 'playerChoose' + playerID).addClass('player-add'));
 			}
 
+			//Get all "playerChoose" buttons
 			var playerAdder = document.querySelectorAll('.player-add');
 
-			for(var i = 0; i < playerAdder.length; i++){
-				var tempId = players[i][1].split(":");
-				playerAdder[i].id = tempId[1];
-				playerAdder[i].onclick = hider;
+			//Find which button was clicked
+			for (var i = 0; i < playerAdder.length; i++) {
+				var playerID = players[i][1].split(':')[1];
+
+				//On "playerChoose" click, send post request to back-end to set player team
+				$('#playerChoose' + playerID).click(function() {
+					$.post('/draft/' + contestInfo._id,
+						'playerID=' + playerID + '&contestID=' + contestInfo._id,
+						function(data) {
+							if (data.success) {
+								//Success
+							} else {
+								//Error
+							}
+						});
+
+					//Change button text depending on what it currently is
+					if (this.innerHTML === 'Add') {
+						this.innerHTML = 'Remove';
+					} else {
+						this.innerHTML = 'Add';
+					}
+				});
 			}
 		};
 		csv.send();
 	}
-
 });
 
 //==================
 // HELPER FUNCTIONS
 //==================
-function hider(){
-	if(this.id != 0){
-		console.log(this.id);
-		console.log("front End");
-		//console.log('draft:' + contestInfo._id);
-	}
-	$.post('/draft:'+contestInfo._id,
-		{num: this.id},
-		function(data) {
-			if (data.success) {
-				window.location = data.redirect;
-			} else {
-				//Error
-			}
-		});
-	if(document.getElementById(this.id).innerHTML === 'Add'){
-		document.getElementById(this.id).innerHTML = 'Remove';
-	}
-	else{
-		document.getElementById(this.id).innerHTML = 'Add';
-	}
-
-}
-
-function readFile() {
-	if(reader.readyState==4) {
-		console.log(reader.responseText);
-    }
-}
 
 //Code from: http://stackoverflow.com/questions/7431268/how-to-read-data-from-csv-file-using-javascript
 function processData(allText) {
@@ -209,17 +202,16 @@ function processData(allText) {
     var headers = allTextLines[0].split(',');
     var lines = [];
 
-    for (var i=1; i<allTextLines.length; i++) {
+    for (var i = 1; i < allTextLines.length; i++) {
         var data = allTextLines[i].split(',');
         if (data.length == headers.length) {
 
             var tarr = [];
-            for (var j=0; j<headers.length; j++) {
+            for (var j = 0; j < headers.length; j++) {
                 tarr.push(headers[j]+":"+data[j]);
             }
             lines.push(tarr);
         }
     }
     return lines;
-     //console.log(lines);
 }

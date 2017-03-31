@@ -11,9 +11,10 @@ const userSchema = new mongoose.Schema({
     email:    { type: String, required: true, unique: true, lowercase: true },
 
     contests: [{
-        id:     { type: String, required: true },
-        team:   [String],
-        points: Number
+        id:      { type: String, required: true },
+        team:    [Number],
+        points:  Number,
+        entered: { type: Boolean, default: false } //Has the user submitted a team and entered the contest
     }]
 
 }, { timestamps: true });
