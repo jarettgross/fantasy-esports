@@ -110,7 +110,7 @@ module.exports = (callback) => {
 					game.id = matchInfo.substring(0, 7);
 					gameDate = dateInfo[dateIndex];
 					
-					game.date = new Date(gameDate.month + " " + gameDate.day + ", " + gameDate.year + " " + matchTime + ":00 GMT");
+					game.date = new Date(gameDate.month + " " + gameDate.day + ", " + gameDate.year + " " + matchTime + ":00 GMT+02:00");
 					
 					gameInfo.push(game);
 				}

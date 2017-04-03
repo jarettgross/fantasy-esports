@@ -1,7 +1,7 @@
 const Contest      = require('../models/Contest');
 const User         = require('../models/User');
 const CronJob      = require('cron').CronJob;
-const hltvUpcoming = require('./hltv-upcoming-game-info');
+const hltvUpcomingGameInfo = require('./hltv-upcoming-game-info');
 const hltvGameInfo = require('./hltv-game-info');
 
 /*
@@ -24,12 +24,12 @@ module.exports = {
 		},
 		start: false,
 		timeZone: 'America/New_York'
-	});
+	})
 };
 
 //Runs CronJob for getting the scoreboard of a game once the game begins
 function beginScoreUpdates(date, gameID) {
-	var job = new CronJob(
+	var job = new CronJob({
 		cronTime: date, 
 		onTick: function() {
 			console.log('CronJob running for game: ' + gameID + 'at date: ' + date);
