@@ -220,6 +220,25 @@ $dark-primary-color: #D63A42;
 	}
 }
 
+.contest-results {
+	height: 20px;
+	color: black;
+
+	> div {
+		display: inline-block;
+	}
+
+	.contest-players {
+		width: 10%;
+		display: inline-block;
+	}
+
+	.contest-score {
+		width: 10%;
+		display: inline-block;
+	}
+}
+
 .contest-listing2 {
 	width: 50%;
 	margin-bottom: 10px;

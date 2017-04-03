@@ -183,6 +183,18 @@
     width: 10%;
     display: inline-block; }
 
+.contest-results {
+  height: 20px;
+  color: black; }
+  .contest-results > div {
+    display: inline-block; }
+  .contest-results .contest-players {
+    width: 10%;
+    display: inline-block; }
+  .contest-results .contest-score {
+    width: 10%;
+    display: inline-block; }
+
 .contest-listing2 {
   width: 50%;
   margin-bottom: 10px;
