@@ -37,12 +37,39 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				});
 		});
-
-		for (var i = 0; i < contests.length; i++) {
-			$('#index-wrapper').append($('<a/>').attr('href', '/contest/' + contests[i]._id).addClass('contest-listing'));
-			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contests[i].name).addClass('contest-name'));
-			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contests[i].startDate).addClass('contest-date'));
-			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contests[i].entries.numCurrent + '/' + contests[i].entries.numMax).addClass('contest-entry-count'));
+		
+		//Store all contests that haven't finished yet in an array.
+		var contestArray = [];
+		for (var i = 0; i< contests.length; i++) {
+			var contestEndDate = new Date(contests[i].endDate);
+			var currentDate = new Date();
+			if (contestEndDate.getTime() >= currentDate.getTime()) {
+				contestArray.push(contests[i]);
+			}
+		}
+		
+		//Sort the contests according to start date, end date, and name.
+		contestArray.sort(function(a,b){
+			console.log(a.startDate + " - " + b.startDate + " = ")
+			if (a.startDate.localeCompare(b.startDate) !== 0) {
+                return a.startDate.localeCompare(b.startDate);
+            }
+			else if (a.endDate.localeCompare(b.endDate) !== 0) {
+                return a.endDate.localeCompare(b.endDate);
+            }
+			else {
+				return a.name.localeCompare(b.name);
+			}
+		});
+		
+		//Append the sorted contests to the page
+		for (var i = 0; i < contestArray.length; i++) {
+			var contest = contestArray[i];
+			
+            $('#index-wrapper').append($('<a/>').attr('href', '/contest/' + contest._id).addClass('contest-listing'));
+			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contest.name).addClass('contest-name'));
+			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contest.startDate).addClass('contest-date'));
+			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contest.entries.numCurrent + '/' + contests[i].entries.numMax).addClass('contest-entry-count'));
 		}
 	}
 
@@ -70,6 +97,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contests.maxSalary).addClass('contest-salary'));
 		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contests.entries.numCurrent + '/' + contests.entries.numMax).addClass('contest-entry-count'));
 
+		//Create Draft button
+		$('#contest-wrapper').append($('<a/>').attr('href', '/draft/' + contests._id).addClass('contest-listing2'));
+		$('#contest-wrapper').find('a.contest-listing2').last().append($('<div/>').text("Draft").addClass('draft-button'));
+		
 		$('#contest-wrapper').append($('<div/>').addClass('contest-results'));
 		$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("Contest Players").addClass('contest-players'));
 		$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("Score").addClass('contest-score'));
@@ -79,10 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text(contests.players[i]).addClass('contest-players'));
 			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("points").addClass('contest-score'));
 		}
-		
-		//Create Draft button
-		$('#contest-wrapper').append($('<a/>').attr('href', '/draft/' + contests._id).addClass('contest-listing2'));
-		$('#contest-wrapper').find('a.contest-listing2').last().append($('<div/>').text("Draft").addClass('draft-button'));
 	}
 
 	//================

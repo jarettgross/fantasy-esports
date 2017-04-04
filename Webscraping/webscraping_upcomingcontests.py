@@ -79,6 +79,9 @@ def get_contest_info(pathToContest, i, j):
         teamCount.append(teams[0])
         player_ids.append(idList)'''
         
+        modifiedStartDate = modifyDateFormat(startDate[0].trim())
+        modifiedEndDate = modifyDateFormat(endDate[0].trim())
+        
         idString = contestName[0] + str(i) + str(j)
         contestID = idString.replace(" ", "")
         
@@ -90,8 +93,8 @@ def get_contest_info(pathToContest, i, j):
         contest = {
         "_id": shortenedID,
         "name": contestName[0],
-        "startDate": startDate[0],
-        "endDate": endDate[0],
+        "startDate": modifiedStartDate,
+        "endDate": modifiedEndDate,
         "maxSalary": 30000,
         "players": idList,
         "entries": {
@@ -118,6 +121,48 @@ def get_contest_info(pathToContest, i, j):
                         print('updated player list')
                 else:
                         print('NOT updated player list')
+
+def modifyDateFormat(dateString):
+        modfiedDate = ""
+        
+        day = dateString[0:2]
+        
+        if (not day.isdigit()):
+               day = "0" + dateString[0:1]
+        
+        if (dateString.find("January") != -1):
+                month = "01"
+        elif (dateString.find("February") != -1):
+                month = "02"
+        elif (dateString.find("March") != -1):
+                month = "03"
+        elif (dateString.find("April") != -1):
+                month = "04"
+        elif (dateString.find("May") != -1):
+                month = "05"
+        elif (dateString.find("June") != -1):
+                month = "06"
+        elif (dateString.find("July") != -1):
+                month = "07"
+        elif (dateString.find("August") != -1):
+                month = "08"
+        elif (dateString.find("September") != -1):
+                month = "09"
+        elif (dateString.find("October") != -1):
+                month = "10"
+        elif (dateString.find("November") != -1):
+                month = "11"
+        elif (dateString.find("December") != -1):
+                month = "12"
+        else:
+                month = "??"
+        
+        year = dateString[len(dateString)-4:len(dateString)]
+        
+        modifiedDate = "" + month + "/" + day + "/" + year
+        
+        return modifiedDate
+        
 
 
 for i in range (1, 7): #Controls the number of months to look ahead.
