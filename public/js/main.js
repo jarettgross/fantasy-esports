@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		//Sort the contests according to start date, end date, and name.
 		contestArray.sort(function(a,b){
-			console.log(a.startDate + " - " + b.startDate + " = ")
 			if (a.startDate.localeCompare(b.startDate) !== 0) {
                 return a.startDate.localeCompare(b.startDate);
             }
@@ -124,19 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	//=================
 	if ($('.section-wrapper').attr('id') === 'draft-wrapper') {
 		//Relevant contestInfo should be saved in a value called contestInfo
-		var csv = new XMLHttpRequest();
-		csv.open('GET', "../js/lib/AllStats.csv", true);
 		var allPlayers = [];
-		csv.onreadystatechange = function() {
-			if (csv.status === 404) {
-                console.log('CSV not found');
-            }
-
-            //Grab all player data from CSV
-			if (csv.readyState == 4 && csv.status == 200) {
-				allPlayers = processData(csv.responseText);
-			}
-
+		$.ajax({ url: "../js/lib/AllStats.csv", success: function(csv) {
+			allPlayers = processData(csv);
 			var user_ids = contestInfo.players;
 
 			//Get player data for each player that is in the contest
@@ -218,8 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				});
 			}
-		};
-		csv.send();
+		}});
 	}
 });
 

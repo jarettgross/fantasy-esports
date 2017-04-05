@@ -79,8 +79,8 @@ def get_contest_info(pathToContest, i, j):
         teamCount.append(teams[0])
         player_ids.append(idList)'''
         
-        modifiedStartDate = modifyDateFormat(startDate[0].trim())
-        modifiedEndDate = modifyDateFormat(endDate[0].trim())
+        modifiedStartDate = modifyDateFormat(startDate[0].strip())
+        modifiedEndDate = modifyDateFormat(endDate[0].strip())
         
         idString = contestName[0] + str(i) + str(j)
         contestID = idString.replace(" ", "")
