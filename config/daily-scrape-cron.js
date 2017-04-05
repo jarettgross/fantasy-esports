@@ -32,7 +32,7 @@ function beginScoreUpdates(date, gameID) {
 	var job = new CronJob({
 		cronTime: date, 
 		onTick: function() {
-			console.log('CronJob running for game: ' + gameID + 'at date: ' + date);
+			console.log('CronJob running for game: ' + gameID + ' at date: ' + date);
 
 			hltvGameInfo(function(games) {
 				if (games.length > 1) {
@@ -41,53 +41,42 @@ function beginScoreUpdates(date, gameID) {
 		    			listid: gameID
 		    		});
 
+		    		//Read data when a "scoreboard" update is sent
 		    		live.on('scoreboard', function(data) {
 		    			var team1 = data.teams['1'];
 		    			var team2 = data.teams['2'];
 
+		    			//Can get (rating, kills, assists, deaths) from each player
 		    			var players1 = team1.players;
 		    			var players2 = team2.players;
 
-		    			//Can get (rating, kills, assists, deaths)
-		    			//Take data for each player and update each user's score who has these players
+		    			updateContestScores(contest, 'SCOREBOARD', players1, players2);
+		    		});
 
-		    			var userIDs = contest.entries.user_ids;
-						for (var i = 0; i < userIDs.length; i++) {
-							//Find each user who entered this contest
-							User.findById(userIDs[i], function(err, user) {
-								//Find this contest in User database
-								for (var j = 0; j < user.contests.length; j++) {
-									if (user.contests[j].id === req.params.id) {
-										//For each player on the user's team
-										for (var k = 0; k < user.contests[j].teams.length; k++) {
+		    		//Read data when the bomb is defused -- award points if the round is won by the defused bomb
+		    		live.on('bombDefused', function(defuseData) {
+		    			live.on('roundEnd', function(roundData) {
+		    				if (roundData.winType === 'BOMB_DEFUSED') {
+		    					var playerDefuser = [defuseData.player];
+		    					updateContestScores(contest, 'BOMB_DEFUSED', playerDefuser);
+		    				}
+		    			});
+		    		});
 
-											//Check if the player received an updated score, and update database
-											for (var m = 0; m < players1.length; m++) {
-												var player = players1[m];
-												if (player.hltvid === user.contests[j].teams[k]) {
-													//FIXME: scoring algorithm
-													user.contests[j].points = 0;
-													var playerScore = player.rating + player.kills + player.assists - player.deaths;
-													//FIXME: this won't work properly since it doesn't subtract the score that this player previously had
-													user.contests[j].points += playerScore;
-												}
-											}
+		    		//Read data when the bomb is planted -- award points if the round is won by the bomb
+		    		live.on('bombPlanted', function(plantedData) {
+		    			live.on('roundEnd', function(roundData) {
+		    				if (roundData.winType === 'TARGET_BOMBED') {
+		    					var playerBomber = [plantedData.player];
+		    					updateContestScores(contest, 'TARGET_BOMBED', playerBomber);
+		    				}
+		    			});
+		    		});
 
-											for (var n = 0; n < players2.length; n++) {
-												var player = players2[n];
-												if (player.hltvid === user.contests[j].teams[k]) {
-													//FIXME: scoring algorithm
-													var playerScore = player.rating + player.kills + player.assists - player.deaths;
-													//FIXME: this won't work properly since it doesn't subtract the score that this player previously had
-													user.contests[j].points += playerScore;
-												}
-											}
-
-										}
-									}
-								}
-							});
-						}
+		    		//Read data when a player commits suicide -- subtract points from that player's score
+		    		live.on('suicide', function(suicideData) {
+		    			var playerSuicide = suicideData.player;
+		    			updateContestScores(contest, 'SUICIDE', playerSuicide);
 		    		});
 				}
 			});
@@ -95,4 +84,57 @@ function beginScoreUpdates(date, gameID) {
 		start: false,
 		timeZone: 'America/New_York'
 	});
+}
+
+//Take data for each player and update each user's score who has these players
+//contest  - contest being updated
+//players1 - players on team1
+//players2 - players on team2
+function updateContestScores(contest, scoreType, players1, players2 = null) {
+	var userIDs = contest.entries.user_ids;
+	for (var i = 0; i < userIDs.length; i++) {
+		//Find each user who entered this contest
+		User.findById(userIDs[i], function(err, user) {
+			//Find this contest in User database
+			for (var j = 0; j < user.contests.length; j++) {
+				if (user.contests[j].id === req.params.id) {
+					//For each player on the user's team
+					for (var k = 0; k < user.contests[j].teams.length; k++) {
+
+						//Update player score
+						for (var m = 0; m < players1.length; m++) {
+							var player = players1[m];
+							if (player.hltvid === user.contests[j].teams[k]) {
+								//FIXME: scoring algorithm
+								var playerScore = player.rating + player.kills + player.assists - player.deaths;
+
+								if (scoreType === 'BOMB_DEFUSED') {
+									playerScore += 1;
+								} else if (scoreType === 'TARGET_BOMBED') {
+									playerScore += 1;
+								} else if (scoreType === 'SUICIDE') {
+									playerScore -= 1;
+								}
+
+								//FIXME: this won't work properly since it doesn't subtract the score that this player previously had
+								user.contests[j].points += playerScore;
+							}
+						}
+
+						if (scoreType === 'SCOREBOARD') {
+							for (var n = 0; n < players2.length; n++) {
+								var player = players2[n];
+								if (player.hltvid === user.contests[j].teams[k]) {
+									//FIXME: scoring algorithm
+									var playerScore = player.rating + player.kills + player.assists - player.deaths;
+									//FIXME: this won't work properly since it doesn't subtract the score that this player previously had
+									user.contests[j].points += playerScore;
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+	}
 }

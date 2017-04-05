@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     contests: [{
         id:      { type: String, required: true },
         team:    [Number],
-        points:  Number,
+        points:  { type: Number, default: 0 },
         entered: { type: Boolean, default: false } //Has the user submitted a team and entered the contest
     }]
 
