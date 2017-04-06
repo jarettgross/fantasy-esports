@@ -77,8 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	//=================
 
 	if ($('.section-wrapper').attr('id') === 'contest-wrapper') {
-		//Code here
-		var contest_id = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
+
 		$('#contest-wrapper').append($('<div/>').addClass('contest-details'));
 		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text("Name").addClass('contest-name'));
 		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text("Start Date").addClass('contest-startdate'));
@@ -87,24 +86,24 @@ document.addEventListener('DOMContentLoaded', function() {
 		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text("Entries").addClass('contest-entries'));
 
 		$('#contest-wrapper').append($('<div/>').addClass('contest-details'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contests.name).addClass('contest-name'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contests.startDate).addClass('contest-startdate'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contests.endDate).addClass('contest-enddate'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contests.maxSalary).addClass('contest-salary'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contests.entries.numCurrent + '/' + contests.entries.numMax).addClass('contest-entry-count'));
+		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contestInfo.name).addClass('contest-name'));
+		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contestInfo.startDate).addClass('contest-startdate'));
+		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contestInfo.endDate).addClass('contest-enddate'));
+		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contestInfo.maxSalary).addClass('contest-salary'));
+		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contestInfo.entries.numCurrent + '/' + contestInfo.entries.numMax).addClass('contest-entry-count'));
 
 		//Create Draft button
-		$('#contest-wrapper').append($('<a/>').attr('href', '/draft/' + contests._id).addClass('contest-listing2'));
+		$('#contest-wrapper').append($('<a/>').attr('href', '/draft/' + contestInfo._id).addClass('contest-listing2'));
 		$('#contest-wrapper').find('a.contest-listing2').last().append($('<div/>').text("Draft").addClass('draft-button'));
 		
 		$('#contest-wrapper').append($('<div/>').addClass('contest-results'));
 		$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("Contest Players").addClass('contest-players'));
 		$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("Score").addClass('contest-score'));
+		
 		//List all usernames corresponding to the user ids that are in the contest entries
-		var user_ids = contests.entries.user_ids;
-		for (var i = 0; i < user_ids.length; i++) {
+		for (var i = 0; i < contestUsers.length; i++) {
 			$('#contest-wrapper').append($('<div/>').addClass('contest-results'));
-			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text(user_ids[i]).addClass('contest-players'));
+			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text(contestUsers[i].username).addClass('contest-players'));
 			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("points").addClass('contest-score'));
 		}
 	}

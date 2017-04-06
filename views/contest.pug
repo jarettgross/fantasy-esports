@@ -2,9 +2,8 @@ extends layout
 
 block scripts
 	script(type='text/javascript').
-		//javascript vars
-		var contests = JSON.parse("#{contests}".replace(/&quot;/g,'"'));
-		//var users = JSON.parse("#{users}".replace(/&quot;/g,'"'))
+		var contestInfo = JSON.parse("#{contest}".replace(/&quot;/g,'"'));
+		var contestUsers = JSON.parse("#{contestUsers}".replace(/&quot;/g,'"'));
 
 block content
 	include partials/header
