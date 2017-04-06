@@ -15,6 +15,7 @@ const morgan           = require('morgan');
 const path             = require('path');
 const sass             = require('node-sass-middleware');
 const MongoStore       = require('connect-mongo')(session);
+const cronJob          = require('./config/daily-scrape-cron');
 
 //Load environment variables
 dotenv.load({ path: '.env.config' });
@@ -96,8 +97,7 @@ app.get('*', notFoundController.notFound);
 //==============
 
 //Cron Job
-//const cronJob = require('./config/daily-scrape-cron');
-//cronJob.dailyScrape.start();
+cronJob.dailyScrape.start();
 
 //Create the server
 http.createServer(app).listen(app.get('port'), function() {

@@ -11,7 +11,7 @@ const contestSchema = new mongoose.Schema({
     players: [{
         id:         { type: Number, required: true },
         points:     { type: Number, required: true, default: 0 }
-    }]
+    }],
 
     entries: {
         numMax:     { type: Number, required: true },

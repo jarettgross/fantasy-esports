@@ -58,7 +58,7 @@ function beginScoreUpdates(date, gameID) {
 		    			live.on('roundEnd', function(roundData) {
 		    				if (roundData.winType === 'BOMB_DEFUSED') {
 		    					var playerDefuser = [defuseData.player];
-		    					updateContestScores(contest, 'BOMB_DEFUSED', playerDefuser);
+		    					updateContestScores(contest, 'BOMB_DEFUSED', playerDefuser, null);
 		    				}
 		    			});
 		    		});
@@ -68,7 +68,7 @@ function beginScoreUpdates(date, gameID) {
 		    			live.on('roundEnd', function(roundData) {
 		    				if (roundData.winType === 'TARGET_BOMBED') {
 		    					var playerBomber = [plantedData.player];
-		    					updateContestScores(contest, 'TARGET_BOMBED', playerBomber);
+		    					updateContestScores(contest, 'TARGET_BOMBED', playerBomber, null);
 		    				}
 		    			});
 		    		});
@@ -76,7 +76,7 @@ function beginScoreUpdates(date, gameID) {
 		    		//Read data when a player commits suicide -- subtract points from that player's score
 		    		live.on('suicide', function(suicideData) {
 		    			var playerSuicide = suicideData.player;
-		    			updateContestScores(contest, 'SUICIDE', playerSuicide);
+		    			updateContestScores(contest, 'SUICIDE', playerSuicide, null);
 		    		});
 				}
 			});
@@ -91,7 +91,7 @@ function beginScoreUpdates(date, gameID) {
 //scoretype - "SCOREBOARD", "BOMB_DEFUSED", "TARGET_BOMBED", "SUICIDE" (determines how player points are updated)
 //players1  - players on team1
 //players2  - players on team2
-function updateContestScores(contest, scoreType, players1, players2 = null) {
+function updateContestScores(contest, scoreType, players1, players2) {
 
 	//Update score for each player on team 1
 	for (var i = 0; i < players1.length; i++) {
