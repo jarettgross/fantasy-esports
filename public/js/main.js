@@ -39,14 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 		
 		//Store all contests that haven't finished yet in an array.
-		var contestArray = [];
-		for (var i = 0; i< contests.length; i++) {
-			var contestEndDate = new Date(contests[i].endDate);
-			var currentDate = new Date();
-			if (contestEndDate.getTime() >= currentDate.getTime()) {
-				contestArray.push(contests[i]);
-			}
-		}
+		var contestArray = contests;
 		
 		//Sort the contests according to start date, end date, and name.
 		contestArray.sort(function(a,b){
@@ -66,7 +59,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			var contest = contestArray[i];
 			
             $('#index-wrapper').append($('<a/>').attr('href', '/contest/' + contest._id).addClass('contest-listing'));
-			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contest.name).addClass('contest-name'));
+			var contestName = "";
+			if (contest.name.length > 25) {
+                contestName = contest.name.substring(0, 20) + "..."
+            }
+			else {
+				contestName = contest.name;
+			}
+			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contestName).addClass('contest-name'));
 			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contest.startDate).addClass('contest-date'));
 			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contest.entries.numCurrent + '/' + contests[i].entries.numMax).addClass('contest-entry-count'));
 		}
@@ -79,9 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	if ($('.section-wrapper').attr('id') === 'contest-wrapper') {
 		//Code here
 		var contest_id = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
-		console.log(contest_id);
-		console.log(contests);
-		console.log(contests.players.length);
 		$('#contest-wrapper').append($('<div/>').addClass('contest-details'));
 		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text("Name").addClass('contest-name'));
 		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text("Start Date").addClass('contest-startdate'));
@@ -104,10 +101,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("Contest Players").addClass('contest-players'));
 		$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("Score").addClass('contest-score'));
 		//List all usernames corresponding to the user ids that are in the contest entries
-		for (var i = 0; i < contests.players.length; i++) {
-			console.log(contests.players);
+		var user_ids = contests.entries.user_ids;
+		for (var i = 0; i < user_ids.length; i++) {
 			$('#contest-wrapper').append($('<div/>').addClass('contest-results'));
-			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text(contests.players[i].id).addClass('contest-players'));
+			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text(user_ids[i]).addClass('contest-players'));
 			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("points").addClass('contest-score'));
 		}
 	}
@@ -129,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			allPlayers = processData(csv);
 			var playersInfo = contestInfo.players;
 			console.log(playersInfo);
-
+			
 			//Get player data for each player that is in the contest
 			var players = [];
 			for (var i = 0; i < allPlayers.length; i++) {

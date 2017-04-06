@@ -53,7 +53,7 @@ def get_contest_info(pathToContest, i, j):
         contestPage = requests.get(page_url + contestLink[0])
         contestContent = html.fromstring(contestPage.content)
         
-        idList = []
+        playerList = []
         #
         for i in range(1, int(teams[0])+1):       #Goes through all of the teams for the tournament
                 for j in range (2, 8):  #gets all of the players for the team
@@ -63,8 +63,8 @@ def get_contest_info(pathToContest, i, j):
                                         teamMemberID = (teamMemberLink[0])[22:len(teamMemberLink[0])]
                                 else:
                                         teamMemberID = (teamMemberLink[0])[8:(teamMemberLink[0].index('-'))]
-                                idList.append(teamMemberID)
-        if len(idList) < int(teams[0]) * 4 or int(teams[0]) == 0:     #5 players per team. 4 in case some are randomly missing
+                                playerList.append({"id": teamMemberID, "points": 0})
+        if len(playerList) < int(teams[0]) * 4 or int(teams[0]) == 0:     #5 players per team. 4 in case some are randomly missing
                 return;
         print(contestName[0])
         '''contestNames.append(contestName[0])
@@ -77,7 +77,7 @@ def get_contest_info(pathToContest, i, j):
         else:
                 prizePots.append('-')
         teamCount.append(teams[0])
-        player_ids.append(idList)'''
+        player_ids.append(playerList)'''
         
         modifiedStartDate = modifyDateFormat(startDate[0].strip())
         modifiedEndDate = modifyDateFormat(endDate[0].strip())
@@ -90,13 +90,14 @@ def get_contest_info(pathToContest, i, j):
         encodedID = base64.b64encode(contestID)
         shortenedID = encodedID[len(encodedID)/2:len(encodedID)]
         
+        
         contest = {
         "_id": shortenedID,
         "name": contestName[0],
         "startDate": modifiedStartDate,
         "endDate": modifiedEndDate,
         "maxSalary": 30000,
-        "players": idList,
+        "players": playerList,
         "entries": {
                 "numMax": 1000,
                 "user_ids": [],
@@ -109,16 +110,25 @@ def get_contest_info(pathToContest, i, j):
                 contestCollection.insert_one(contest)
                 print('insertedContest')
         else:   #The contest exists, check to see if there are more players attending now.
-                oldIdList = contestDict['players']
-                if len(oldIdList) < len(idList):        #Update the list to include all of the new players
+                '''Use this to update a specific feature.
+                db.contests.update_one({
+                        'name': contestDict['name']
+                },{
+                        '$set': {
+                                'players': playerList
+                        }
+                }, upsert=False)'''
+                oldPlayerList = contestDict['players']
+                if len(oldPlayerList) < len(playerList):        #Update the list to include all of the new players
                         db.contests.update_one({
                                 'name': contestDict['name']
                         },{
                                 '$set': {
-                                        'players': idList
+                                        'players': playerList
                                 }
                         }, upsert=False)
                         print('updated player list')
+                
                 else:
                         print('NOT updated player list')
 
