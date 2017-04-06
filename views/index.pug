@@ -8,7 +8,7 @@ block scripts
 block content
 	include partials/header
 	.section-wrapper#index-wrapper
-		//- if !user
-		//- 	#signup-overlay
-		//- 	#signup-focus
-		//- 		#sign-up-text Sign Up
+		if !user
+			#signup-overlay
+			#signup-focus
+				#sign-up-text Sign Up
