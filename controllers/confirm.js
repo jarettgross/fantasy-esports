@@ -7,9 +7,7 @@ module.exports = {
 
 		User.findById(req.params.id, function(err, users){
 			if(users !== null) {
-				//Do stuff here
 				res.render('draft',{
-					//Send to front
 					userInfo: JSON.stringify(users)
 				});
 			} else{

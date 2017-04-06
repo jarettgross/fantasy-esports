@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		//List all usernames corresponding to the user ids that are in the contest entries
 		for (var i = 0; i < contests.players.length; i++) {
 			$('#contest-wrapper').append($('<div/>').addClass('contest-results'));
-			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text(contests.players[i]).addClass('contest-players'));
+			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text(contests.players[i].id).addClass('contest-players'));
 			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("points").addClass('contest-score'));
 		}
 	}
@@ -126,14 +126,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		var allPlayers = [];
 		$.ajax({ url: "../js/lib/AllStats.csv", success: function(csv) {
 			allPlayers = processData(csv);
-			var user_ids = contestInfo.players;
+			var playersInfo = contestInfo.players;
 
 			//Get player data for each player that is in the contest
 			var players = [];
 			for (var i = 0; i < allPlayers.length; i++) {
-				for (var j = 0; j < user_ids.length; j++) {
+				for (var j = 0; j < playersInfo.length; j++) {
 					var playerID = parseInt(allPlayers[i][1].split(':')[1]);
-					if (playerID === user_ids[j]) {
+					if (playerID === playersInfo[j].id) {
 						players.push(allPlayers[i]);
 					}
 				}

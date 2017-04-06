@@ -10,7 +10,6 @@ module.exports = {
 		Contest.findById(req.params.id, function(err, contest) {
 			if (contest !== null) {
 				res.render('contest', {
-					//send variables to front-end
 					contests: JSON.stringify(contest)
 				});
 			} else {

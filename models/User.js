@@ -5,14 +5,14 @@ const shortid  = require('shortid');
 
 const userSchema = new mongoose.Schema({
 
-    _id:      { type: String, required: true, unique: true, default: shortid.generate },
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    email:    { type: String, required: true, unique: true, lowercase: true },
+    _id:         { type: String, required: true, unique: true, default: shortid.generate },
+    username:    { type: String, required: true, unique: true },
+    password:    { type: String, required: true },
+    email:       { type: String, required: true, unique: true, lowercase: true },
 
     contests: [{
         id:      { type: String, required: true },
-        team:    [Number],
+        team:    [Number],                         //array of player ids
         points:  { type: Number, default: 0 },
         entered: { type: Boolean, default: false } //Has the user submitted a team and entered the contest
     }]
