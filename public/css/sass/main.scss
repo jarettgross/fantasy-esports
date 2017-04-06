@@ -1,23 +1,30 @@
+//====================
 //Table of Contents
 //====================
-// 1)  Imports
-// 2)  Variables
-// 3)  Scaffolding
-// 4)  Index
+
+// 1 Imports
+// 2 Variables
+// 3 Scaffolding
+// 4 Nav Bar
+// 5 Index
+// 6 Draft
+// 7 Contest
+
+//====================
+// 1 Imports
 //====================
 
-
-// 1) Imports
-//====================
 @import 'mixins';
 
-// 2) Variables
 //====================
+// 2 Variables
+//====================
+
 $primary-color: #F76D74;
 $dark-primary-color: #D63A42;
 
-
-// 3) Scaffolding
+//====================
+// 3 Scaffolding
 //====================
 
 * {
@@ -30,13 +37,15 @@ $dark-primary-color: #D63A42;
 	margin-top: 8%;
 }
 
-// 4) Index
+//====================
+// 4 Nav Bar
 //====================
 
 .nav-list {
 	@include flexbox;
 	@include justify-content(space-between);
 	list-style: none;
+	max-height: 65px;
 	padding: 15px 5%;
 	background-color: black;
 	color: white;
@@ -73,10 +82,48 @@ $dark-primary-color: #D63A42;
 	}
 }
 
+//====================
+// 5 Index
+//====================
+
 #index-wrapper {
 	@include flexbox;
 	@include flex-direction(column);
 	@include justify-content(center);
+}
+
+#signup-overlay {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 65px;
+	background-color: #000000;
+	opacity: 0.7;
+}
+
+#signup-focus {
+	width: 20%;
+	height: 20%;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: $primary-color;
+	border-radius: 10px;
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	#sign-up-text {
+		top: 50%;
+		left: 50%;
+		position: relative;
+		transform: translate(-50%, -50%);
+		display: inline-block;
+		font-size: 30px;
+		color: #FFFFFF;
+	}
 }
 
 .contest-listing {
@@ -117,6 +164,10 @@ $dark-primary-color: #D63A42;
 	}
 }
 
+//====================
+// 6 Draft
+//====================
+
 .draft-listing {
 	margin: auto;
 	margin-bottom: 10px;
@@ -128,53 +179,32 @@ $dark-primary-color: #D63A42;
 		display: inline-block;
 	}
 
-	.player-name {
+	.player-name, .player-kills, .player-headshots, .player-deaths, .player-roundsP, .player-assists, .player-team, .player-add {
 		width: 10%;
 	}
 
-	.player-kills {
-		width: 10%;
-	}
-
-	.player-headshots{
-		width: 10%;
-	}
-
-	.player-deaths {
-		width: 10%;
-	}
-
-	.player-roundsP{
-		width: 10%;
-	}
-
-	.player-assists{
-		width: 10%;
-	}
-
-	.player-team{
-		width: 10%;
-	}
-
-	.player-add{
-	width: 10%;
-	margin-bottom: 10px;
-	padding: 0 30px;
-	height: 50px;
-	line-height: 2.8;
-	border-style: solid;
-	border-radius: 60px;
-	border-width: 2px;
-	border-color: black;
-	background-color: $primary-color;
-	color: white;
-	@include transition(background-color .2s ease);
+	.player-add {
+		margin-bottom: 10px;
+		padding: 0 30px;
+		height: 50px;
+		line-height: 2.8;
+		border-style: solid;
+		border-radius: 60px;
+		border-width: 2px;
+		border-color: black;
+		background-color: $primary-color;
+		color: white;
+		@include transition(background-color .2s ease);
 
 		&:hover {
 			background-color: $dark-primary-color;
-	}
+		}
 	}
 }
+
+//====================
+// 7 Contest
+//====================
 
 #contest-wrapper {
 	@include flexbox;
@@ -190,33 +220,13 @@ $dark-primary-color: #D63A42;
 		display: inline-block;
 	}
 
-	.contest-name {
-		width: 10%;
-		display: inline-block;
-	}
-
-	.contest-startdate {
-		width: 10%;
-		display: inline-block;
-	}
-
-	.contest-enddate{
-		width: 10%;
-		display: inline-block;
-	}
-
-	.contest-salary {
+	.contest-name, .contest-startdate, .contest-enddate, .contest-salary, .contest-entry-count {
 		width: 10%;
 		display: inline-block;
 	}
 
 	.contest-entries{
 		width: 50%;
-	}
-
-	.contest-entry-count{
-		width: 10%;
-		display: inline-block;
 	}
 }
 
@@ -228,12 +238,7 @@ $dark-primary-color: #D63A42;
 		display: inline-block;
 	}
 
-	.contest-players {
-		width: 10%;
-		display: inline-block;
-	}
-
-	.contest-score {
+	.contest-players, .contest-score {
 		width: 10%;
 		display: inline-block;
 	}

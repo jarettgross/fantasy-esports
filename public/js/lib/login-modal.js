@@ -15,6 +15,14 @@ jQuery(document).ready(function($){
 		$(event.target).is(mainNav) && mainNav.children('ul').toggleClass('is-visible');
 	});
 
+	if ($('.section-wrapper').attr('id') === 'index-wrapper') {
+		var forceSignUp = $('#index-wrapper');
+		forceSignUp.on('click', function(event){
+			$(event.target).is(forceSignUp) && forceSignUp.children('div').toggleClass('is-visible');
+		});
+		forceSignUp.on('click', '#signup-focus', signup_selected);
+	}
+
 	//open sign-up form
 	mainNav.on('click', '#signup', signup_selected);
 	//open login-form form
@@ -59,7 +67,7 @@ jQuery(document).ready(function($){
 		tabSignup.addClass('selected');
 	}
 
-	//REMOVE THIS - it's just to show error messages 
+	//show error messages 
 	formLogin.find('input[type="submit"]').on('click', function(event){
 		event.preventDefault();
 		formLogin.find('input[type="email"]').toggleClass('has-error').next('span').toggleClass('is-visible');

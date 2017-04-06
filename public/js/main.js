@@ -105,6 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("Score").addClass('contest-score'));
 		//List all usernames corresponding to the user ids that are in the contest entries
 		for (var i = 0; i < contests.players.length; i++) {
+			console.log(contests.players);
 			$('#contest-wrapper').append($('<div/>').addClass('contest-results'));
 			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text(contests.players[i].id).addClass('contest-players'));
 			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("points").addClass('contest-score'));
@@ -119,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 	//=================
-	// TEAM SELECT
+	// DRAFT PAGE
 	//=================
 	if ($('.section-wrapper').attr('id') === 'draft-wrapper') {
 		//Relevant contestInfo should be saved in a value called contestInfo
@@ -127,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		$.ajax({ url: "../js/lib/AllStats.csv", success: function(csv) {
 			allPlayers = processData(csv);
 			var playersInfo = contestInfo.players;
+			console.log(playersInfo);
 
 			//Get player data for each player that is in the contest
 			var players = [];
