@@ -87,10 +87,34 @@ function beginScoreUpdates(date, gameID) {
 }
 
 //Take data for each player and update each user's score who has these players
-//contest  - contest being updated
-//players1 - players on team1
-//players2 - players on team2
+//contest   - contest being updated
+//scoretype - "SCOREBOARD", "BOMB_DEFUSED", "TARGET_BOMBED", "SUICIDE" (determines how player points are updated)
+//players1  - players on team1
+//players2  - players on team2
 function updateContestScores(contest, scoreType, players1, players2 = null) {
+
+	//Update score for each player on team 1
+	for (var i = 0; i < players1.length; i++) {
+		var playerScore = player.rating + player.kills + player.assists - player.deaths;
+		if (scoreType === 'BOMB_DEFUSED') {
+			playerScore += 1;
+		} else if (scoreType === 'TARGET_BOMBED') {
+			playerScore += 1;
+		} else if (scoreType === 'SUICIDE') {
+			playerScore -= 1;
+		}
+	}
+
+	//Update score for each player on team 2 (if provided)
+	if (scoreType === 'SCOREBOARD') {
+		for (var n = 0; n < players2.length; n++) {
+			var player = players2[n];
+			if (player.hltvid === user.contests[j].teams[k]) {
+				var playerScore = player.rating + player.kills + player.assists - player.deaths;
+			}
+		}
+	}
+
 	var userIDs = contest.entries.user_ids;
 	for (var i = 0; i < userIDs.length; i++) {
 		//Find each user who entered this contest
@@ -98,41 +122,18 @@ function updateContestScores(contest, scoreType, players1, players2 = null) {
 			//Find this contest in User database
 			for (var j = 0; j < user.contests.length; j++) {
 				if (user.contests[j].id === req.params.id) {
-					//For each player on the user's team
-					for (var k = 0; k < user.contests[j].teams.length; k++) {
-
-						//Update player score
-						for (var m = 0; m < players1.length; m++) {
-							var player = players1[m];
-							if (player.hltvid === user.contests[j].teams[k]) {
-								//FIXME: scoring algorithm
-								var playerScore = player.rating + player.kills + player.assists - player.deaths;
-
-								if (scoreType === 'BOMB_DEFUSED') {
-									playerScore += 1;
-								} else if (scoreType === 'TARGET_BOMBED') {
-									playerScore += 1;
-								} else if (scoreType === 'SUICIDE') {
-									playerScore -= 1;
-								}
-
-								//FIXME: this won't work properly since it doesn't subtract the score that this player previously had
-								user.contests[j].points += playerScore;
-							}
-						}
-
-						if (scoreType === 'SCOREBOARD') {
-							for (var n = 0; n < players2.length; n++) {
-								var player = players2[n];
-								if (player.hltvid === user.contests[j].teams[k]) {
-									//FIXME: scoring algorithm
-									var playerScore = player.rating + player.kills + player.assists - player.deaths;
-									//FIXME: this won't work properly since it doesn't subtract the score that this player previously had
-									user.contests[j].points += playerScore;
-								}
+					//Update user score
+					user.contests[j].points = 0;
+					for (var k = 0; k < user.contests[j].team.length; k++) {
+						//Grab player points in contest database
+						for (var m = 0; m < contest.players.length; m++) {
+							var playerID = user.contests[j].team[k];
+							if (playerID === contest.players[m].id) {
+								user.contests[j].points += contest.players[m].points;
 							}
 						}
 					}
+					user.save();
 				}
 			}
 		});
