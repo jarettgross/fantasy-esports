@@ -6,9 +6,9 @@ module.exports = {
 			.lean()
 			.exec(function(err, contests) {
 				if (err) return next(err);
+				var todaysDate = new Date();
 				for (var i = 0; i < contests.length; i++) {
 					var contestDate = new Date(contests[i].endDate);
-					var todaysDate = new Date();
 					if (contestDate < todaysDate) {
 						contests.splice(i, 1);
 					}

@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		for (var i = 0; i < contestUsers.length; i++) {
 			$('#contest-wrapper').append($('<div/>').addClass('contest-results'));
 			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text(contestUsers[i].username).addClass('contest-players'));
-			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("points").addClass('contest-score'));
+			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text(contestUsers[i].points).addClass('contest-score'));
 		}
 	}
 
