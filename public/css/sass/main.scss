@@ -126,42 +126,92 @@ $dark-primary-color: #D63A42;
 	}
 }
 
-.contest-listing {
-	width: 50%;
-	margin: auto;
-	margin-bottom: 10px;
-	padding: 0 30px;
-	height: 50px;
-	line-height: 2.8;
-	border-style: solid;
-	border-radius: 60px;
-	border-width: 2px;
-	border-color: black;
-	background-color: $primary-color;
-	color: white;
-	@include transition(background-color .2s ease);
+.contest-listing-div {
+    width: 60%;
+    margin: auto;
+    margin-bottom: 10px;
+    height: 50px;
+    
+    .contest-listing {
+        width: 90%;
+        margin: auto;
+        padding: 0 30px;
+        line-height: 2.8;
+        height: 100%;
+        display: inline-block;
+        border-style: solid;
+        border-radius: 60px;
+        border-width: 2px;
+        border-color: black;
+        background-color: $primary-color;
+        color: white;
+        @include transition(background-color .2s ease);
 
-	&:hover {
-		background-color: $dark-primary-color;
-	}
+        &:hover {
+            background-color: $dark-primary-color;
+        }
+        
+        > div {
+            display: inline-block;
+        }
 
-	> div {
-		display: inline-block;
-	}
+        .contest-name {
+            width: 40%;
+        }
 
-	.contest-name {
-		width: 40%;
-	}
+        .contest-date {
+            width: 20%;
+            text-align: center;
+        }
 
-	.contest-date {
-		width: 30%;
-		text-align: center;
-	}
-
-	.contest-entry-count {
-		width: 30%;
-		text-align: right;
-	}
+        .contest-entry-count {
+            width: 20%;
+            text-align: right;
+        }
+    }
+    
+    .score-link {
+        width: 10%;
+        margin: auto;
+        margin-right: 5px;
+        max-height: 30px;
+        display: inline-block;
+        padding: 0 5px;
+        line-height: 2.8;
+        border-style: solid;
+        border-radius: 60px;
+        border-width: 2px;
+        border-color: black;
+        background-color: blue;
+        color: white;
+        @include transition(background-color .2s ease);
+        
+        .score-test {
+            width: 10%;
+            display: inline-block;
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 0;
+            margin: 0;
+            max-height: 10px;
+        }
+        
+        > div {
+            display: inline-block;
+        }
+    }
+    
+    .empty-score {
+        width: 6%;
+        margin: auto;
+        margin-right: 5px;
+    }
+    
+    > div {
+            display: inline-block;
+    }
 }
 
 //====================

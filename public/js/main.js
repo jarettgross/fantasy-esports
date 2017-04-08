@@ -58,7 +58,16 @@ document.addEventListener('DOMContentLoaded', function() {
 		for (var i = 0; i < contestArray.length; i++) {
 			var contest = contestArray[i];
 			
-            $('#index-wrapper').append($('<a/>').attr('href', '/contest/' + contest._id).addClass('contest-listing'));
+			$('#index-wrapper').append($('<div/>').addClass('contest-listing-div'));
+			if (new Date(contest.startDate) <= new Date()) {
+				console.log("Score!");
+                $('#index-wrapper').find('div.contest-listing-div').last().append($('<a/>').attr('href', '/score/' + contest._id).addClass('score-link'));
+				$('#index-wrapper').find('a.score-link').last().append($('<div/>').text("Score").addClass('score-text'));
+            }
+			else {
+				$('#index-wrapper').find('div.contest-listing-div').last().append($('<div/>').addClass('empty-score'));
+			}
+			
 			var contestName = "";
 			if (contest.name.length > 25) {
                 contestName = contest.name.substring(0, 20) + "..."
@@ -66,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			else {
 				contestName = contest.name;
 			}
+			$('#index-wrapper').find('div.contest-listing-div').last().append($('<a/>').attr('href', '/contest/' + contest._id).addClass('contest-listing'));
 			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contestName).addClass('contest-name'));
 			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contest.startDate).addClass('contest-date'));
 			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contest.entries.numCurrent + '/' + contests[i].entries.numMax).addClass('contest-entry-count'));
@@ -206,6 +216,13 @@ document.addEventListener('DOMContentLoaded', function() {
 				});
 			}
 		}});
+	}
+	
+	//================
+	// SCORE PAGE
+	//================
+	if ($('.section-wrapper').attr('id') === 'score-wrapper') {
+		
 	}
 });
 
