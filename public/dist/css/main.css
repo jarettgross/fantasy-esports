@@ -162,28 +162,28 @@
       color: #FFFFFF;
       padding: 5px;
       border-radius: 5px;
+      font-size: 12px;
       -webkit-transition: background-color 0.2s ease;
       -moz-transition: background-color 0.2s ease;
       -ms-transition: background-color 0.2s ease;
       -o-transition: background-color 0.2s ease;
-      transition: background-color 0.2s ease;
-      font-size: 12px; }
+      transition: background-color 0.2s ease; }
       .contest-listing .enter-link-wrapper .enter-link:hover {
         background-color: #24A1C7; }
   .contest-listing .score-link-wrapper {
     width: 10%;
-    text-align: right;
-    -webkit-transition: background-color 0.2s ease;
-    -moz-transition: background-color 0.2s ease;
-    -ms-transition: background-color 0.2s ease;
-    -o-transition: background-color 0.2s ease;
-    transition: background-color 0.2s ease; }
+    text-align: right; }
     .contest-listing .score-link-wrapper .score-link {
       background-color: #E85F66;
       color: #FFFFFF;
       padding: 5px;
       border-radius: 5px;
-      font-size: 12px; }
+      font-size: 12px;
+      -webkit-transition: background-color 0.2s ease;
+      -moz-transition: background-color 0.2s ease;
+      -ms-transition: background-color 0.2s ease;
+      -o-transition: background-color 0.2s ease;
+      transition: background-color 0.2s ease; }
       .contest-listing .score-link-wrapper .score-link:hover {
         background-color: #D63A42; }
 
@@ -227,63 +227,49 @@
     .draft-listing .player-add:hover {
       background-color: #D63A42; }
 
-#contest-wrapper {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-direction: normal;
-  -webkit-box-orient: vertical;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  justify-content: center; }
+#page-contest-name {
+  text-align: center;
+  font-size: 36px;
+  color: #E85F66;
+  font-weight: 700; }
 
-.contest-details {
-  height: 50px;
-  color: black; }
-  .contest-details > div {
-    display: inline-block; }
-  .contest-details .contest-name, .contest-details .contest-startdate, .contest-details .contest-enddate, .contest-details .contest-salary, .contest-details .contest-entry-count {
-    width: 10%;
-    display: inline-block; }
-  .contest-details .contest-entries {
-    width: 50%; }
+#page-contest-date {
+  text-align: center; }
 
-.contest-results {
-  height: 20px;
-  color: black; }
-  .contest-results > div {
-    display: inline-block; }
-  .contest-results .contest-players, .contest-results .contest-score {
-    width: 10%;
-    display: inline-block; }
+#page-contest-entries {
+  text-align: center; }
 
-.contest-listing2 {
-  width: 50%;
-  margin-top: 10px;
-  margin-bottom: 10px;
+.draft-button-wrapper {
+  text-align: center;
+  margin: 20px 0; }
+  .draft-button-wrapper .draft-button {
+    background-color: #26B3DE;
+    color: #FFFFFF;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    -webkit-transition: background-color 0.2s ease;
+    -moz-transition: background-color 0.2s ease;
+    -ms-transition: background-color 0.2s ease;
+    -o-transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease; }
+    .draft-button-wrapper .draft-button:hover {
+      background-color: #24A1C7; }
+
+.scoreboard {
+  width: 500px;
+  margin: auto;
   padding: 0 30px;
-  height: 50px;
   line-height: 2.8;
-  border-style: solid;
-  border-radius: 60px;
-  border-width: 2px;
-  border-color: black;
-  background-color: #E85F66;
-  color: white;
-  -webkit-transition: background-color 0.2s ease;
-  -moz-transition: background-color 0.2s ease;
-  -ms-transition: background-color 0.2s ease;
-  -o-transition: background-color 0.2s ease;
-  transition: background-color 0.2s ease; }
-  .contest-listing2:hover {
-    background-color: #D63A42; }
-  .contest-listing2 > div {
-    display: inline-block; }
+  border-style: solid solid hidden solid;
+  border-width: 1px;
+  border-color: #000;
+  background-color: #FFFFFF;
+  color: #000000; }
+  .scoreboard .contest-player-name-header, .scoreboard .contest-player-name {
+    display: inline-block;
+    width: 65%; }
+  .scoreboard .contest-score-header, .scoreboard .contest-score {
+    display: inline-block;
+    width: 35%;
+    text-align: right; }

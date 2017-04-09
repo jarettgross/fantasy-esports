@@ -90,33 +90,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	if ($('.section-wrapper').attr('id') === 'contest-wrapper') {
 
-		$('#contest-wrapper').append($('<div/>').addClass('contest-details'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text("Name").addClass('contest-name'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text("Start Date").addClass('contest-startdate'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text("End Date").addClass('contest-enddate'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text("Max Salary").addClass('contest-salary'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text("Entries").addClass('contest-entries'));
-
-		$('#contest-wrapper').append($('<div/>').addClass('contest-details'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contestInfo.name).addClass('contest-name'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contestInfo.startDate).addClass('contest-startdate'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contestInfo.endDate).addClass('contest-enddate'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contestInfo.maxSalary).addClass('contest-salary'));
-		$('#contest-wrapper').find('div.contest-details').last().append($('<div/>').text(contestInfo.entries.numCurrent + '/' + contestInfo.entries.numMax).addClass('contest-entry-count'));
+		$('#contest-wrapper').append($('<div/>').text(contestInfo.name).attr('id', 'page-contest-name'));
+		$('#contest-wrapper').append($('<div/>').text(contestInfo.startDate + ' to ' + contestInfo.endDate).attr('id', 'page-contest-date'));
+		//$('#contest-wrapper').append($('<div/>').text(contestInfo.entries.numCurrent + '/' + contestInfo.entries.numMax).attr('id', 'page-contest-entries'));
 
 		//Create Draft button
-		$('#contest-wrapper').append($('<a/>').attr('href', '/draft/' + contestInfo._id).addClass('contest-listing2'));
-		$('#contest-wrapper').find('a.contest-listing2').last().append($('<div/>').text("Draft").addClass('draft-button'));
+		$('#contest-wrapper').append($('<div/>').addClass('draft-button-wrapper'));
+		$('#contest-wrapper').find('.draft-button-wrapper').last().append($('<a/>').attr('href', '/draft/' + contestInfo._id).text('DRAFT').addClass('draft-button'));
 		
-		$('#contest-wrapper').append($('<div/>').addClass('contest-results'));
-		$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("Contest Players").addClass('contest-players'));
-		$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text("Score").addClass('contest-score'));
+		$('#contest-wrapper').append($('<div/>').addClass('scoreboard'));
+
+		$('#index-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('user-listing'));
+		$('#contest-wrapper').find('div.scoreboard').last().append($('<div/>').text('Name').addClass('contest-player-name-header'));
+		$('#contest-wrapper').find('div.scoreboard').last().append($('<div/>').text('Score').addClass('contest-score-header'));
 		
 		//List all usernames corresponding to the user ids that are in the contest entries
 		for (var i = 0; i < contestUsers.length; i++) {
-			$('#contest-wrapper').append($('<div/>').addClass('contest-results'));
-			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text(contestUsers[i].username).addClass('contest-players'));
-			$('#contest-wrapper').find('div.contest-results').last().append($('<div/>').text(contestUsers[i].points).addClass('contest-score'));
+			$('#index-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('user-listing'));
+			$('#contest-wrapper').find('div.scoreboard').last().append($('<div/>').text(contestUsers[i].username).addClass('contest-player-name'));
+			$('#contest-wrapper').find('div.scoreboard').last().append($('<div/>').text(contestUsers[i].points).addClass('contest-score'));
 		}
 	}
 
