@@ -20,8 +20,10 @@
 // 2 Variables
 //====================
 
-$primary-color: #F76D74;
+$primary-color: #E85F66;
 $dark-primary-color: #D63A42;
+$link-color: #26B3DE;
+$dark-link-color: #24A1C7;
 
 //====================
 // 3 Scaffolding
@@ -30,7 +32,7 @@ $dark-primary-color: #D63A42;
 * {
     margin: 0;
     padding: 0;
-    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .section-wrapper {
@@ -47,11 +49,12 @@ $dark-primary-color: #D63A42;
 	list-style: none;
 	max-height: 65px;
 	padding: 15px 5%;
-	background-color: black;
-	color: white;
+	background-color: #FFFFFF;
+	color: #000000;
 	position: fixed;
 	width: 100%;
 	top: 0;
+	border-bottom: 2px solid rgba(0,0,0,0.10);
 }
 
 #site-name {
@@ -62,6 +65,8 @@ $dark-primary-color: #D63A42;
 #signin, #signup, #logout {
 	cursor: pointer;
 	display: inline-block;
+	line-height: 2em;
+	color: #000000;
 }
 
 #signin {
@@ -71,9 +76,9 @@ $dark-primary-color: #D63A42;
 #signup {
 	color: white;
 	border-style: solid;
-	border-radius: 15px;
+	border-radius: 5px;
 	border-color: transparent;
-	padding: 5px;
+	padding: 0 5px;
 	background-color: $primary-color;
 	@include transition(background-color .2s ease);
 
@@ -109,10 +114,11 @@ $dark-primary-color: #D63A42;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	background-color: $primary-color;
-	border-radius: 10px;
+	border-radius: 5px;
 
 	&:hover {
 		cursor: pointer;
+		background-color: $dark-primary-color;
 	}
 
 	#sign-up-text {
@@ -126,89 +132,122 @@ $dark-primary-color: #D63A42;
 	}
 }
 
-.contest-listing-div {
-    width: 60%;
-    margin: auto;
-    margin-bottom: 10px;
-    height: 50px;
-    
-    .contest-listing {
-        width: 90%;
-        margin: auto;
-        padding: 0 30px;
-        line-height: 2.8;
-        height: 100%;
-        display: inline-block;
-        border-style: solid;
-        border-radius: 60px;
-        border-width: 2px;
-        border-color: black;
-        background-color: $primary-color;
-        color: white;
-        @include transition(background-color .2s ease);
+.contest-header {
+	font-weight: 700;
+	text-transform: uppercase;
+	font-size: 12px !important;
+	background-color: $primary-color;
+	width: 70%;
+	margin: auto;
+	padding: 0 30px;
+	line-height: 2.8;
+	border-style: solid solid hidden solid;
+	border-width: 1px;
+	border-color: #000;
+	color: #FFFFFF;
 
-        &:hover {
-            background-color: $dark-primary-color;
-        }
-        
-        > div {
-            display: inline-block;
-        }
+	> div {
+		display: inline-block;
+	}
 
-        .contest-name {
-            width: 40%;
-        }
+	.contest-name {
+		width: 40%;
+	}
 
-        .contest-date {
-            width: 20%;
-            text-align: center;
-        }
+	.contest-date {
+		width: 30%;
+		text-align: center;
+	}
 
-        .contest-entry-count {
-            width: 20%;
-            text-align: right;
-        }
-    }
-    
-    .score-link {
-        width: 10%;
-        margin: auto;
-        display: inline-block;
-        padding: 0 15px;
-        line-height: 2.8;
-        border-style: solid;
-        border-radius: 60px;
-        border-width: 2px;
-        border-color: black;
-        background-color: blue;
-        color: white;
-        @include transition(background-color .2s ease);
-        
-        .score-test {
-            width: 10%;
-            display: inline-block;
-            position: relative;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 0;
-            margin: 0;
-            max-height: 10px;
-        }
-        
-        > div {
-            display: inline-block;
-        }
-    }
-    
-    .empty-score {
-        width: 10%;
-        margin: auto;
-    }
-    
-    > div {
-            display: inline-block;
-    }
+	.contest-entry-count {
+		width: 15%;
+		text-align: center;
+	}
+}
+
+.contest-listing {
+	width: 70%;
+	margin: auto;
+	padding: 0 30px;
+	line-height: 2.8;
+	border-style: solid solid hidden solid;
+	border-width: 1px;
+	border-color: #000;
+	background-color: #FFFFFF;
+	color: #000000;
+	@include transition(background-color .2s ease);
+
+	&:hover {
+		background-color: #D1D1D1;
+	}
+
+	> div {
+		display: inline-block;
+	}
+
+	.contest-name {
+		width: 40%;
+		color: $link-color;
+	}
+
+	.contest-date {
+		width: 30%;
+		text-align: center;
+	}
+
+	.contest-entry-count {
+		width: 10%;
+		text-align: right;
+	}
+
+	.enter-link-wrapper {
+		width: 10%;
+		text-align: right;
+
+		.enter-link {
+			background-color: $link-color;
+			color: #FFFFFF;
+			padding: 5px;
+			border-radius: 5px;
+			@include transition(background-color .2s ease);
+			font-size: 12px;
+
+			&:hover {
+				background-color: $dark-link-color;
+			}
+		}
+	}
+
+	.score-link-wrapper {
+		width: 10%;
+		text-align: right;
+		@include transition(background-color .2s ease);
+
+		.score-link {
+			background-color: $primary-color;
+			color: #FFFFFF;
+			padding: 5px;
+			border-radius: 5px;
+			font-size: 12px;
+
+			&:hover {
+				background-color: $dark-primary-color;
+			}
+		}
+	}
+}
+
+.first-listing {
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+}
+
+.last-listing {
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;	
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	margin-bottom: 50px;
 }
 
 //====================

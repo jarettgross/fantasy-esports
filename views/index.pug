@@ -2,12 +2,15 @@ extends layout
 
 block scripts
 	script(type='text/javascript').
-		//javascript vars
 		var contests = JSON.parse("#{contests}".replace(/&quot;/g,'"'));
 
 block content
 	include partials/header
 	.section-wrapper#index-wrapper
+		a.first-listing.contest-header
+			.contest-name Contest
+			.contest-date Start Date
+			.contest-entry-count Entries / Size
 		if !user
 			#signup-overlay
 			#signup-focus

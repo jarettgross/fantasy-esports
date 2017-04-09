@@ -58,27 +58,29 @@ document.addEventListener('DOMContentLoaded', function() {
 		for (var i = 0; i < contestArray.length; i++) {
 			var contest = contestArray[i];
 			
-			$('#index-wrapper').append($('<div/>').addClass('contest-listing-div'));
-			if (new Date(contest.startDate) <= new Date()) {
-				console.log("Score!");
-                $('#index-wrapper').find('div.contest-listing-div').last().append($('<a/>').attr('href', '/score/' + contest._id).addClass('score-link'));
-				$('#index-wrapper').find('a.score-link').last().append($('<div/>').text("Score").addClass('score-text'));
-            }
-			else {
-				$('#index-wrapper').find('div.contest-listing-div').last().append($('<div/>').addClass('empty-score'));
+			if (i === contestArray.length - 1) {
+				 $('#index-wrapper').append($('<div/>').addClass('contest-listing').addClass('last-listing'));
+			} else {
+				 $('#index-wrapper').append($('<div/>').addClass('contest-listing'));
 			}
-			
+
 			var contestName = "";
-			if (contest.name.length > 25) {
-                contestName = contest.name.substring(0, 20) + "..."
-            }
-			else {
+			if (contest.name.length > 40) {
+		        contestName = contest.name.substring(0, 35) + "..."
+		    } else {
 				contestName = contest.name;
 			}
-			$('#index-wrapper').find('div.contest-listing-div').last().append($('<a/>').attr('href', '/contest/' + contest._id).addClass('contest-listing'));
-			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contestName).addClass('contest-name'));
-			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contest.startDate).addClass('contest-date'));
-			$('#index-wrapper').find('a.contest-listing').last().append($('<div/>').text(contest.entries.numCurrent + '/' + contests[i].entries.numMax).addClass('contest-entry-count'));
+
+			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(contestName).addClass('contest-name'));
+			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(contest.startDate).addClass('contest-date'));
+			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(contest.entries.numCurrent + '/' + contests[i].entries.numMax).addClass('contest-entry-count'));
+			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').addClass('enter-link-wrapper'));
+			$('#index-wrapper').find('.enter-link-wrapper').last().append($('<a/>').attr('href', '/contest/' + contest._id).text('ENTER').addClass('enter-link'));
+
+			if (new Date(contest.startDate) <= new Date()) {
+				$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').addClass('score-link-wrapper'));
+                $('#index-wrapper').find('.score-link-wrapper').last().append($('<a/>').attr('href', '/score/' + contest._id).text('SCORE').addClass('score-link'));
+            }
 		}
 	}
 
