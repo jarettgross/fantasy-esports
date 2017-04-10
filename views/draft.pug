@@ -3,7 +3,6 @@ extends layout
 block scripts
 	script(type='text/javascript').
 		var userInfo = JSON.parse("#{userInfo}".replace(/&quot;/g,'"'));
-		console.log(userInfo);
 		var contestInfo = JSON.parse("#{contestInfo}".replace(/&quot;/g,'"'));
 
 block content

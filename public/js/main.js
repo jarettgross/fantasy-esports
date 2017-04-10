@@ -113,13 +113,15 @@ document.addEventListener('DOMContentLoaded', function() {
 	//================
 	// CONFIRM PAGE
 	//================
-	if($('.section-wrapper').attr('id') === 'confirm-wrapper'){
+
+	if ($('.section-wrapper').attr('id') === 'confirm-wrapper'){
 
 	}
 
 	//=================
 	// DRAFT PAGE
 	//=================
+
 	if ($('.section-wrapper').attr('id') === 'draft-wrapper') {
 		//Relevant contestInfo should be saved in a value called contestInfo
 		var allPlayers = [];
@@ -142,18 +144,22 @@ document.addEventListener('DOMContentLoaded', function() {
 			for (var i = 0; i < players.length; i++) {
 				//Set headers of columns
 				if (i === 0) {
-					$('#draft-wrapper').append($('<div/>').addClass('draft-listing'));
+					$('#draft-wrapper').append($('<div/>').addClass('draft-listing').addClass('draft-listing-header'));
 					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Name").addClass('player-name'));
 					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Kills").addClass('player-kills'));
 					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Headshot %").addClass('player-headshots'));
 					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Deaths").addClass('player-deaths'));
-					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("# Rounds Played").addClass('player-roundsP'));
+					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("# Rounds").addClass('player-roundsP'));
 					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Assists").addClass('player-assists'));
 					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Team Name").addClass('player-team'));
 				}
 
 				//Display data in divs for each player
-				$('#draft-wrapper').append($('<div/>').addClass('draft-listing'));
+				if (i === players.length - 1) {
+					$('#draft-wrapper').append($('<div/>').addClass('draft-listing').addClass('draft-listing-footer'));
+				} else {
+					$('#draft-wrapper').append($('<div/>').addClass('draft-listing'));
+				}
 
 				var names = players[i][0].split(":")[1];
 				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(names).addClass('player-name'));
@@ -177,7 +183,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(team).addClass('player-team'));
 
 				var playerID = players[i][1].split(":")[1];
-				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text('Add').attr('id', 'playerChoose' + playerID).addClass('player-add'));
+				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').addClass('player-add-remove-wrapper'));
+				$('#draft-wrapper').find('.player-add-remove-wrapper').last().append($('<div/>').text('Add').attr('id', 'playerChoose' + playerID).addClass('player-add'));
 			}
 
 			//Get all "playerChoose" buttons
@@ -202,8 +209,10 @@ document.addEventListener('DOMContentLoaded', function() {
 					//Change button text depending on what it currently is
 					if (this.innerHTML === 'Add') {
 						this.innerHTML = 'Remove';
+						this.classList.add('player-remove');
 					} else {
 						this.innerHTML = 'Add';
+						this.classList.remove('player-remove');
 					}
 				});
 			}
@@ -213,6 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	//================
 	// SCORE PAGE
 	//================
+
 	if ($('.section-wrapper').attr('id') === 'score-wrapper') {
 		
 	}

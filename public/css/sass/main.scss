@@ -255,38 +255,147 @@ $dark-link-color: #24A1C7;
 // 6 Draft
 //====================
 
+.draft-listing-header {
+	font-size: 12px;
+	width: 80%;
+	margin: auto;
+	padding: 0 30px;
+	border-style: solid solid hidden solid;
+	border-width: 1px;
+	border-color: #000;
+	background-color: #FFFFFF;
+	color: #000000;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	background-color: $primary-color;
+
+	> div {
+		display: inline-block;
+		font-size: 12px;
+		font-weight: 700;
+		color: #FFFFFF !important;
+	}
+
+	.player-name {
+		width: 20%;
+	}
+
+	.player-kills {
+		width: 10%;
+		text-align: center;
+	}
+
+	.player-headshots {
+		width: 10%;
+		text-align: center;
+	}
+
+	.player-deaths {
+		width: 10%;
+		text-align: center;
+	}
+
+	.player-roundsP {
+		width: 10%;
+		text-align: center;
+	}
+
+	.player-assists {
+		width: 10%;
+		text-align: center;
+	}
+
+	.player-team {
+		width: 20%;
+		text-align: center;
+	}
+}
+
 .draft-listing {
 	margin: auto;
-	margin-bottom: 10px;
-	padding: 0 30px;
-	height: 50px;
+	width: 80%;
+	border-style: solid solid hidden solid;
+	border-width: 1px;
+	padding: 5px 30px;
 	color: black;
 
 	> div {
 		display: inline-block;
 	}
 
-	.player-name, .player-kills, .player-headshots, .player-deaths, .player-roundsP, .player-assists, .player-team, .player-add {
-		width: 10%;
+	.player-name {
+		width: 20%;
+		color: $link-color;
 	}
 
-	.player-add {
-		margin-bottom: 10px;
-		padding: 0 30px;
-		height: 50px;
-		line-height: 2.8;
-		border-style: solid;
-		border-radius: 60px;
-		border-width: 2px;
-		border-color: black;
-		background-color: $primary-color;
-		color: white;
-		@include transition(background-color .2s ease);
+	.player-kills {
+		width: 10%;
+		text-align: center;
+	}
 
-		&:hover {
-			background-color: $dark-primary-color;
+	.player-headshots {
+		width: 10%;
+		text-align: center;
+	}
+
+	.player-deaths {
+		width: 10%;
+		text-align: center;
+	}
+
+	.player-roundsP {
+		width: 10%;
+		text-align: center;
+	}
+
+	.player-assists {
+		width: 10%;
+		text-align: center;
+	}
+
+	.player-team {
+		width: 20%;
+		text-align: center;
+	}
+
+	.player-add-remove-wrapper {
+		width: 10%;
+		text-align: center;
+
+		.player-add {
+			display: inline-block;
+			cursor: pointer;
+			background-color: #40ED77;
+			color: #FFFFFF;
+			padding: 3px 10px;
+			margin: 5px 0;
+			border-radius: 5px;
+			font-size: 12px;
+			@include transition(background-color .2s ease);
+
+			&:hover {
+				background-color: #36D167;
+			}
+		}
+
+		.player-remove {
+			background-color:$primary-color;
+
+			@include transition(background-color .2s ease);
+
+			&:hover {
+				background-color: $dark-primary-color;
+			}
 		}
 	}
+}
+
+.draft-listing-footer {
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;	
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	margin-bottom: 50px;
 }
 
 //====================
