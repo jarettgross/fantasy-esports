@@ -89,7 +89,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #E85F66;
-  border-radius: 5px; }
+  border-radius: 5px;
+  -webkit-transition: background-color 0.2s ease;
+  -moz-transition: background-color 0.2s ease;
+  -ms-transition: background-color 0.2s ease;
+  -o-transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease; }
   #signup-focus:hover {
     cursor: pointer;
     background-color: #D63A42; }
@@ -245,7 +250,7 @@
   .draft-button-wrapper .draft-button {
     background-color: #26B3DE;
     color: #FFFFFF;
-    padding: 5px;
+    padding: 10px 30px;
     border-radius: 5px;
     font-size: 16px;
     -webkit-transition: background-color 0.2s ease;
@@ -261,9 +266,6 @@
   margin: auto;
   padding: 0 30px;
   line-height: 2.8;
-  border-style: solid solid hidden solid;
-  border-width: 1px;
-  border-color: #000;
   background-color: #FFFFFF;
   color: #000000; }
   .scoreboard .contest-player-name-header, .scoreboard .contest-player-name {
@@ -273,3 +275,27 @@
     display: inline-block;
     width: 35%;
     text-align: right; }
+  .scoreboard .user-listing {
+    padding: 0 30px;
+    border-style: solid solid hidden solid;
+    border-width: 1px;
+    border-color: #000;
+    background-color: #FFFFFF;
+    color: #000000; }
+  .scoreboard .user-listing-header {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12px !important;
+    background-color: #E85F66;
+    border-style: solid solid hidden solid;
+    border-width: 1px;
+    border-color: #000;
+    color: #FFFFFF;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px; }
+  .scoreboard .user-listing-footer {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    margin-bottom: 50px; }
