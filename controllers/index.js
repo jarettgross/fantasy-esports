@@ -11,6 +11,7 @@ module.exports = {
 					var contestDate = new Date(contests[i].endDate);
 					if (contestDate < todaysDate) {
 						contests.splice(i, 1);
+						i--;
 					}
 				}
 				res.render('index', {
