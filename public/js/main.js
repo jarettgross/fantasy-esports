@@ -216,7 +216,19 @@ document.addEventListener('DOMContentLoaded', function() {
 	// SCORE PAGE
 	//================
 	if ($('.section-wrapper').attr('id') === 'score-wrapper') {
-		
+		//List all usernames corresponding to the user ids that are in the contest entries
+		$('#score-wrapper').append($('<div/>').addClass('score-listing'));
+		$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text("Name").addClass('contest-player-name-header'));
+		$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text("Score").addClass('contest-score-header'));
+
+		console.log(userInfo);
+
+		for (var i = 0; i < userInfo.length; i++) {
+			$('#score-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('score-listing'));
+			console.log(userInfo[i]);
+			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text(contestUsers[i].username).addClass('contest-player-name'));
+			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text(contestUsers[i].points).addClass('contest-score'));
+		}
 	}
 });
 
