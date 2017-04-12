@@ -185,28 +185,36 @@ document.addEventListener('DOMContentLoaded', function() {
 				var playerID = players[i][1].split(":")[1];
 				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').addClass('player-add-remove-wrapper'));
 				$('#draft-wrapper').find('.player-add-remove-wrapper').last().append($('<div/>').text('Add').attr('id', 'playerChoose' + playerID).addClass('player-add'));
-			
-				(function(playerID) {
-					$('#playerChoose' + playerID).click(function() {
-						$.post('/draft/' + contestInfo._id,
+			}
+
+			//Get all "playerChoose" buttons
+			var playerAdder = document.querySelectorAll('.player-add');
+
+			//Find which button was clicked
+			for (var i = 0; i < playerAdder.length; i++) {
+				var playerID = players[i][1].split(':')[1];
+				//On "playerChoose" click, send post request to back-end to set player team
+				$('#playerChoose' + playerID).click(function() {
+					$.post('/draft/' + contestInfo._id,
 						'playerID=' + playerID + '&contestID=' + contestInfo._id,
 						function(data) {
 							if (data.success) {
-								console.log(playerID);
-								$addRemoveButton = $('#playerChoose' + playerID);
-								if ($addRemoveButton.html() === 'Add') {
-									$addRemoveButton.html('Remove');
-									$addRemoveButton.addClass('player-remove');
-								} else {
-									$addRemoveButton.html('Add');
-									$addRemoveButton.removeClass('player-remove');
-								}
+								//Success
 							} else {
-								console.log("ERROR");
+								//Error
 							}
 						});
-					});
-				})(playerID);
+
+					//Change button text depending on what it currently is
+
+					if (this.innerHTML === 'Add') {
+						this.innerHTML = 'Remove';
+						this.classList.add('player-remove');
+					} else {
+						this.innerHTML = 'Add';
+						this.classList.remove('player-remove');
+					}
+				});
 			}
 		}});
 	}
@@ -216,18 +224,20 @@ document.addEventListener('DOMContentLoaded', function() {
 	//================
 
 	if ($('.section-wrapper').attr('id') === 'score-wrapper') {
+
+		var playerScores = contestInfo.players;
+		console.log(userInfo);
+		console.log(contestInfo);
+
 		//List all usernames corresponding to the user ids that are in the contest entries
-		$('#score-wrapper').append($('<div/>').addClass('score-listing'));
+		$('#score-wrapper').append($('<div/>')addClass('score-listing').addClass('score-listing-header'));
 		$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text("Name").addClass('contest-player-name-header'));
 		$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text("Score").addClass('contest-score-header'));
 
-		console.log(userInfo);
-
-		for (var i = 0; i < userInfo.length; i++) {
-			$('#score-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('score-listing'));
-			console.log(userInfo[i]);
-			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text(contestUsers[i].username).addClass('contest-player-name'));
-			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text(contestUsers[i].points).addClass('contest-score'));
+		for (var i = 0; i < playerScores.length; i++) {
+			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').addClass('score-listing'));
+			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text(playerScores[i].id).addClass('contest-player-name'));
+			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text(playerScores[i].points).addClass('contest-score'));
 		}
 	}
 });
