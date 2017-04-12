@@ -91,41 +91,57 @@ module.exports = (callback) => {
 			var dateIndex = 0;	//Counter for which dateString to associate with this match.
 			var dateToIncrease = false;	//Boolean that determines whether or not we should increase the dateIndex.
 			var IsPostponed = false;
+			//Simply Delete the below variable if you want to get all upcoming games, not just the ones for the upcoming day.
+			var dateHasIncreased = false; //Boolean to keep track of if the date has increased once, if so, we don't add any more games to gameInfo.
+			var maybeIncreaseDate = false;
 			
 			async.each($matches, (match, next) => {
-				var game = {}
-				
-				//This check has to occur before cheerio.load(match), as that function modifies the match variable.
-				//The length = 1 edge case is to account for a random error in the code of hltv page that happens very rarely.
-				if (null !== match.next.next && (match.next.next.children.length === 0 || match.next.next.children.length === 1)) {
-					dateToIncrease = true;
-				}
-				var $b = cheerio.load(match);
-				$timeCell = $b('.matchTimeCell');
-				if ($timeCell.text() !== 'LIVE' && $timeCell.text() !== 'Finished' && $timeCell.text() !== 'Postponed') {
-					var matchURL = $b('.matchActionCell').html().match(/"(.*)"/)[1];
-					var matchInfo = matchURL.substring(7);
-					var matchTime = $timeCell.text();
+				if (!dateHasIncreased) {
+					var game = {}
 					
-					game.id = matchInfo.substring(0, 7);
-					gameDate = dateInfo[dateIndex];
+					//This check has to occur before cheerio.load(match), as that function modifies the match variable.
+					//The length = 1 edge case is to account for a random error in the code of hltv page that happens very rarely.
+					if (null !== match.next.next && (match.next.next.children.length === 0 || match.next.next.children.length === 1)) {
+						dateToIncrease = true;
+					}
+					var $b = cheerio.load(match);
+					$timeCell = $b('.matchTimeCell');
 					
-					game.date = new Date(gameDate.month + " " + gameDate.day + ", " + gameDate.year + " " + matchTime + ":00 GMT+02:00");
+					//The following two if statements are because the game preceding a finished or postponed game has the same layout
+					//	as that of the last game on a day. So, we check for that and reverse the date increase on the next game
+					//	which has either finished or been postponed.
+					if ($timeCell.text().trim() === 'Postponed' || $timeCell.text().trim() === 'Finished') {
+						dateIndex--;
+						maybeIncreaseDate = false;
+					}
+					if (maybeIncreaseDate) {
+                        dateHasIncreased = true;
+                    }
 					
-					gameInfo.push(game);
-				}
-				else {
-					dateToIncrease = false;
-				}
-				if ($timeCell.text().trim() === 'Postponed') {
-					dateIndex--;
-                }
-				if (dateToIncrease) {
-					dateIndex++;
-					dateToIncrease = false;
+					if (!dateHasIncreased && $timeCell.text().trim() !== 'LIVE' && $timeCell.text().trim() !== 'Finished' && $timeCell.text().trim() !== 'Postponed') {
+						var matchURL = $b('.matchActionCell').html().match(/"(.*)"/)[1];
+						var matchInfo = matchURL.substring(7);
+						var matchTime = $timeCell.text();
+					
+						game.id = matchInfo.substring(0, 7);
+						gameDate = dateInfo[dateIndex];
+					
+						game.date = new Date(gameDate.month + " " + gameDate.day + ", " + gameDate.year + " " + matchTime + ":00 GMT+02:00");
+						gameInfo.push(game);
+					}
+					else {
+						dateToIncrease = false;
+					}
+					
+					
+					if (dateToIncrease) {
+						maybeIncreaseDate = true;
+						dateIndex++;
+						dateToIncrease = false;
+					}
+					
 				}
 				next();
-
 			}, (err) => {
 				if (err) {
 					callback(err);

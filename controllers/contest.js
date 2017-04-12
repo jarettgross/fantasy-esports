@@ -10,7 +10,6 @@ module.exports = {
 
 		Contest.findById(req.params.id, function(err, contest) {
 			if (contest !== null) {
-				var contestUsersInfo = [];
 				var userIDs = contest.entries.user_ids;
 
 				async.waterfall([
@@ -21,15 +20,16 @@ module.exports = {
 								if (user !== null) {
 									for (var j = 0; j < user.contests.length; j++) {
 										if (user.contests[j].id === contest._id) {
-											done(null, {
+											return done(null, {
 												id:       user._id,
 												username: user.username,
 												points:   user.contests[j].points
 											});
-										} else {
-											done(null);
 										}
 									}
+									done(null);
+								} else {
+									done(null);
 								}
 							});
 						}, function(err, contestUsersInfo) {

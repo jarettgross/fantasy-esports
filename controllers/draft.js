@@ -3,20 +3,39 @@ const User    = require('../models/User');
 
 module.exports = {
 	postUserInfo: function(req, res, next) {
+		var checker = false;
 		for (var i = 0; i < req.user.contests.length; i++) {
 			//Find contest in user data
-			if (req.user.contests[i].id === req.body.contestID) {
+			if (req.user.contests[i].id == req.body.contestID) {
+				checker = true;
+				//console.log(req.user.contests[i]);
 				var contest = req.user.contests[i];
-				for (var j = 0; j < contest.team.length; j++) {
-					//If player is on team, remove player from team, otherwise add player to team
-					if (contest.team[j] === req.body.playerID) {
-						contest.team.splice(j, 1);
-					} else {
-						contest.team.push(playerID);
-					}
+				//console.log(contest.team.length);
+				if(contest.team.length == 0){
+					//console.log("Did something");
+					contest.team.push(req.body.playerID);
+					//console.log(contest);
+					req.user.contests[i] = contest;
 					req.user.save();
 				}
+				else{
+					for (var j = 0; j < contest.team.length; j++) {
+						//If player is on team, remove player from team, otherwise add player to team
+						if (contest.team[j] == req.body.playerID) {
+							contest.team.splice(j, 1);
+						} else {
+							contest.team.push(req.body.playerID);
+							req.user.contest[i] = contest;
+						}
+						req.user.save();
+					}
+				}
 			}
+		}
+		if(checker == false){
+			var newcontest = [req.body.contestID, [req.body.playerID], 0, false];
+			req.user.contests.push(newcontest);
+			req.user.save();
 		}
 	},
 
