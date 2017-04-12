@@ -185,21 +185,14 @@ document.addEventListener('DOMContentLoaded', function() {
 				var playerID = players[i][1].split(":")[1];
 				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').addClass('player-add-remove-wrapper'));
 				$('#draft-wrapper').find('.player-add-remove-wrapper').last().append($('<div/>').text('Add').attr('id', 'playerChoose' + playerID).addClass('player-add'));
-			}
-
-			//Get all "playerChoose" buttons
-			var playerAdder = document.querySelectorAll('.player-add');
-
-			//Find which button was clicked
-			for (var i = 0; i < playerAdder.length; i++) {
-				var playerID = players[i][1].split(':')[1];
-				//On "playerChoose" click, send post request to back-end to set player team
+			
 				(function(playerID) {
 					$('#playerChoose' + playerID).click(function() {
 						$.post('/draft/' + contestInfo._id,
 						'playerID=' + playerID + '&contestID=' + contestInfo._id,
 						function(data) {
 							if (data.success) {
+								console.log(playerID);
 								$addRemoveButton = $('#playerChoose' + playerID);
 								if ($addRemoveButton.html() === 'Add') {
 									$addRemoveButton.html('Remove');
