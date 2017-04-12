@@ -6,21 +6,26 @@ module.exports = {
 		for (var i = 0; i < req.user.contests.length; i++) {
 			//Find contest in user data
 			if (req.user.contests[i].id == req.body.contestID) {
+				console.log(req.user.contests[i]);
 				var contest = req.user.contests[i];
 				if (contest.team.length == 0) {
 					contest.team.push(req.body.playerID);
 					req.user.contests[i] = contest;
 					req.user.save();
 				} else {
+					var checker = 0;
 					for (var j = 0; j < contest.team.length; j++) {
 						//If player is on team, remove player from team, otherwise add player to team
-						if (contest.team[j] == req.body.playerID) {
-							contest.team.splice(j, 1);
-						} else {
-							contest.team.push(req.body.playerID);
-							req.user.contest[i] = contest;
-						}
-						req.user.save();
+							if (contest.team[j] == req.body.playerID) {
+								contest.team.splice(j, 1);
+							} else {
+								checker++;
+							}
+							if(checker == contest.team.length){
+								contest.team.push(req.body.playerID);
+								req.user.contests[i] = contest;
+								req.user.save();
+							}
 					}
 				}
 			}
