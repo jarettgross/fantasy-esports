@@ -4,12 +4,8 @@ const User    = require('../models/User');
 module.exports = {
 	postUserInfo: function(req, res, next) {
 		var checker = false;
-		console.log("plz");
 		for (var i = 0; i < req.user.contests.length; i++) {
 			//Find contest in user data
-			//console.log(req.user.contests);
-			console.log("Space");
-			console.log(req.body.contestID);
 			if (req.user.contests[i].id == req.body.contestID) {
 				checker = true;
 				//console.log(req.user.contests[i]);
@@ -24,16 +20,10 @@ module.exports = {
 				}
 				else{
 					for (var j = 0; j < contest.team.length; j++) {
-						//console.log("?");
-						//console.log(contest.team[j]);
-						//console.log("Line");
-						//console.log(req.body.playerID);
 						//If player is on team, remove player from team, otherwise add player to team
 						if (contest.team[j] == req.body.playerID) {
-							console.log("same");
 							contest.team.splice(j, 1);
 						} else {
-							console.log("diff");
 							contest.team.push(req.body.playerID);
 							req.user.contest[i] = contest;
 						}
@@ -43,7 +33,6 @@ module.exports = {
 			}
 		}
 		if(checker == false){
-			console.log("Success?");
 			var newcontest = [req.body.contestID, [req.body.playerID], 0, false];
 			req.user.contests.push(newcontest);
 			req.user.save();
