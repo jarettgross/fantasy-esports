@@ -128,7 +128,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		$.ajax({ url: "../js/lib/AllStats.csv", success: function(csv) {
 			allPlayers = processData(csv);
 			var playersInfo = contestInfo.players;
-			console.log(playersInfo);
 			
 			//Get player data for each player that is in the contest
 			var players = [];
@@ -181,6 +180,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 				var team = players[i][10].split(":")[1];
 				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text(team).addClass('player-team'));
+				
+				var projectedScore = projectScore(kills, headshots, deaths, roundsPlayed, assists);
 
 				var playerID = players[i][1].split(":")[1];
 				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').addClass('player-add-remove-wrapper'));
@@ -222,10 +223,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text("Score").addClass('contest-score-header'));
 
 		console.log(userInfo);
+		console.log("Contest stuff:");
+		console.log(contestInfo);
 
 		for (var i = 0; i < userInfo.length; i++) {
 			$('#score-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('score-listing'));
-			console.log(userInfo[i]);
 			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text(contestUsers[i].username).addClass('contest-player-name'));
 			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text(contestUsers[i].points).addClass('contest-score'));
 		}
@@ -254,4 +256,35 @@ function processData(allText) {
         }
     }
     return lines;
+}
+
+function projectScore(kills, headshots, deaths, roundsPlayed, assists) {
+    var kTotal = parseInt(kills);
+	var headshotsFloat = parseFloat(headshots.substring(0, headshots.length-1))/100;
+	var h = Math.round(headshotsFloat * kTotal);
+	var k = kTotal - h;
+	
+	var d = parseInt(deaths);
+	var rp = parseInt(roundsPlayed);
+	var a = parseInt(assists);
+	
+	var kWeight = 1.0;
+	var hWeight = 1.5;
+	var dWeight = -0.5;
+	var rpWeight = 0.5;
+	var aWeight = 0.2;
+	
+	var finalWeight = 60;
+	
+	
+	var weightsSum = k * kWeight + h * hWeight + d * dWeight + a * aWeight;
+	var projectedScore = Math.round(weightsSum/(rp*rpWeight)*finalWeight);
+	/*if (projectedScore < 70) {
+        projectedScore = 70;
+    }
+	else if (projectedScore > 95) {
+        projectedScore = 90;
+    }*/
+	//console.log(projectedScore);
+	return projectedScore;
 }
