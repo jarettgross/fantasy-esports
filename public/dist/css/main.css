@@ -73,6 +73,32 @@
   -moz-justify-content: center;
   justify-content: center; }
 
+#fantasy-esports-header {
+  text-align: center;
+  margin-bottom: 5px;
+  font-weight: 700;
+  font-size: 48px; }
+
+#how-to-use-wrapper {
+  text-align: center;
+  margin-bottom: 30px; }
+
+#how-to-use {
+  background-color: #505260;
+  color: #FFFFFF;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  -webkit-transition: background-color 0.2s ease;
+  -moz-transition: background-color 0.2s ease;
+  -ms-transition: background-color 0.2s ease;
+  -o-transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease; }
+  #how-to-use:hover {
+    cursor: pointer;
+    background-color: #000000; }
+
 #signup-overlay {
   width: 100%;
   height: 100%;

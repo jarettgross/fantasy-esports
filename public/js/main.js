@@ -206,9 +206,6 @@ document.addEventListener('DOMContentLoaded', function() {
 									console.log("ERROR");
 								}
 							});
-
-						//Change button text depending on what it currently is
-
 					});
 				})(playerID);
 			}
