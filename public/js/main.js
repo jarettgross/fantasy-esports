@@ -186,36 +186,31 @@ document.addEventListener('DOMContentLoaded', function() {
 				var playerID = players[i][1].split(":")[1];
 				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').addClass('player-add-remove-wrapper'));
 				$('#draft-wrapper').find('.player-add-remove-wrapper').last().append($('<div/>').text('Add').attr('id', 'playerChoose' + playerID).addClass('player-add'));
-			}
+			
+				(function(playerID) {
+					$('#playerChoose' + playerID).click(function() {
+						$.post('/draft/' + contestInfo._id,
+							'playerID=' + playerID + '&contestID=' + contestInfo._id,
+							function(data) {
+								if (data.success) {
+									console.log(playerID);
+									$addRemoveButton = $('#playerChoose' + playerID);
+									if ($addRemoveButton.html() === 'Add') {
+										$addRemoveButton.html('Remove');
+										$addRemoveButton.addClass('player-remove');
+									} else {
+										$addRemoveButton.html('Add');
+										$addRemoveButton.removeClass('player-remove');
+									}
+								} else {
+									console.log("ERROR");
+								}
+							});
 
-			//Get all "playerChoose" buttons
-			var playerAdder = document.querySelectorAll('.player-add');
+						//Change button text depending on what it currently is
 
-			//Find which button was clicked
-			for (var i = 0; i < playerAdder.length; i++) {
-				var playerID = players[i][1].split(':')[1];
-				//On "playerChoose" click, send post request to back-end to set player team
-				$('#playerChoose' + playerID).click(function() {
-					$.post('/draft/' + contestInfo._id,
-						'playerID=' + playerID + '&contestID=' + contestInfo._id,
-						function(data) {
-							if (data.success) {
-								//Success
-							} else {
-								//Error
-							}
-						});
-
-					//Change button text depending on what it currently is
-
-					if (this.innerHTML === 'Add') {
-						this.innerHTML = 'Remove';
-						this.classList.add('player-remove');
-					} else {
-						this.innerHTML = 'Add';
-						this.classList.remove('player-remove');
-					}
-				});
+					});
+				})(playerID);
 			}
 		}});
 	}
