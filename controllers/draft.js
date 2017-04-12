@@ -8,13 +8,9 @@ module.exports = {
 			//Find contest in user data
 			if (req.user.contests[i].id == req.body.contestID) {
 				checker = true;
-				//console.log(req.user.contests[i]);
 				var contest = req.user.contests[i];
-				//console.log(contest.team.length);
 				if(contest.team.length == 0){
-					//console.log("Did something");
 					contest.team.push(req.body.playerID);
-					//console.log(contest);
 					req.user.contests[i] = contest;
 					req.user.save();
 				}
