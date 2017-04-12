@@ -194,27 +194,26 @@ document.addEventListener('DOMContentLoaded', function() {
 			for (var i = 0; i < playerAdder.length; i++) {
 				var playerID = players[i][1].split(':')[1];
 				//On "playerChoose" click, send post request to back-end to set player team
-				$('#playerChoose' + playerID).click(function() {
-					$.post('/draft/' + contestInfo._id,
+				(function(playerID) {
+					$('#playerChoose' + playerID).click(function() {
+						$.post('/draft/' + contestInfo._id,
 						'playerID=' + playerID + '&contestID=' + contestInfo._id,
 						function(data) {
 							if (data.success) {
-								//Success
+								$addRemoveButton = $('#playerChoose' + playerID);
+								if ($addRemoveButton.html() === 'Add') {
+									$addRemoveButton.html('Remove');
+									$addRemoveButton.addClass('player-remove');
+								} else {
+									$addRemoveButton.html('Add');
+									$addRemoveButton.removeClass('player-remove');
+								}
 							} else {
-								//Error
+								console.log("ERROR");
 							}
 						});
-
-					//Change button text depending on what it currently is
-
-					if (this.innerHTML === 'Add') {
-						this.innerHTML = 'Remove';
-						this.classList.add('player-remove');
-					} else {
-						this.innerHTML = 'Add';
-						this.classList.remove('player-remove');
-					}
-				});
+					});
+				})(playerID);
 			}
 		}});
 	}

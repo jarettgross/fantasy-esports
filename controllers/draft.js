@@ -3,18 +3,15 @@ const User    = require('../models/User');
 
 module.exports = {
 	postUserInfo: function(req, res, next) {
-		var checker = false;
 		for (var i = 0; i < req.user.contests.length; i++) {
 			//Find contest in user data
 			if (req.user.contests[i].id == req.body.contestID) {
-				checker = true;
 				var contest = req.user.contests[i];
-				if(contest.team.length == 0){
+				if (contest.team.length == 0) {
 					contest.team.push(req.body.playerID);
 					req.user.contests[i] = contest;
 					req.user.save();
-				}
-				else{
+				} else {
 					for (var j = 0; j < contest.team.length; j++) {
 						//If player is on team, remove player from team, otherwise add player to team
 						if (contest.team[j] == req.body.playerID) {
@@ -28,11 +25,9 @@ module.exports = {
 				}
 			}
 		}
-		if(checker == false){
-			var newcontest = [req.body.contestID, [req.body.playerID], 0, false];
-			req.user.contests.push(newcontest);
-			req.user.save();
-		}
+		res.send({
+			success: true
+		});
 	},
 
 	getInfo: function(req, res, next) {
