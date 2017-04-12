@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			//Find which button was clicked
 			for (var i = 0; i < playerAdder.length; i++) {
 				var playerID = players[i][1].split(':')[1];
-
+				console.log(playerID);
 				//On "playerChoose" click, send post request to back-end to set player team
 				$('#playerChoose' + playerID).click(function() {
 					$.post('/draft/' + contestInfo._id,
@@ -207,7 +207,12 @@ document.addEventListener('DOMContentLoaded', function() {
 						});
 
 					//Change button text depending on what it currently is
+
 					if (this.innerHTML === 'Add') {
+						console.log("This");
+						console.log(this.id.substring(12));
+						console.log("add button")
+						console.log(playerID);
 						this.innerHTML = 'Remove';
 						this.classList.add('player-remove');
 					} else {
