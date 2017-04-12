@@ -401,3 +401,16 @@
     border-bottom-style: solid;
     border-bottom-width: 1px;
     margin-bottom: 50px; }
+
+.about-heading {
+  text-align: center;
+  font-size: 44px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 15px; }
+
+.about-text {
+  width: 70%;
+  font-size: 20px;
+  margin: auto;
+  margin-bottom: 30px; }

@@ -28,6 +28,7 @@ const draftController    = require('./controllers/draft');
 const notFoundController = require('./controllers/404');
 const confirmController  = require('./controllers/confirm');
 const scoreController    = require('./controllers/score');
+const aboutController    = require('./controllers/about');
 
 //Passport configuration
 const passportConfig = require('./config/passport');
@@ -92,6 +93,9 @@ app.get('/score/:id', scoreController.getInfo);
 
 //Go to confirm Screen
 app.get('/confirm/:id', confirmController.getInfo);
+
+//About
+app.get('/about', aboutController.getAbout);
 
 //Anything else (404)
 app.get('*', notFoundController.notFound);

@@ -9,6 +9,7 @@
 // 5 Index
 // 6 Draft
 // 7 Contest
+// 8 About
 
 //====================
 // 1 Imports
@@ -510,4 +511,23 @@ $dark-link-color: #24A1C7;
 		border-bottom-width: 1px;
 		margin-bottom: 50px;
 	}
+}
+
+//====================
+// 8 About
+//====================
+
+.about-heading {
+	text-align: center;
+	font-size: 44px;
+	font-weight: 700;
+	text-transform: uppercase;
+	margin-bottom: 15px;
+}
+
+.about-text {
+	width: 70%;
+	font-size: 20px;
+	margin: auto;
+	margin-bottom: 30px;
 }
