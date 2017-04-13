@@ -414,3 +414,43 @@
   font-size: 20px;
   margin: auto;
   margin-bottom: 30px; }
+
+.score-listing-header {
+  font-size: 12px;
+  width: 50%;
+  margin: auto;
+  padding: 0 30px;
+  border-style: solid solid hidden solid;
+  border-width: 1px;
+  border-color: #000;
+  background-color: #FFFFFF;
+  color: #000000;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  background-color: #E85F66; }
+  .score-listing-header > div {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #FFFFFF !important; }
+  .score-listing-header .player-name-header {
+    width: 65%; }
+  .score-listing-header .player-score-header {
+    width: 35%;
+    text-align: center; }
+
+.player-listing {
+  margin: auto;
+  width: 50%;
+  border-style: solid solid hidden solid;
+  border-width: 1px;
+  padding: 5px 30px;
+  color: black; }
+  .player-listing > div {
+    display: inline-block; }
+  .player-listing .contest-player-name {
+    width: 65%;
+    color: #26B3DE; }
+  .player-listing .contest-player-score {
+    width: 35%;
+    text-align: center; }

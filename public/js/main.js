@@ -223,14 +223,15 @@ document.addEventListener('DOMContentLoaded', function() {
 		console.log(contestInfo);
 
 		//List all usernames corresponding to the user ids that are in the contest entries
-		$('#score-wrapper').append($('<div/>').addClass('score-listing').addClass('score-listing-header'));
-		$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text("Name").addClass('contest-player-name-header'));
-		$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text("Score").addClass('contest-score-header'));
+		$('#score-wrapper').append($('<div/>').addClass('score-listing'));
+		$('#score-wrapper').find('div.score-listing').last().append($('<div/>').addClass('score-listing-header'));
+		$('#score-wrapper').find('div.score-listing-header').last().append($('<div/>').text("Name").addClass('player-name-header'));
+		$('#score-wrapper').find('div.score-listing-header').last().append($('<div/>').text("Score").addClass('player-score-header'));
 		
 		for (var i = 0; i < playerScores.length; i++) {
-			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').addClass('score-listing'));
-			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text(playerScores[i].id).addClass('contest-player-name'));
-			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').text(playerScores[i].points).addClass('contest-score'));
+			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').addClass('player-listing'));
+			$('#score-wrapper').find('div.player-listing').last().append($('<div/>').text(playerScores[i].id).addClass('contest-player-name'));
+			$('#score-wrapper').find('div.player-listing').last().append($('<div/>').text(playerScores[i].points).addClass('contest-player-score'));
 		}
 	}
 });
