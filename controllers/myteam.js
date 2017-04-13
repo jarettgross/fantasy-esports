@@ -39,11 +39,10 @@ module.exports = {
 									//Ongoing contest
 									if (contest.entered) {
 										return done(null, {
-											firstContest:  req.query.contestID,
-											contestName:   contestInfo.name,
-											contestID:     contest.id,
-											contestStatus: 'ongoing',
-											teamIDs:       contest.team
+											name:    contestInfo.name,
+											id:      contest.id,
+											status: 'ongoing',
+											teamIDs: contest.team
 										});
 									} else {
 										return done(null);
@@ -51,21 +50,19 @@ module.exports = {
 								} else if (startDate > today) {
 									//Contest not started
 									return done(null, {
-										firstContest:  req.query.contestID,
-										contestName:   contestInfo.name,
-										contestID:     contest.id,
-										contestStatus: 'upcoming',
-										teamIDs:       contest.team
+										name:    contestInfo.name,
+										id:      contest.id,
+										status:  'upcoming',
+										teamIDs: contest.team
 									});
 								} else if (endDate < today) {
 									//Contest finished
 									if (contest.entered) {
 										return done(null, {
-											firstContest:  req.query.contestID,
-											contestName:   contestInfo.name,
-											contestID:     contest.id,
-											contestStatus: 'finished',
-											teamIDs:       contest.team
+											name:    contestInfo.name,
+											id:      contest.id,
+											status:  'finished',
+											teamIDs: contest.team
 										});
 									} else {
 										return done(null);
@@ -83,8 +80,14 @@ module.exports = {
 				}
 
 			], function (err, contestsInfo) {
+				if (req.query.contestID === undefined) {
+					var initialContest = undefined;
+				} else {
+					initialContest = req.query.contestID;
+				}
 				res.render('myteam', {
-					contestsInfo: JSON.stringify(contestsInfo)
+					contestsInfo: JSON.stringify(contestsInfo),
+					initialContest: initialContest
 				});
 			});
 		} else {

@@ -2,9 +2,14 @@ extends layout
 
 block scripts
 	script(type='text/javascript').
-		//var userInfo = JSON.parse("#{userInfo}".replace(/&quot;/g,'"'));
 		var contestsInfo = JSON.parse("#{contestsInfo}".replace(/&quot;/g,'"'));
+		var initialContest = "#{initialContest}";
 
 block content
 	include partials/header
 	.section-wrapper#my-team-wrapper
+		select#select-contest
+		#my-team-list
+		a#continue-drafting-button Continue Drafting
+		#enter-team-button Enter Team
+		a#view-scoreboard-button View Scoreboard

@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 				var playerID = players[i][1].split(":")[1];
 				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').addClass('player-add-remove-wrapper'));
-				$('#draft-wrapper').find('.player-add-remove-wrapper').last().append($('<div/>').text('Add').attr('id', 'playerChoose' + playerID).addClass('player-add'));
+				$('#draft-wrapper').find('.player-add-remove-wrapper').last().append($('<div/>').text('ADD').attr('id', 'playerChoose' + playerID).addClass('player-add'));
 			
 				(function(playerID) {
 					$('#playerChoose' + playerID).click(function() {
@@ -205,23 +205,87 @@ document.addEventListener('DOMContentLoaded', function() {
 							'playerID=' + playerID + '&contestID=' + contestInfo._id,
 							function(data) {
 								if (data.success) {
-									console.log(playerID);
 									$addRemoveButton = $('#playerChoose' + playerID);
-									if ($addRemoveButton.html() === 'Add') {
-										$addRemoveButton.html('Remove');
+									if ($addRemoveButton.html() === 'ADD') {
+										$addRemoveButton.html('REMOVE');
 										$addRemoveButton.addClass('player-remove');
 									} else {
-										$addRemoveButton.html('Add');
+										$addRemoveButton.html('ADD');
 										$addRemoveButton.removeClass('player-remove');
 									}
 								} else {
-									console.log("ERROR");
+									console.log('ERROR');
 								}
 							});
 					});
 				})(playerID);
 			}
 		}});
+	}
+
+	//=================
+	// MY TEAM PAGE
+	//=================
+
+	if ($('.section-wrapper').attr('id') === 'my-team-wrapper') {
+		var setDefault = false;
+		for (var i = 0; i < contestsInfo.length; i++) {
+			if (contestsInfo[i] !== null) {
+			    var option = document.createElement('option');
+			    option.value = contestsInfo[i].id;
+			    option.text = contestsInfo[i].name.replace(/&amp;/g, "&");
+			    $('#select-contest').append(option);
+
+			    //Initial selected option is link we came from
+			    if (initialContest === undefined && !setDefault) {
+			    	$('#select-contest').val(contestsInfo[i].id);
+			    	setMyTeamButtons(contestsInfo[i]);
+			    	setMyTeamPlayers(contestsInfo[i]);
+					setDefault = true;
+			    } else if (contestsInfo[i].id === initialContest) {
+			    	$('#select-contest').val(contestsInfo[i].id);
+			    	setMyTeamButtons(contestsInfo[i]);
+			    	setMyTeamPlayers(contestsInfo[i]);
+			    	setDefault = true;
+			    }
+			}
+		}
+
+		//Display different team when contest dropdown selection changes
+		$('#select-contest').change(function() {
+			for (var i = 0; i < contestsInfo.length; i++) {
+				if (contestsInfo[i] !== null) {
+					if (contestsInfo[i].id === $('#select-contest').val()) {
+						if (contestsInfo[i].status === 'upcoming') {
+							$('#view-scoreboard-button').addClass('hide');
+							$('#enter-team-button').removeClass('hide');
+							$('#continue-drafting-button').attr('href', '/draft/' + contestsInfo[i].id);
+						} else if (contestsInfo[i].status === 'ongoing' || contestsInfo[i].status === 'finished') {
+							$('#enter-team-button').addClass('hide');
+							$('#view-scoreboard-button').removeClass('hide');
+							$('#view-scoreboard-button').attr('href', '/contest/' + contestsInfo[i].id);
+						}
+
+						//Empty team list and repopulate with team members for selected contest
+						setMyTeamPlayers(contestsInfo[i]);
+					}
+				}
+			}
+		});
+
+		//Send contest id for team being entered
+		$('#enter-team-button').click(function() {
+			$.post(
+				'/myteam',
+				'contestID=' + $('#select-game').val(),
+				function(data) {
+					if (data.success) {
+						$('#submit-message').html('Your team has been entered into the contest!').removeClass('hide').removeClass('submit-error').addClass('submit-success');
+					} else {
+						$('#submit-message').html('You need five players on your team!').removeClass('hide').removeClass('submit-success').addClass('submit-error');
+					}
+				});
+		});
 	}
 	
 	//================
@@ -301,4 +365,66 @@ function projectScore(kills, headshots, deaths, roundsPlayed, assists) {
     }*/
 	//console.log(projectedScore);
 	return projectedScore;
+}
+
+function setMyTeamButtons(info) {
+	if (info.status === 'upcoming') {
+		$('#view-scoreboard-button').addClass('hide');
+		$('#enter-team-button').removeClass('hide');
+		$('#continue-drafting-button').attr('href', '/draft/' + info.id);
+	} else if (info.status === 'ongoing' || info.status === 'finished') {
+		$('#enter-team-button').addClass('hide');
+		$('#view-scoreboard-button').removeClass('hide');
+		$('#view-scoreboard-button').attr('href', '/contest/' + info.id);
+	}
+}
+
+function setMyTeamPlayers(info) {
+	$('#my-team-list').empty();
+	$('#my-team-list').append($('<div/>').addClass('player-listing').addClass('player-listing-header'));
+	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Name").addClass('player-name'));
+	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Kills").addClass('player-kills'));
+	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Headshot %").addClass('player-headshots'));
+	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Deaths").addClass('player-deaths'));
+	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("# Rounds").addClass('player-roundsP'));
+	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Assists").addClass('player-assists'));
+	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Team Name").addClass('player-team'));
+
+	var teamPlayers = info.teamIDs;
+	var allPlayers = [];
+	$.ajax({ url: '../js/lib/AllStats.csv', success: function(csv) {
+		allPlayers = processData(csv);
+
+		var players = [];
+		for (var i = 0; i < allPlayers.length; i++) {
+			for (var j = 0; j < teamPlayers.length; j++) {
+				var playerID = parseInt(allPlayers[i][1].split(':')[1]);
+				if (playerID === teamPlayers[j]) {
+					//Found player in csv file
+					var names = allPlayers[i][0].split(":")[1];
+					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(names).addClass('player-name'));
+
+					var kills = allPlayers[i][2].split(":")[1];
+					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(kills).addClass('player-kills'));
+
+					var headshots = allPlayers[i][3].split(":")[1];
+					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(headshots).addClass('player-headshots'));
+
+					var deaths = allPlayers[i][4].split(":")[1];
+					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(deaths).addClass('player-deaths'));
+
+					var roundsPlayed = allPlayers[i][5].split(":")[1];
+					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(roundsPlayed).addClass('player-roundsP'));
+
+					var assists = allPlayers[i][6].split(":")[1];
+					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(assists).addClass('player-assists'));
+
+					var team = allPlayers[i][10].split(":")[1];
+					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(team).addClass('player-team'));
+					
+					var projectedScore = projectScore(kills, headshots, deaths, roundsPlayed, assists);
+				}
+			}
+		}
+	}});
 }
