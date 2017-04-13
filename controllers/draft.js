@@ -7,7 +7,7 @@ module.exports = {
 			var contestID = encodeURIComponent(req.body.contestID);
 			res.send({
 				success: true,
-				redirect: '/myteam?contest=' + contestID
+				redirect: '/myteam?contestID=' + contestID
 			});
 		} else {
 			for (var i = 0; i < req.user.contests.length; i++) {

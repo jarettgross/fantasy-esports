@@ -19,7 +19,7 @@ module.exports = {
 							User.findById(id, '_id username contests', function(err, user) {
 								if (user !== null) {
 									for (var j = 0; j < user.contests.length; j++) {
-										if (user.contests[j].id === contest._id) {
+										if (user.contests[j].id === contest._id && user.contests[j].entered) {
 											return done(null, {
 												id:       user._id,
 												username: user.username,
