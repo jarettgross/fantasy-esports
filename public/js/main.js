@@ -123,13 +123,24 @@ document.addEventListener('DOMContentLoaded', function() {
 	//=================
 
 	if ($('.section-wrapper').attr('id') === 'draft-wrapper') {
+		$('#my-team-button').click(function() {
+			$.post('/draft/' + contestInfo._id, 
+				'isMyTeam=' + true + '&contestID=' + contestInfo._id,
+				function(data) {
+					if (data.success) {
+						window.location = data.redirect;
+					} else {
+						//Error
+					}
+				});
+		});
+
 		//Relevant contestInfo should be saved in a value called contestInfo
 		var allPlayers = [];
 		$.ajax({ url: "../js/lib/AllStats.csv", success: function(csv) {
 			allPlayers = processData(csv);
 			var playersInfo = contestInfo.players;
-			console.log(allPlayers);
-			console.log(playersInfo);
+
 			//Get player data for each player that is in the contest
 			var players = [];
 			for (var i = 0; i < allPlayers.length; i++) {

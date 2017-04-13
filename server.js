@@ -25,6 +25,7 @@ const indexController    = require('./controllers/index');
 const userController     = require('./controllers/manageUser');
 const contestController  = require('./controllers/contest');
 const draftController    = require('./controllers/draft');
+const myTeamController   = require('./controllers/myteam');
 const notFoundController = require('./controllers/404');
 const confirmController  = require('./controllers/confirm');
 const scoreController    = require('./controllers/score');
@@ -86,7 +87,11 @@ app.get('/contest/:id', contestController.getInfo);
 
 //View Player Draft
 app.get('/draft/:id', draftController.getInfo);
-app.post('/draft/:id', draftController.postUserInfo);
+app.post('/draft/:id', draftController.postPlayerDraft);
+
+//My Team
+app.get('/myteam', myTeamController.getTeam);
+app.post('/myteam', myTeamController.postSubmitTeam);
 
 //View Team Score
 app.get('/score/:id', scoreController.getInfo);
