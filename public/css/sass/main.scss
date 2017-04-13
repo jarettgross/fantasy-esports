@@ -10,6 +10,7 @@
 // 6 Draft
 // 7 Contest
 // 8 About
+// 9 Score
 
 //====================
 // 1 Imports
@@ -533,11 +534,11 @@ $dark-link-color: #24A1C7;
 }
 
 //====================
-// 9 Score Page
+// 9 Score
 //====================
 
 .score-listing-header {
-	font-size: 12px;
+	font-size: 22px;
 	width: 50%;
 	margin: auto;
 	padding: 0 30px;
@@ -552,7 +553,7 @@ $dark-link-color: #24A1C7;
 
 	> div {
 		display: inline-block;
-		font-size: 12px;
+		font-size: 14px;
 		font-weight: 700;
 		color: #FFFFFF !important;
 	}

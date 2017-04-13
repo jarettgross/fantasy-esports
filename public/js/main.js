@@ -128,7 +128,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		$.ajax({ url: "../js/lib/AllStats.csv", success: function(csv) {
 			allPlayers = processData(csv);
 			var playersInfo = contestInfo.players;
-			
+			console.log(allPlayers);
+			console.log(playersInfo);
 			//Get player data for each player that is in the contest
 			var players = [];
 			for (var i = 0; i < allPlayers.length; i++) {

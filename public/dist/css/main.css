@@ -416,7 +416,7 @@
   margin-bottom: 30px; }
 
 .score-listing-header {
-  font-size: 12px;
+  font-size: 22px;
   width: 50%;
   margin: auto;
   padding: 0 30px;
@@ -430,7 +430,7 @@
   background-color: #E85F66; }
   .score-listing-header > div {
     display: inline-block;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     color: #FFFFFF !important; }
   .score-listing-header .player-name-header {
