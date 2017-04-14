@@ -427,6 +427,29 @@ $dark-link-color: #24A1C7;
 	margin-bottom: 50px;
 }
 
+#my-team-button-wrapper {
+	width: 80%;
+	text-align: right;
+	margin: auto;
+	margin-bottom: 10px;
+
+	#my-team-button {
+		display: inline-block;
+		background-color: #505260;
+		color: #FFFFFF;
+		padding: 5px 10px;
+		border-radius: 5px;
+		font-size: 12px;
+		font-weight: 700;
+		@include transition(background-color .2s ease);
+
+		&:hover {
+			cursor: pointer;
+			background-color: #000000;
+		}
+	}
+}
+
 //====================
 // 7 Contest
 //====================

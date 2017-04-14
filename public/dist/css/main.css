@@ -334,6 +334,28 @@
   border-bottom-width: 1px;
   margin-bottom: 50px; }
 
+#my-team-button-wrapper {
+  width: 80%;
+  text-align: right;
+  margin: auto;
+  margin-bottom: 10px; }
+  #my-team-button-wrapper #my-team-button {
+    display: inline-block;
+    background-color: #505260;
+    color: #FFFFFF;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    -webkit-transition: background-color 0.2s ease;
+    -moz-transition: background-color 0.2s ease;
+    -ms-transition: background-color 0.2s ease;
+    -o-transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease; }
+    #my-team-button-wrapper #my-team-button:hover {
+      cursor: pointer;
+      background-color: #000000; }
+
 #page-contest-name {
   text-align: center;
   font-size: 36px;
