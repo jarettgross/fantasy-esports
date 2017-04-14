@@ -294,21 +294,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	if ($('.section-wrapper').attr('id') === 'score-wrapper') {
 
-		var playerScores = contestInfo.players;
+		//var playerScores = contestInfo.players;
 		console.log(userInfo);
 		console.log(contestInfo);
 
-		//List all usernames corresponding to the user ids that are in the contest entries
-		$('#score-wrapper').append($('<div/>').addClass('score-listing'));
-		$('#score-wrapper').find('div.score-listing').last().append($('<div/>').addClass('score-listing-header'));
-		$('#score-wrapper').find('div.score-listing-header').last().append($('<div/>').text("Name").addClass('player-name-header'));
-		$('#score-wrapper').find('div.score-listing-header').last().append($('<div/>').text("Score").addClass('player-score-header'));
-		
-		for (var i = 0; i < playerScores.length; i++) {
-			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').addClass('player-listing'));
-			$('#score-wrapper').find('div.player-listing').last().append($('<div/>').text(playerScores[i].id).addClass('contest-player-name'));
-			$('#score-wrapper').find('div.player-listing').last().append($('<div/>').text(playerScores[i].points).addClass('contest-player-score'));
-		}
+		var allPlayers = [];
+		$.ajax({ url: "../js/lib/AllStats.csv", success: function(csv) {
+			allPlayers = processData(csv);
+			var playersInfo = contestInfo.players;
+
+			//Get player data for each player that is in the contest
+			var players = [];
+			var scores = [];
+
+			for (var i = 0; i < allPlayers.length; i++) {
+				for (var j = 0; j < playersInfo.length; j++) {
+					var playerID = parseInt(allPlayers[i][1].split(':')[1]);
+					if (playerID === playersInfo[j].id) {
+						players.push(allPlayers[i]);
+						scores.push(playersInfo[j].points);
+					}
+				}
+			}
+
+			console.log(players);
+			console.log(scores);
+			//List all usernames corresponding to the user ids that are in the contest entries
+			$('#score-wrapper').append($('<div/>').addClass('score-listing'));
+			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').addClass('score-listing-header'));
+			$('#score-wrapper').find('div.score-listing-header').last().append($('<div/>').text("Name").addClass('player-name-header'));
+			$('#score-wrapper').find('div.score-listing-header').last().append($('<div/>').text("Score").addClass('player-score-header'));
+			
+			for (var i = 0; i < players.length; i++) {
+				var name = players[i][0].split(":")[1];
+				$('#score-wrapper').find('div.score-listing').last().append($('<div/>').addClass('player-listing'));
+				$('#score-wrapper').find('div.player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
+				$('#score-wrapper').find('div.player-listing').last().append($('<div/>').text(scores[i]).addClass('contest-player-score'));
+			}
+		}});
 	}
 });
 
