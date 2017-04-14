@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				(function(playerID) {
 					$('#playerChoose' + playerID).click(function() {
 						$.post('/draft/' + contestInfo._id,
-							'playerID=' + playerID + '&contestID=' + contestInfo._id,
+							'isMyTeam=' + false + '&playerID=' + playerID + '&contestID=' + contestInfo._id,
 							function(data) {
 								if (data.success) {
 									$addRemoveButton = $('#playerChoose' + playerID);
