@@ -6,6 +6,9 @@
 .section-wrapper {
   margin-top: 8%; }
 
+.hide {
+  display: none; }
+
 .nav-list {
   display: -webkit-box;
   display: -webkit-flex;
@@ -476,3 +479,157 @@
   .player-listing .contest-player-score {
     width: 35%;
     text-align: center; }
+
+#my-team-wrapper {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center; }
+
+#select-contest {
+  font-size: 36px;
+  margin-bottom: 30px; }
+
+#my-team-list {
+  width: 80%;
+  margin: auto;
+  margin-bottom: 10px; }
+
+.player-listing-header {
+  font-size: 12px;
+  width: 80%;
+  margin: auto;
+  padding: 0 30px;
+  border-style: solid solid hidden solid;
+  border-width: 1px;
+  border-color: #000;
+  background-color: #FFFFFF;
+  color: #000000;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  background-color: #E85F66; }
+  .player-listing-header > div {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #FFFFFF !important; }
+  .player-listing-header .player-name {
+    width: 20%; }
+  .player-listing-header .player-kills {
+    width: 10%;
+    text-align: center; }
+  .player-listing-header .player-headshots {
+    width: 10%;
+    text-align: center; }
+  .player-listing-header .player-deaths {
+    width: 10%;
+    text-align: center; }
+  .player-listing-header .player-roundsP {
+    width: 10%;
+    text-align: center; }
+  .player-listing-header .player-assists {
+    width: 10%;
+    text-align: center; }
+  .player-listing-header .player-team {
+    width: 20%;
+    text-align: center; }
+
+.player-listing {
+  margin: auto;
+  width: 80%;
+  border-style: solid solid hidden solid;
+  border-width: 1px;
+  padding: 5px 30px;
+  color: black; }
+  .player-listing > div {
+    display: inline-block; }
+  .player-listing .player-name {
+    width: 20%;
+    color: #26B3DE; }
+  .player-listing .player-kills {
+    width: 10%;
+    text-align: center; }
+  .player-listing .player-headshots {
+    width: 10%;
+    text-align: center; }
+  .player-listing .player-deaths {
+    width: 10%;
+    text-align: center; }
+  .player-listing .player-roundsP {
+    width: 10%;
+    text-align: center; }
+  .player-listing .player-assists {
+    width: 10%;
+    text-align: center; }
+  .player-listing .player-team {
+    width: 20%;
+    text-align: center; }
+
+.player-listing-footer {
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px; }
+
+#my-team-buttons-wrapper {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  justify-content: space-between;
+  width: 64%;
+  margin: auto;
+  margin-bottom: 10px; }
+  #my-team-buttons-wrapper #continue-drafting-button {
+    background-color: #E85F66;
+    color: #FFFFFF;
+    padding: 10px 30px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    -webkit-transition: background-color 0.2s ease;
+    -moz-transition: background-color 0.2s ease;
+    -ms-transition: background-color 0.2s ease;
+    -o-transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease; }
+    #my-team-buttons-wrapper #continue-drafting-button:hover {
+      background-color: #D63A42; }
+  #my-team-buttons-wrapper #enter-team-button {
+    background-color: #26B3DE;
+    color: #FFFFFF;
+    padding: 10px 30px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    -webkit-transition: background-color 0.2s ease;
+    -moz-transition: background-color 0.2s ease;
+    -ms-transition: background-color 0.2s ease;
+    -o-transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease; }
+    #my-team-buttons-wrapper #enter-team-button:hover {
+      background-color: #24A1C7; }
+  #my-team-buttons-wrapper #view-scoreboard-button {
+    background-color: #26B3DE;
+    color: #FFFFFF;
+    padding: 10px 30px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    -webkit-transition: background-color 0.2s ease;
+    -moz-transition: background-color 0.2s ease;
+    -ms-transition: background-color 0.2s ease;
+    -o-transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease; }
+    #my-team-buttons-wrapper #view-scoreboard-button:hover {
+      background-color: #24A1C7; }
+
+#submit-message {
+  color: #40ED77; }
+
+#error-message {
+  color: #D63A42; }

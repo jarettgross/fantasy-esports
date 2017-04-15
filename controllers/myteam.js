@@ -5,7 +5,7 @@ const async   = require('async');
 module.exports = {
 	postSubmitTeam: function(req, res, next) {
 		var contests = req.user.contests;
-		for (var i = 0; i < contests; i++) {
+		for (var i = 0; i < contests.length; i++) {
 			if (contests[i].id === req.body.contestID) {
 				if (contests[i].team.length === 5) {
 					contests[i].entered = true;

@@ -277,12 +277,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		$('#enter-team-button').click(function() {
 			$.post(
 				'/myteam',
-				'contestID=' + $('#select-game').val(),
+				'contestID=' + $('#select-contest').val(),
 				function(data) {
 					if (data.success) {
-						$('#submit-message').html('Your team has been entered into the contest!').removeClass('hide').removeClass('submit-error').addClass('submit-success');
+						$('#submit-message').removeClass('hide');
 					} else {
-						$('#submit-message').html('You need five players on your team!').removeClass('hide').removeClass('submit-success').addClass('submit-error');
+						$('#error-message').removeClass('hide');
 					}
 				});
 		});
@@ -402,7 +402,7 @@ function setMyTeamButtons(info) {
 	}
 }
 
-function setMyTeamPlayers(info) {
+function setMyTeamPlayers(info, isHeader) {
 	$('#my-team-list').empty();
 	$('#my-team-list').append($('<div/>').addClass('player-listing').addClass('player-listing-header'));
 	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Name").addClass('player-name'));
@@ -424,6 +424,12 @@ function setMyTeamPlayers(info) {
 				var playerID = parseInt(allPlayers[i][1].split(':')[1]);
 				if (playerID === teamPlayers[j]) {
 					//Found player in csv file
+					if (j === teamPlayers.length - 1) {
+						$('#my-team-list').append($('<div/>').addClass('player-listing').addClass('player-listing-footer'));
+					} else {
+						$('#my-team-list').append($('<div/>').addClass('player-listing'));
+					}
+
 					var names = allPlayers[i][0].split(":")[1];
 					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(names).addClass('player-name'));
 

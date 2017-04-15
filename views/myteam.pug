@@ -8,8 +8,12 @@ block scripts
 block content
 	include partials/header
 	.section-wrapper#my-team-wrapper
-		select#select-contest
-		#my-team-list
-		a#continue-drafting-button Continue Drafting
-		#enter-team-button Enter Team
-		a#view-scoreboard-button View Scoreboard
+		#my-team-wrapper
+			select#select-contest
+			#my-team-list
+			#my-team-buttons-wrapper
+				a#continue-drafting-button Continue Drafting
+				#enter-team-button Enter Team ➜
+				a#view-scoreboard-button View Scoreboard ➜
+			.hide#submit-message Your team has been entered into the contest!
+			.hide#error-message You need five players on your team!
