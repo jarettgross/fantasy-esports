@@ -110,14 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 
-	//================
-	// CONFIRM PAGE
-	//================
-
-	if ($('.section-wrapper').attr('id') === 'confirm-wrapper'){
-
-	}
-
 	//=================
 	// DRAFT PAGE
 	//=================
