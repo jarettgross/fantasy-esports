@@ -318,9 +318,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			for (var i = 0; i < players.length; i++) {
 				var name = players[i][0].split(":")[1];
-				$('#score-wrapper').find('div.score-listing').last().append($('<div/>').addClass('player-listing'));
-				$('#score-wrapper').find('div.player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
-				$('#score-wrapper').find('div.player-listing').last().append($('<div/>').text(scores[i]).addClass('contest-player-score'));
+				$('#score-wrapper').find('div.score-listing').last().append($('<div/>').addClass('score-player-listing'));
+				$('#score-wrapper').find('div.score-player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
+				$('#score-wrapper').find('div.score-player-listing').last().append($('<div/>').text(scores[i]).addClass('contest-player-score'));
 			}
 		}});
 	}

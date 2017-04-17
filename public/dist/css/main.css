@@ -464,19 +464,19 @@
     width: 35%;
     text-align: center; }
 
-.player-listing {
+.score-player-listing {
   margin: auto;
   width: 50%;
   border-style: solid solid hidden solid;
   border-width: 1px;
   padding: 5px 30px;
   color: black; }
-  .player-listing > div {
+  .score-player-listing > div {
     display: inline-block; }
-  .player-listing .contest-player-name {
+  .score-player-listing .contest-player-name {
     width: 65%;
     color: #26B3DE; }
-  .player-listing .contest-player-score {
+  .score-player-listing .contest-player-score {
     width: 35%;
     text-align: center; }
 
