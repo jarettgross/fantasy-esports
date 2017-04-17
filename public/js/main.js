@@ -86,8 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		$('#contest-wrapper').append($('<div/>').text(contestInfo.name).attr('id', 'page-contest-name'));
 		$('#contest-wrapper').append($('<div/>').text(contestInfo.startDate + ' to ' + contestInfo.endDate).attr('id', 'page-contest-date'));
-		//$('#contest-wrapper').append($('<div/>').text(contestInfo.entries.numCurrent + '/' + contestInfo.entries.numMax).attr('id', 'page-contest-entries'));
-
+		
 		//Create Draft button
 		$('#contest-wrapper').append($('<div/>').addClass('draft-button-wrapper'));
 		$('#contest-wrapper').find('.draft-button-wrapper').last().append($('<a/>').attr('href', '/draft/' + contestInfo._id).text('DRAFT').addClass('draft-button'));
