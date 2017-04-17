@@ -86,26 +86,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		$('#contest-wrapper').append($('<div/>').text(contestInfo.name).attr('id', 'page-contest-name'));
 		$('#contest-wrapper').append($('<div/>').text(contestInfo.startDate + ' to ' + contestInfo.endDate).attr('id', 'page-contest-date'));
-		
+
 		//Create Draft button
 		$('#contest-wrapper').append($('<div/>').addClass('draft-button-wrapper'));
 		$('#contest-wrapper').find('.draft-button-wrapper').last().append($('<a/>').attr('href', '/draft/' + contestInfo._id).text('DRAFT').addClass('draft-button'));
 		
-		$('#contest-wrapper').append($('<div/>').addClass('scoreboard'));
+		if (contestUsers.length === 0) {
+			$('#contest-wrapper').append($('<div/>').addClass('nothing-here').text('There is no one signed up for this contest!'));
+		} else {
+			$('#contest-wrapper').append($('<div/>').addClass('scoreboard'));
 
-		$('#contest-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('user-listing').addClass('user-listing-header'));
-		$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text('Name').addClass('contest-player-name-header'));
-		$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text('Score').addClass('contest-score-header'));
-		
-		//List all usernames corresponding to the user ids that are in the contest entries
-		for (var i = 0; i < contestUsers.length; i++) {
-			if (i === contestUsers.length - 1) {
-				$('#contest-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('user-listing').addClass('user-listing-footer'));
-			} else {
-				$('#contest-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('user-listing'));
+			$('#contest-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('user-listing').addClass('user-listing-header'));
+			$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text('Name').addClass('contest-player-name-header'));
+			$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text('Score').addClass('contest-score-header'));
+			
+			//List all usernames corresponding to the user ids that are in the contest entries
+			for (var i = 0; i < contestUsers.length; i++) {
+				if (i === contestUsers.length - 1) {
+					$('#contest-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('user-listing').addClass('user-listing-footer'));
+				} else {
+					$('#contest-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('user-listing'));
+				}
+				$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text(contestUsers[i].username).addClass('contest-player-name'));
+				$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text(contestUsers[i].points).addClass('contest-score'));
 			}
-			$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text(contestUsers[i].username).addClass('contest-player-name'));
-			$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text(contestUsers[i].points).addClass('contest-score'));
 		}
 	}
 

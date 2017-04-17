@@ -9,6 +9,11 @@
 .hide {
   display: none; }
 
+.nothing-here {
+  text-align: center;
+  margin-top: 60px;
+  font-size: 20px; }
+
 .nav-list {
   display: -webkit-box;
   display: -webkit-flex;
