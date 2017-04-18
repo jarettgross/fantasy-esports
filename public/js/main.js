@@ -91,7 +91,15 @@ document.addEventListener('DOMContentLoaded', function() {
 		$('#contest-wrapper').append($('<div/>').addClass('draft-button-wrapper'));
 		$('#contest-wrapper').find('.draft-button-wrapper').last().append($('<a/>').attr('href', '/draft/' + contestInfo._id).text('DRAFT').addClass('draft-button'));
 		
-		if (contestUsers.length === 0) {
+		var isNulls = true;
+		for (var i = 0; i < contestUsers.length; i++) {
+			if (contestUsers[i] !== null) {
+				isNulls = true;
+				break;
+			}
+		}
+
+		if (contestUsers.length === 0 || isNulls) {
 			$('#contest-wrapper').append($('<div/>').addClass('nothing-here').text('There is no one signed up for this contest!'));
 		} else {
 			$('#contest-wrapper').append($('<div/>').addClass('scoreboard'));
@@ -100,6 +108,18 @@ document.addEventListener('DOMContentLoaded', function() {
 			$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text('Name').addClass('contest-player-name-header'));
 			$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text('Score').addClass('contest-score-header'));
 			
+			//Sort the users by points
+			console.log(contestUsers);
+			contestUsers.sort(function(a,b) {
+				if (a.points < b.points) {
+	                return -1;
+	            }
+				if (a.points > b.points) {
+	                return 1;
+	            }
+				return 0;
+			});
+
 			//List all usernames corresponding to the user ids that are in the contest entries
 			for (var i = 0; i < contestUsers.length; i++) {
 				if (i === contestUsers.length - 1) {
