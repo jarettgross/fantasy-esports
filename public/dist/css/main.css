@@ -31,9 +31,11 @@
   background-color: #FFFFFF;
   color: #000000;
   position: fixed;
-  width: 100%;
   top: 0;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.1); }
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  margin-top: 0;
+  margin-left: -10px;
+  width: 102%; }
 
 #site-name {
   vertical-align: -moz-middle-with-baseline;
@@ -494,6 +496,9 @@
 #select-contest {
   font-size: 36px;
   margin-bottom: 30px; }
+
+#my-team-no-team-msg {
+  margin: 20px 0 40px 0; }
 
 #my-team-list {
   width: 80%;

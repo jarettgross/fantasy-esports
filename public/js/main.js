@@ -243,6 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	if ($('.section-wrapper').attr('id') === 'my-team-wrapper') {
 		var setDefault = false;
+		var setFirst = false;
 		for (var i = 0; i < contestsInfo.length; i++) {
 			if (contestsInfo[i] !== null) {
 			    var option = document.createElement('option');
@@ -261,6 +262,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			    	setMyTeamButtons(contestsInfo[i]);
 			    	setMyTeamPlayers(contestsInfo[i]);
 			    	setDefault = true;
+			    } else if (!setDefault && !setFirst) {
+			    	$('#select-contest').val(contestsInfo[i].id);
+			    	setMyTeamButtons(contestsInfo[i]);
+			    	setMyTeamPlayers(contestsInfo[i]);
+			    	setFirst = true;
 			    }
 			}
 		}
@@ -270,15 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			for (var i = 0; i < contestsInfo.length; i++) {
 				if (contestsInfo[i] !== null) {
 					if (contestsInfo[i].id === $('#select-contest').val()) {
-						if (contestsInfo[i].status === 'upcoming') {
-							$('#view-scoreboard-button').addClass('hide');
-							$('#enter-team-button').removeClass('hide');
-							$('#continue-drafting-button').attr('href', '/draft/' + contestsInfo[i].id);
-						} else if (contestsInfo[i].status === 'ongoing' || contestsInfo[i].status === 'finished') {
-							$('#enter-team-button').addClass('hide');
-							$('#view-scoreboard-button').removeClass('hide');
-							$('#view-scoreboard-button').attr('href', '/contest/' + contestsInfo[i].id);
-						}
+						setMyTeamButtons(contestsInfo[i]);
 
 						//Empty team list and repopulate with team members for selected contest
 						setMyTeamPlayers(contestsInfo[i]);
@@ -417,57 +415,64 @@ function setMyTeamButtons(info) {
 }
 
 function setMyTeamPlayers(info, isHeader) {
-	$('#my-team-list').empty();
-	$('#my-team-list').append($('<div/>').addClass('player-listing').addClass('player-listing-header'));
-	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Name").addClass('player-name'));
-	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Kills").addClass('player-kills'));
-	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Headshot %").addClass('player-headshots'));
-	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Deaths").addClass('player-deaths'));
-	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("# Rounds").addClass('player-roundsP'));
-	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Assists").addClass('player-assists'));
-	$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Team Name").addClass('player-team'));
+	if (info.teamIDs.length === 0) {
+		$('#my-team-no-team-msg').removeClass('hide');
+		$('#enter-team-button').addClass('hide');
+		$('#continue-drafting-button').css('margin', 'auto');
+		$('#my-team-list').addClass('hide');
+	} else {
+		$('#my-team-list').empty();
+		$('#my-team-list').append($('<div/>').addClass('player-listing').addClass('player-listing-header'));
+		$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Name").addClass('player-name'));
+		$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Kills").addClass('player-kills'));
+		$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Headshot %").addClass('player-headshots'));
+		$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Deaths").addClass('player-deaths'));
+		$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("# Rounds").addClass('player-roundsP'));
+		$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Assists").addClass('player-assists'));
+		$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Team Name").addClass('player-team'));
 
-	var teamPlayers = info.teamIDs;
-	var allPlayers = [];
-	$.ajax({ url: '../js/lib/AllStats.csv', success: function(csv) {
-		allPlayers = processData(csv);
+		var teamPlayers = info.teamIDs;
+		var allPlayers = [];
+		$.ajax({ url: '../js/lib/AllStats.csv', success: function(csv) {
+			allPlayers = processData(csv);
 
-		var players = [];
-		for (var i = 0; i < allPlayers.length; i++) {
-			for (var j = 0; j < teamPlayers.length; j++) {
-				var playerID = parseInt(allPlayers[i][1].split(':')[1]);
-				if (playerID === teamPlayers[j]) {
-					//Found player in csv file
-					if (j === teamPlayers.length - 1) {
-						$('#my-team-list').append($('<div/>').addClass('player-listing').addClass('player-listing-footer'));
-					} else {
-						$('#my-team-list').append($('<div/>').addClass('player-listing'));
+			var players = [];
+			for (var i = 0; i < allPlayers.length; i++) {
+				for (var j = 0; j < teamPlayers.length; j++) {
+					var playerID = parseInt(allPlayers[i][1].split(':')[1]);
+					if (playerID === teamPlayers[j]) {
+						//Found player in csv file
+						if (j === teamPlayers.length - 1) {
+							$('#my-team-list').append($('<div/>').addClass('player-listing').addClass('player-listing-footer'));
+						} else {
+							$('#my-team-list').append($('<div/>').addClass('player-listing'));
+						}
+
+						var names = allPlayers[i][0].split(":")[1];
+						$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(names).addClass('player-name'));
+
+						var kills = allPlayers[i][2].split(":")[1];
+						$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(kills).addClass('player-kills'));
+
+						var headshots = allPlayers[i][3].split(":")[1];
+						$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(headshots).addClass('player-headshots'));
+
+						var deaths = allPlayers[i][4].split(":")[1];
+						$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(deaths).addClass('player-deaths'));
+
+						var roundsPlayed = allPlayers[i][5].split(":")[1];
+						$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(roundsPlayed).addClass('player-roundsP'));
+
+						var assists = allPlayers[i][6].split(":")[1];
+						$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(assists).addClass('player-assists'));
+
+						var team = allPlayers[i][10].split(":")[1];
+						$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(team).addClass('player-team'));
+						
+						var projectedScore = projectScore(kills, headshots, deaths, roundsPlayed, assists);
 					}
-
-					var names = allPlayers[i][0].split(":")[1];
-					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(names).addClass('player-name'));
-
-					var kills = allPlayers[i][2].split(":")[1];
-					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(kills).addClass('player-kills'));
-
-					var headshots = allPlayers[i][3].split(":")[1];
-					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(headshots).addClass('player-headshots'));
-
-					var deaths = allPlayers[i][4].split(":")[1];
-					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(deaths).addClass('player-deaths'));
-
-					var roundsPlayed = allPlayers[i][5].split(":")[1];
-					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(roundsPlayed).addClass('player-roundsP'));
-
-					var assists = allPlayers[i][6].split(":")[1];
-					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(assists).addClass('player-assists'));
-
-					var team = allPlayers[i][10].split(":")[1];
-					$('#my-team-list').find('div.player-listing').last().append($('<div/>').text(team).addClass('player-team'));
-					
-					var projectedScore = projectScore(kills, headshots, deaths, roundsPlayed, assists);
 				}
 			}
-		}
-	}});
+		}});
+	}
 }
