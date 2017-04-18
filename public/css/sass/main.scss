@@ -27,6 +27,8 @@ $primary-color: #E85F66;
 $dark-primary-color: #D63A42;
 $link-color: #26B3DE;
 $dark-link-color: #24A1C7;
+$indigo-color: #30415D;
+$text-color: #CAEBF2;
 
 //====================
 // 3 Scaffolding
@@ -36,6 +38,10 @@ $dark-link-color: #24A1C7;
     margin: 0;
     padding: 0;
     font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background-color: rgba($indigo-color, 0.25);
 }
 
 .section-wrapper {
@@ -216,8 +222,8 @@ $dark-link-color: #24A1C7;
 	border-style: solid solid hidden solid;
 	border-width: 1px;
 	border-color: #000;
-	background-color: #FFFFFF;
-	color: #000000;
+	background-color: $indigo-color;
+	color: $text-color;
 	@include transition(background-color .2s ease);
 
 	&:hover {
@@ -305,7 +311,6 @@ $dark-link-color: #24A1C7;
 	border-style: solid solid hidden solid;
 	border-width: 1px;
 	border-color: #000;
-	background-color: #FFFFFF;
 	color: #000000;
 	border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
@@ -359,7 +364,8 @@ $dark-link-color: #24A1C7;
 	border-style: solid solid hidden solid;
 	border-width: 1px;
 	padding: 5px 30px;
-	color: black;
+    background-color: $indigo-color;
+	color: $text-color;
 
 	> div {
 		display: inline-block;
@@ -610,7 +616,8 @@ $dark-link-color: #24A1C7;
 	border-style: solid solid hidden solid;
 	border-width: 1px;
 	padding: 5px 30px;
-	color: black;
+    background-color: $indigo-color;
+	color: $text-color;
 
 	> div {
 		display: inline-block;

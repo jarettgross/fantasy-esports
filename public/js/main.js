@@ -371,6 +371,9 @@ function processData(allText) {
     return lines;
 }
 
+//If anyone else wants to continue with my work on projecting a score for the players, feel free to go ahead. I didn't think I could figure out 
+//	a good way to project scores given that with our current information it's very difficult to tell how many rounds a particular player will play
+//	in a tournament, which is the biggest factor in how many points they will get.
 function projectScore(kills, headshots, deaths, roundsPlayed, assists) {
     var kTotal = parseInt(kills);
 	var headshotsFloat = parseFloat(headshots.substring(0, headshots.length-1))/100;
@@ -381,23 +384,19 @@ function projectScore(kills, headshots, deaths, roundsPlayed, assists) {
 	var rp = parseInt(roundsPlayed);
 	var a = parseInt(assists);
 	
-	var kWeight = 1.0;
-	var hWeight = 1.5;
-	var dWeight = -0.5;
-	var rpWeight = 0.5;
-	var aWeight = 0.2;
+	var kWeight = 12.0;
+	var hWeight = 18.0;
+	var dWeight = -3.0;
+	var rpWeight = 1.0;
+	var aWeight = 1.5;
 	
-	var finalWeight = 60;
+	var finalWeight = 1;
 	
 	
 	var weightsSum = k * kWeight + h * hWeight + d * dWeight + a * aWeight;
-	var projectedScore = Math.round(weightsSum/(rp*rpWeight)*finalWeight);
-	/*if (projectedScore < 70) {
-        projectedScore = 70;
-    }
-	else if (projectedScore > 95) {
-        projectedScore = 90;
-    }*/
+	var projectedScore = Math.round(10*weightsSum/(rp*rpWeight)*finalWeight);
+	projectedScore = projectedScore/10;
+	
 	//console.log(projectedScore);
 	return projectedScore;
 }

@@ -3,6 +3,7 @@ const User         = require('../models/User');
 const CronJob      = require('cron').CronJob;
 const hltvUpcomingGameInfo = require('./hltv-upcoming-game-info');
 const hltvGameInfo = require('./hltv-game-info');
+const Livescore = require('hltv-livescore');
 
 /*
 * Scrape HLTV for upcoming games for the next day
@@ -35,7 +36,7 @@ function beginScoreUpdates(date, gameID) {
 			console.log('CronJob running for game: ' + gameID + ' at date: ' + date);
 
 			hltvGameInfo(function(games) {
-				if (games.length > 1) {
+				if (games.length >= 1) {
 					//var cleanedName = contest.name.replace(/\s+/g, '-').toLowerCase();
 		    		var live = new Livescore({
 		    			listid: gameID
