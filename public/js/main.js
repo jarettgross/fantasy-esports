@@ -109,7 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text('Score').addClass('contest-score-header'));
 			
 			//Sort the users by points
-			console.log(contestUsers);
 			contestUsers.sort(function(a,b) {
 				if (a.points < b.points) {
 	                return -1;
