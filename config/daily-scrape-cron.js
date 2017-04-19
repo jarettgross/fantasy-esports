@@ -16,7 +16,7 @@ module.exports = {
 			console.log('Daily CronJob running');
 
 			hltvUpcomingGameInfo(function(games) {
-				if (games.length > 1) {
+				if (games.length >= 1) {
 					for (var i = 0; i < games.length; i++) {
 						beginScoreUpdates(games[i].date, games[i].id);
 					}
@@ -41,44 +41,60 @@ function beginScoreUpdates(date, gameID) {
 		    		var live = new Livescore({
 		    			listid: gameID
 		    		});
+					
+					//Figure out what contest this match is in. This code didn't seem to work in my test file, but it looks correct to me?
+					var contest = null;
+					for (var i = 0; i<games.length; i++) {
+						if (games[i]['id'] === gameId) {
+							var contestName = games[i]['tournament'];
+							Contest.findOne({ "name": contestName }, function(err, contestInfo) {
+								contest = contestInfo;
+							});
+						}
+					}
+					
+					if (contest !== null) {
+						//Read data when a "scoreboard" update is sent
+						live.on('scoreboard', function(data) {
+							var team1 = data.teams['1'];
+							var team2 = data.teams['2'];
 
-		    		//Read data when a "scoreboard" update is sent
-		    		live.on('scoreboard', function(data) {
-		    			var team1 = data.teams['1'];
-		    			var team2 = data.teams['2'];
+							//Can get (rating, kills, assists, deaths) from each player
+							var players1 = team1.players;
+							var players2 = team2.players;
 
-		    			//Can get (rating, kills, assists, deaths) from each player
-		    			var players1 = team1.players;
-		    			var players2 = team2.players;
+							updateContestScores(contest, 'SCOREBOARD', players1, players2);
+						});
 
-		    			updateContestScores(contest, 'SCOREBOARD', players1, players2);
-		    		});
+						//Read data when the bomb is defused -- award points if the round is won by the defused bomb
+						live.on('bombDefused', function(defuseData) {
+							live.on('roundEnd', function(roundData) {
+								if (roundData.winType === 'BOMB_DEFUSED') {
+									var playerDefuser = [defuseData.player];
+									updateContestScores(contest, 'BOMB_DEFUSED', playerDefuser, null);
+								}
+							});
+						});
 
-		    		//Read data when the bomb is defused -- award points if the round is won by the defused bomb
-		    		live.on('bombDefused', function(defuseData) {
-		    			live.on('roundEnd', function(roundData) {
-		    				if (roundData.winType === 'BOMB_DEFUSED') {
-		    					var playerDefuser = [defuseData.player];
-		    					updateContestScores(contest, 'BOMB_DEFUSED', playerDefuser, null);
-		    				}
-		    			});
-		    		});
+						//Read data when the bomb is planted -- award points if the round is won by the bomb
+						live.on('bombPlanted', function(plantedData) {
+							live.on('roundEnd', function(roundData) {
+								if (roundData.winType === 'TARGET_BOMBED') {
+									var playerBomber = [plantedData.player];
+									updateContestScores(contest, 'TARGET_BOMBED', playerBomber, null);
+								}
+							});
+						});
 
-		    		//Read data when the bomb is planted -- award points if the round is won by the bomb
-		    		live.on('bombPlanted', function(plantedData) {
-		    			live.on('roundEnd', function(roundData) {
-		    				if (roundData.winType === 'TARGET_BOMBED') {
-		    					var playerBomber = [plantedData.player];
-		    					updateContestScores(contest, 'TARGET_BOMBED', playerBomber, null);
-		    				}
-		    			});
-		    		});
-
-		    		//Read data when a player commits suicide -- subtract points from that player's score
-		    		live.on('suicide', function(suicideData) {
-		    			var playerSuicide = suicideData.player;
-		    			updateContestScores(contest, 'SUICIDE', playerSuicide, null);
-		    		});
+						//Read data when a player commits suicide -- subtract points from that player's score
+						live.on('suicide', function(suicideData) {
+							var playerSuicide = suicideData.player;
+							updateContestScores(contest, 'SUICIDE', playerSuicide, null);
+						});
+					}
+					else {
+						console.log("Contest not found for match " + gameID  + "!");
+					}
 				}
 			});
 		},
@@ -96,7 +112,8 @@ function updateContestScores(contest, scoreType, players1, players2) {
 
 	//Update score for each player on team 1
 	for (var i = 0; i < players1.length; i++) {
-		var playerScore = player.rating + player.kills + player.assists - player.deaths;
+		var player = players1[i];
+		var playerScore = player.kills + player.assists - player.deaths;
 		if (scoreType === 'BOMB_DEFUSED') {
 			playerScore += 1;
 		} else if (scoreType === 'TARGET_BOMBED') {
@@ -104,15 +121,17 @@ function updateContestScores(contest, scoreType, players1, players2) {
 		} else if (scoreType === 'SUICIDE') {
 			playerScore -= 1;
 		}
+		//Now we need to update the databse with the newly calculated playerScore, possibly only if it's changed?
 	}
 
 	//Update score for each player on team 2 (if provided)
 	if (scoreType === 'SCOREBOARD') {
-		for (var n = 0; n < players2.length; n++) {
-			var player = players2[n];
-			if (player.hltvid === user.contests[j].teams[k]) {
-				var playerScore = player.rating + player.kills + player.assists - player.deaths;
-			}
+		for (var i = 0; i < players2.length; i++) {
+			var player = players2[i];
+			//if (player.hltvid === user.contests[j].teams[k]) { I don't think this line is needed here.
+			var playerScore = player.kills + player.assists - player.deaths;
+			//}
+			//Now we need to update the databse with the newly calculated playerScore, possibly only if it's changed?
 		}
 	}
 
@@ -122,13 +141,13 @@ function updateContestScores(contest, scoreType, players1, players2) {
 		User.findById(userIDs[i], function(err, user) {
 			//Find this contest in User database
 			for (var j = 0; j < user.contests.length; j++) {
-				if (user.contests[j].id === req.params.id) {
+				if (user.contests[j].id === contest._id) {
 					//Update user score
 					user.contests[j].points = 0;
 					for (var k = 0; k < user.contests[j].team.length; k++) {
+						var playerID = user.contests[j].team[k];
 						//Grab player points in contest database
 						for (var m = 0; m < contest.players.length; m++) {
-							var playerID = user.contests[j].team[k];
 							if (playerID === contest.players[m].id) {
 								user.contests[j].points += contest.players[m].points;
 							}
