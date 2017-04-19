@@ -422,6 +422,7 @@ function setMyTeamButtons(info) {
 		$('#view-scoreboard-button').addClass('hide');
 		$('#enter-team-button').removeClass('hide');
 		$('#continue-drafting-button').attr('href', '/draft/' + info.id);
+		$('#continue-drafting-button').css('margin', '0');
 	} else if (info.status === 'ongoing' || info.status === 'finished') {
 		$('#enter-team-button').addClass('hide');
 		$('#view-scoreboard-button').removeClass('hide');

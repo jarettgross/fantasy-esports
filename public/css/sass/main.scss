@@ -322,6 +322,7 @@ body {
 	border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
 	background-color: $primary-color;
+	line-height: 2.8;
 
 	> div {
 		display: inline-block;
@@ -373,6 +374,9 @@ body {
 	padding: 5px 30px;
     background-color: $indigo-color;
 	color: $text-color;
+	border-width: 1px;
+	border-style: hidden solid solid solid;
+	border-color: #000000;
 
 	> div {
 		display: inline-block;

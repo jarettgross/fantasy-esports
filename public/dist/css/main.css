@@ -260,7 +260,8 @@ body {
   color: #000000;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
-  background-color: #E85F66; }
+  background-color: #E85F66;
+  line-height: 2.8; }
   .draft-listing-header > div {
     display: inline-block;
     font-size: 12px;
@@ -294,7 +295,10 @@ body {
   border-width: 1px;
   padding: 5px 30px;
   background-color: #30415D;
-  color: #CAEBF2; }
+  color: #CAEBF2;
+  border-width: 1px;
+  border-style: hidden solid solid solid;
+  border-color: #000000; }
   .draft-listing > div {
     display: inline-block; }
   .draft-listing .player-name {
