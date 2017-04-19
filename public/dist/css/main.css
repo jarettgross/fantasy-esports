@@ -187,7 +187,7 @@ body {
   -o-transition: background-color 0.2s ease;
   transition: background-color 0.2s ease; }
   .contest-listing:hover {
-    background-color: #D1D1D1; }
+    background-color: #828282; }
   .contest-listing > div {
     display: inline-block; }
   .contest-listing .contest-name {
