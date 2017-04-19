@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				enterText = "ENTER";
 			}
 
-			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(contestName).addClass('contest-name'));
+			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(contestName.replace(/&amp;/g, "&")).addClass('contest-name'));
 			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(dateText).addClass('contest-date'));
 			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(contest.entries.numCurrent + '/' + contests[i].entries.numMax).addClass('contest-entry-count'));
 			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').addClass('enter-link-wrapper'));
@@ -293,8 +293,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (contestsInfo[i] !== null) {
 					if (contestsInfo[i].id === $('#select-contest').val()) {
 						setMyTeamButtons(contestsInfo[i]);
-
-						//Empty team list and repopulate with team members for selected contest
 						setMyTeamPlayers(contestsInfo[i]);
 					}
 				}
@@ -437,6 +435,8 @@ function setMyTeamPlayers(info, isHeader) {
 		$('#continue-drafting-button').css('margin', 'auto');
 		$('#my-team-list').addClass('hide');
 	} else {
+		$('#my-team-no-team-msg').addClass('hide');
+		$('#my-team-list').removeClass('hide');
 		$('#my-team-list').empty();
 		$('#my-team-list').append($('<div/>').addClass('player-listing-header').addClass('player-listing'));
 		$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Name").addClass('player-name'));
