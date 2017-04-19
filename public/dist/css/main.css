@@ -254,7 +254,7 @@ body {
   width: 80%;
   margin: auto;
   padding: 0 30px;
-  border-style: solid solid hidden solid;
+  border-style: solid solid solid solid;
   border-width: 1px;
   border-color: #000;
   color: #000000;
@@ -291,8 +291,9 @@ body {
 .draft-listing {
   margin: auto;
   width: 80%;
-  border-style: solid solid hidden solid;
+  border-style: solid solid solid solid;
   border-width: 1px;
+  border-color: #000;
   padding: 5px 30px;
   background-color: #30415D;
   color: #CAEBF2;
