@@ -64,12 +64,22 @@ document.addEventListener('DOMContentLoaded', function() {
 		    } else {
 				contestName = contest.name;
 			}
+			var dateText = "";
+			var enterText = "";
+			if (new Date(contest.startDate) <= new Date()) {
+				dateText = "Ongoing";
+				enterText = "Ranks";
+			}
+			else {
+				dateText = contest.startDate;
+				enterText = "Enter";
+			}
 
 			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(contestName).addClass('contest-name'));
-			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(contest.startDate).addClass('contest-date'));
+			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(dateText).addClass('contest-date'));
 			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(contest.entries.numCurrent + '/' + contests[i].entries.numMax).addClass('contest-entry-count'));
 			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').addClass('enter-link-wrapper'));
-			$('#index-wrapper').find('.enter-link-wrapper').last().append($('<a/>').attr('href', '/contest/' + contest._id).text('ENTER').addClass('enter-link'));
+			$('#index-wrapper').find('.enter-link-wrapper').last().append($('<a/>').attr('href', '/contest/' + contest._id).text(enterText).addClass('enter-link'));
 
 			if (new Date(contest.startDate) <= new Date()) {
 				$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').addClass('score-link-wrapper'));
@@ -88,8 +98,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		$('#contest-wrapper').append($('<div/>').text(contestInfo.startDate + ' to ' + contestInfo.endDate).attr('id', 'page-contest-date'));
 
 		//Create Draft button
-		$('#contest-wrapper').append($('<div/>').addClass('draft-button-wrapper'));
-		$('#contest-wrapper').find('.draft-button-wrapper').last().append($('<a/>').attr('href', '/draft/' + contestInfo._id).text('DRAFT').addClass('draft-button'));
+		if (new Date(contestInfo.startDate) <= new Date()) {
+			$('#contest-wrapper').append($('<div/>').addClass('draft-button-wrapper'));
+			$('#contest-wrapper').find('.draft-button-wrapper').last().append($('<a/>').attr('href', '/score/' + contestInfo._id).text('VIEW MY TEAM').addClass('draft-button'));
+		}
+		else {
+			$('#contest-wrapper').append($('<div/>').addClass('draft-button-wrapper'));
+			$('#contest-wrapper').find('.draft-button-wrapper').last().append($('<a/>').attr('href', '/draft/' + contestInfo._id).text('DRAFT').addClass('draft-button'));
+		}
 		
 		var isNulls = true;
 		for (var i = 0; i < contestUsers.length; i++) {
@@ -169,14 +185,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			for (var i = 0; i < players.length; i++) {
 				//Set headers of columns
 				if (i === 0) {
-					$('#draft-wrapper').append($('<div/>').addClass('draft-listing').addClass('draft-listing-header'));
-					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Name").addClass('player-name'));
-					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Kills").addClass('player-kills'));
-					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Headshot %").addClass('player-headshots'));
-					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Deaths").addClass('player-deaths'));
-					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("# Rounds").addClass('player-roundsP'));
-					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Assists").addClass('player-assists'));
-					$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').text("Team Name").addClass('player-team'));
+					$('#draft-wrapper').append($('<div/>').addClass('draft-listing-header'));
+					$('#draft-wrapper').find('div.draft-listing-header').last().append($('<div/>').text("Name").addClass('player-name'));
+					$('#draft-wrapper').find('div.draft-listing-header').last().append($('<div/>').text("Kills").addClass('player-kills'));
+					$('#draft-wrapper').find('div.draft-listing-header').last().append($('<div/>').text("Headshot %").addClass('player-headshots'));
+					$('#draft-wrapper').find('div.draft-listing-header').last().append($('<div/>').text("Deaths").addClass('player-deaths'));
+					$('#draft-wrapper').find('div.draft-listing-header').last().append($('<div/>').text("# Rounds").addClass('player-roundsP'));
+					$('#draft-wrapper').find('div.draft-listing-header').last().append($('<div/>').text("Assists").addClass('player-assists'));
+					$('#draft-wrapper').find('div.draft-listing-header').last().append($('<div/>').text("Team Name").addClass('player-team'));
 				}
 
 				//Display data in divs for each player
@@ -421,7 +437,7 @@ function setMyTeamPlayers(info, isHeader) {
 		$('#my-team-list').addClass('hide');
 	} else {
 		$('#my-team-list').empty();
-		$('#my-team-list').append($('<div/>').addClass('player-listing').addClass('player-listing-header'));
+		$('#my-team-list').append($('<div/>').addClass('player-listing-header').addClass('player-listing'));
 		$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Name").addClass('player-name'));
 		$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Kills").addClass('player-kills'));
 		$('#my-team-list').find('div.player-listing').last().append($('<div/>').text("Headshot %").addClass('player-headshots'));

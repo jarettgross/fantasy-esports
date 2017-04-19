@@ -123,6 +123,7 @@ body {
 	margin-bottom: 5px;
 	font-weight: 700;
 	font-size: 48px;
+    color: black;
 }
 
 #how-to-use-wrapper {
@@ -259,6 +260,9 @@ body {
 			padding: 5px;
 			border-radius: 5px;
 			font-size: 12px;
+            border-style: solid solid solid solid;
+            border-width: 1px;
+            border-color: #000;
 			@include transition(background-color .2s ease);
 
 			&:hover {
@@ -277,6 +281,9 @@ body {
 			padding: 5px;
 			border-radius: 5px;
 			font-size: 12px;
+            border-style: solid solid solid solid;
+            border-width: 1px;
+            border-color: #000;
 			@include transition(background-color .2s ease);
 
 			&:hover {
@@ -511,8 +518,6 @@ body {
 	margin: auto;
 	padding: 0 30px;
 	line-height: 2.8;
-	background-color: #FFFFFF;
-	color: #000000;
 
 	.contest-player-name-header, .contest-player-name {
 		display: inline-block;
@@ -530,8 +535,8 @@ body {
 		border-style: solid solid hidden solid;
 		border-width: 1px;
 		border-color: #000;
-		background-color: #FFFFFF;
-		color: #000000;
+		background-color: $indigo-color;
+		color: $text-color;
 	}
 
 	.user-listing-header {
@@ -566,6 +571,7 @@ body {
 	font-weight: 700;
 	text-transform: uppercase;
 	margin-bottom: 15px;
+    color: black;
 }
 
 .about-text {
@@ -587,7 +593,6 @@ body {
 	border-style: solid solid hidden solid;
 	border-width: 1px;
 	border-color: #000;
-	background-color: #FFFFFF;
 	color: #000000;
 	border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
@@ -668,7 +673,6 @@ body {
 	border-style: solid solid hidden solid;
 	border-width: 1px;
 	border-color: #000;
-	background-color: #FFFFFF;
 	color: #000000;
 	border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
