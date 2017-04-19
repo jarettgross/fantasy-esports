@@ -68,11 +68,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			var enterText = "";
 			if (new Date(contest.startDate) <= new Date()) {
 				dateText = "Ongoing";
-				enterText = "Ranks";
+				enterText = "RANKS";
 			}
 			else {
 				dateText = contest.startDate;
-				enterText = "Enter";
+				enterText = "ENTER";
 			}
 
 			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(contestName).addClass('contest-name'));
