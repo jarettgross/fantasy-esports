@@ -22,17 +22,19 @@ module.exports = {
 						var checker = 0;
 						for (var j = 0; j < contest.team.length; j++) {
 							//If player is on team, remove player from team, otherwise add player to team
-								if (contest.team[j] == req.body.playerID) {
-									contest.team.splice(j, 1);
-									j--;
-								} else {
-									checker++;
-								}
-								if (checker == contest.team.length) {
-									contest.team.push(req.body.playerID);
-									req.user.contests[i] = contest;
-									req.user.save();
-								}
+							if (contest.team[j] == req.body.playerID) {
+								contest.team.splice(j, 1);
+								j--;
+							} else {
+								checker++;
+							}
+
+							if (checker == contest.team.length) {
+								console.log(req.body.playerID);
+								contest.team.push(req.body.playerID);
+								req.user.contests[i] = contest;
+								req.user.save();
+							}
 						}
 					}
 				}

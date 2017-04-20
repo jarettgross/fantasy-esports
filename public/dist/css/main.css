@@ -537,7 +537,6 @@ body {
     font-weight: 700;
     color: #FFFFFF !important; }
   .player-listing-header .player-name {
-    text-align: center;
     width: 20%; }
   .player-listing-header .player-kills {
     width: 10%;
@@ -556,7 +555,7 @@ body {
     text-align: center; }
   .player-listing-header .player-team {
     width: 20%;
-    text-align: right; }
+    text-align: center; }
 
 .player-listing {
   margin: auto;

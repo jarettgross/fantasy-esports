@@ -227,8 +227,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 				var playerID = players[i][1].split(":")[1];
 				$('#draft-wrapper').find('div.draft-listing').last().append($('<div/>').addClass('player-add-remove-wrapper'));
-				$('#draft-wrapper').find('.player-add-remove-wrapper').last().append($('<div/>').text('ADD').attr('id', 'playerChoose' + playerID).addClass('player-add'));
-			
+
+				//Check if player is on team already, then set "ADD" or "REMOVE" button appropriately
+				var isPlayerOnTeam = false;
+				for (var j = 0; j < userInfo.team.length; j++) {
+					if (userInfo.team[j] == playerID) {
+						isPlayerOnTeam = true;
+						break;
+					}
+				}
+
+				if (isPlayerOnTeam) {
+					$('#draft-wrapper').find('.player-add-remove-wrapper').last().append($('<div/>').text('REMOVE').attr('id', 'playerChoose' + playerID).addClass('player-add').addClass('player-remove'));
+				} else {
+					$('#draft-wrapper').find('.player-add-remove-wrapper').last().append($('<div/>').text('ADD').attr('id', 'playerChoose' + playerID).addClass('player-add'));
+				}
+
 				(function(playerID) {
 					$('#playerChoose' + playerID).click(function() {
 						$.post('/draft/' + contestInfo._id,
@@ -419,11 +433,15 @@ function setMyTeamButtons(info) {
 	if (info.status === 'upcoming') {
 		$('#view-scoreboard-button').addClass('hide');
 		$('#enter-team-button').removeClass('hide');
+		$('#continue-drafting-button').removeClass('hide');
 		$('#continue-drafting-button').attr('href', '/draft/' + info.id);
 		$('#continue-drafting-button').css('margin', '0');
+		$('#view-scoreboard-button').css('margin', '0');
 	} else if (info.status === 'ongoing' || info.status === 'finished') {
+		$('#continue-drafting-button').addClass('hide');
 		$('#enter-team-button').addClass('hide');
 		$('#view-scoreboard-button').removeClass('hide');
+		$('#view-scoreboard-button').css('margin', 'auto');
 		$('#view-scoreboard-button').attr('href', '/contest/' + info.id);
 	}
 }
@@ -435,6 +453,7 @@ function setMyTeamPlayers(info, isHeader) {
 		$('#continue-drafting-button').css('margin', 'auto');
 		$('#my-team-list').addClass('hide');
 	} else {
+		$('#continue-drafting-button').css('margin', '0');
 		$('#my-team-no-team-msg').addClass('hide');
 		$('#my-team-list').removeClass('hide');
 		$('#my-team-list').empty();

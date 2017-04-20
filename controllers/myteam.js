@@ -37,16 +37,12 @@ module.exports = {
 
 								if (startDate < today && today < endDate) {
 									//Ongoing contest
-									if (contest.entered) {
-										return done(null, {
-											name:    contestInfo.name,
-											id:      contest.id,
-											status: 'ongoing',
-											teamIDs: contest.team
-										});
-									} else {
-										return done(null);
-									}
+									return done(null, {
+										name:    contestInfo.name,
+										id:      contest.id,
+										status: 'ongoing',
+										teamIDs: contest.team
+									});
 								} else if (startDate > today) {
 									//Contest not started
 									return done(null, {
@@ -85,6 +81,7 @@ module.exports = {
 				} else {
 					initialContest = req.query.contestID;
 				}
+
 				res.render('myteam', {
 					contestsInfo: JSON.stringify(contestsInfo),
 					initialContest: initialContest
