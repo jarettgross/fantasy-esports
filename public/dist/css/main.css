@@ -190,9 +190,12 @@ body {
     background-color: #828282; }
   .contest-listing > div {
     display: inline-block; }
-  .contest-listing .contest-name {
-    width: 40%;
-    color: #26B3DE; }
+  .contest-listing .contest-name-wrapper {
+    width: 40%; }
+    .contest-listing .contest-name-wrapper .contest-name {
+      color: #26B3DE; }
+      .contest-listing .contest-name-wrapper .contest-name:hover {
+        text-decoration: underline; }
   .contest-listing .contest-date {
     width: 30%;
     text-align: center; }
@@ -291,15 +294,12 @@ body {
 .draft-listing {
   margin: auto;
   width: 80%;
-  border-style: solid solid solid solid;
+  border-style: hidden solid solid solid;
   border-width: 1px;
   border-color: #000;
   padding: 5px 30px;
   background-color: #30415D;
-  color: #CAEBF2;
-  border-width: 1px;
-  border-style: hidden solid solid solid;
-  border-color: #000000; }
+  color: #CAEBF2; }
   .draft-listing > div {
     display: inline-block; }
   .draft-listing .player-name {
@@ -466,7 +466,7 @@ body {
   width: 50%;
   margin: auto;
   padding: 0 30px;
-  border-style: solid solid hidden solid;
+  border-style: solid solid solid solid;
   border-width: 1px;
   border-color: #000;
   color: #000000;
@@ -487,8 +487,9 @@ body {
 .score-player-listing {
   margin: auto;
   width: 50%;
-  border-style: solid solid hidden solid;
+  border-style: hidden solid solid solid;
   border-width: 1px;
+  border-color: #000;
   padding: 5px 30px;
   background-color: #30415D;
   color: #CAEBF2; }

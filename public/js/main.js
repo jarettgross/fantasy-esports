@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			var dateText = "";
 			var enterText = "";
 			if (new Date(contest.startDate) <= new Date()) {
-				dateText = "Ongoing";
+				dateText = "ONGOING";
 				enterText = "RANKS";
 			}
 			else {
@@ -75,7 +75,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				enterText = "ENTER";
 			}
 
-			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(contestName.replace(/&amp;/g, "&")).addClass('contest-name'));
+			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').addClass('contest-name-wrapper'));
+			$('#index-wrapper').find('.contest-name-wrapper').last().append($('<a/>').attr('href', '/contest/' + contest._id).text(contestName.replace(/&amp;/g, "&")).addClass('contest-name'));
 			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(dateText).addClass('contest-date'));
 			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').text(contest.entries.numCurrent + '/' + contests[i].entries.numMax).addClass('contest-entry-count'));
 			$('#index-wrapper').find('div.contest-listing').last().append($('<div/>').addClass('enter-link-wrapper'));
