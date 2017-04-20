@@ -398,9 +398,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			if ($('#all-scores-list').hasClass('hide')) {
 				$('#all-scores-list').removeClass('hide');
 				$('#user-scores-list').addClass('hide');
+				$('#change-team-view-button').html('VIEW MY PLAYERS');
 			} else {
 				$('#all-scores-list').addClass('hide');
 				$('#user-scores-list').removeClass('hide');
+				$('#change-team-view-button').html('VIEW ALL PLAYERS');
 			}
 		});
 	}
