@@ -30,13 +30,19 @@ def get_contest_info(pathToContest, i, j):
         if (len(contestName) is 0):
                return;
         contestLink = content.xpath(pathToContest + "/div[1]/div/a/@href")
-        eventType = content.xpath("//*[@id='back']/div[3]/div[3]/div/div[2]/div[" + str(i) + "]/div[" + str(j) + "]/div/div[1]/div/text()")
+        if (j != -1):
+                eventType = content.xpath("//*[@id='back']/div[3]/div[3]/div/div[2]/div[" + str(i) + "]/div[" + str(j) + "]/div/div[1]/div/text()")
+        else:
+                eventType = content.xpath("//*[@id='back']/div[3]/div[3]/div/div[2]/div/div[" + str(i) + "]/div/div[1]/div/text()")
+        
         startDate = content.xpath(pathToContest + "/div[2]/div[2]/text()")
         
         #EndOrNot checks whether or not this is a 1 day contest.
         endOrNot = content.xpath(pathToContest + "/div[3]/div[1]/text()")
         if (endOrNot[0] == 'End:'):
                endDate =  content.xpath(pathToContest + "/div[3]/div[2]/text()")
+               if endDate[0] == 'TBD':
+                        return;
                location = content.xpath(pathToContest + "/div[4]/span/text()")
                prizePot = content.xpath(pathToContest + "/div[5]/span/text()")
                teams = content.xpath(pathToContest + "/div[7]/span/text()")
@@ -50,9 +56,8 @@ def get_contest_info(pathToContest, i, j):
         if len(teams) == 0 or teams[0] == 'TBA':
                 return;
         
-        contestPage = requests.get(page_url + contestLink[0])
+        contestPage = requests.get("http://www.hltv.org/" + contestLink[0])
         contestContent = html.fromstring(contestPage.content)
-        
         playerList = []
         #
         for i in range(1, int(teams[0])+1):       #Goes through all of the teams for the tournament
@@ -64,7 +69,7 @@ def get_contest_info(pathToContest, i, j):
                                 else:
                                         teamMemberID = (teamMemberLink[0])[8:(teamMemberLink[0].index('-'))]
                                 playerList.append({"id": teamMemberID, "points": 0})
-        if len(playerList) < int(teams[0]) * 4 or int(teams[0]) == 0:     #5 players per team. 4 in case some are randomly missing
+        if len(playerList) < int(teams[0]) * 3 or int(teams[0]) == 0:     #5 players per team. 4 in case some are randomly missing
                 return;
         print(contestName[0])
         '''contestNames.append(contestName[0])
@@ -85,14 +90,11 @@ def get_contest_info(pathToContest, i, j):
         idString = contestName[0] + str(i) + str(j)
         contestID = idString.replace(" ", "")
         
-        #encodeID2 = contestID.encode('bz2')     #uu is an option, so is zip
-        #print(encodeID2)
         encodedID = base64.b64encode(contestID)
         shortenedID = encodedID[len(encodedID)/2:len(encodedID)]
         
-        
         contest = {
-        "_id": shortenedID,
+        "_id": encodedID,
         "name": contestName[0],
         "startDate": modifiedStartDate,
         "endDate": modifiedEndDate,
@@ -110,12 +112,12 @@ def get_contest_info(pathToContest, i, j):
                 contestCollection.insert_one(contest)
                 print('insertedContest')
         else:   #The contest exists, check to see if there are more players attending now.
-                '''Use this to update a specific feature.
-                db.contests.update_one({
+                #Use this to update a specific feature.
+                '''db.contests.update_one({
                         'name': contestDict['name']
                 },{
                         '$set': {
-                                'players': playerList
+                                '_id': shortenedID
                         }
                 }, upsert=False)'''
                 oldPlayerList = contestDict['players']
@@ -179,6 +181,14 @@ for i in range (1, 7): #Controls the number of months to look ahead.
         for j in range (1, 20):  #controls the number of possible tournaments to look for in a month.
                 get_contest_info("//*[@id='back']/div[3]/div[3]/div/div[2]/div[" + str(i) + "]/div[" + str(j) + "]/div/div[2]", i, j)
 
+print('Finished Upcoming')
+page_url = 'http://www.hltv.org/events/ongoing/'
+upcomingContestsPage = requests.get(page_url)
+content = html.fromstring(upcomingContestsPage.content)
+print('\nONGOING:')
+
+for i in range (1, 25):
+        get_contest_info("//*[@id='back']/div[3]/div[3]/div/div[2]/div/div[" + str(i) + "]/div/div[2]/", i, -1)
 
 print("data retrieved")
 
