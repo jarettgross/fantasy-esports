@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var isNulls = true;
 		for (var i = 0; i < contestUsers.length; i++) {
 			if (contestUsers[i] !== null) {
-				isNulls = true;
+				isNulls = false;
 				break;
 			}
 		}
@@ -479,7 +479,7 @@ function projectScore(kills, headshots, deaths, roundsPlayed, assists) {
 }
 
 function setMyTeamButtons(info) {
-	if (info.status === 'upcoming') {
+	if (info.status === 'upcoming' && !info.entered) {
 		$('#view-scoreboard-button').addClass('hide');
 		$('#enter-team-button').removeClass('hide');
 		$('#continue-drafting-button').removeClass('hide');
@@ -492,6 +492,9 @@ function setMyTeamButtons(info) {
 		$('#view-scoreboard-button').removeClass('hide');
 		$('#view-scoreboard-button').css('margin', 'auto');
 		$('#view-scoreboard-button').attr('href', '/contest/' + info.id);
+		if (info.entered == false) {
+			$('#submit-message').removeClass('hide');
+		}
 	}
 }
 

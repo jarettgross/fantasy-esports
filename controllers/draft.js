@@ -14,7 +14,6 @@ module.exports = {
 				//Find contest in user data
 				if (req.user.contests[i].id == req.body.contestID) {
 					var contest = req.user.contests[i];
-					console.log(contest.team);
 					var isPlayerOnTeam = -1;
 					for (var j = 0; j < contest.team.length; j++) {
 						if (contest.team[j] == req.body.playerID) {
@@ -29,7 +28,6 @@ module.exports = {
 						contest.team.push(req.body.playerID);
 					}
 					req.user.contests[i] = contest;
-					console.log(contest.team);
 					req.user.save();
 
 					break;

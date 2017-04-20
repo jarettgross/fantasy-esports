@@ -10,6 +10,13 @@ module.exports = {
 				if (contests[i].team.length === 5) {
 					contests[i].entered = true;
 					req.user.save();
+
+					Contest.findById(contests[i].id, function(err, contestInfo) {
+						if (contestInfo !== null) {
+							contestInfo.entries.user_ids.push(req.user._id);
+							contestInfo.save();
+						}
+					});
 					return res.send({
 						success: true
 					});
@@ -41,7 +48,8 @@ module.exports = {
 										name:    contestInfo.name,
 										id:      contest.id,
 										status: 'ongoing',
-										teamIDs: contest.team
+										teamIDs: contest.team,
+										entered: contest.entered
 									});
 								} else if (startDate > today) {
 									//Contest not started
@@ -49,7 +57,8 @@ module.exports = {
 										name:    contestInfo.name,
 										id:      contest.id,
 										status:  'upcoming',
-										teamIDs: contest.team
+										teamIDs: contest.team,
+										entered: contest.entered
 									});
 								} else if (endDate < today) {
 									//Contest finished
@@ -58,7 +67,8 @@ module.exports = {
 											name:    contestInfo.name,
 											id:      contest.id,
 											status:  'finished',
-											teamIDs: contest.team
+											teamIDs: contest.team,
+											entered: contest.entered
 										});
 									} else {
 										return done(null);
