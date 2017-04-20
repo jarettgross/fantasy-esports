@@ -15,8 +15,10 @@ module.exports = (callback) => {
 
 			//Gets the list of dates from the page.
 			var $dates = $('.matchListDateBox').toArray();
-
-			for (var i = 0; i < 1; i++) {
+			var twoDates = [];
+			
+			//We get two dates in case the page hasn't gotten rid of the finished games from the previous day yet.
+			for (var i = 0; i < 2; i++) {
 				var dateString = $dates[i]['children'][0]['data'];
 				var dStringLength = dateString.length;
 				var date = {};
@@ -85,6 +87,7 @@ module.exports = (callback) => {
 					console.log("INVALID DATE MONTH FOUND!");
 				}
 				date.year = dateString.substring(dStringLength - 4, dStringLength);
+				twoDates.push(date);
             }
 
 			var gameInfo = [];	//Returned array.
@@ -112,6 +115,9 @@ module.exports = (callback) => {
 					//	which has either finished or been postponed.
 					if ($timeCell.text().trim() === 'Postponed' || $timeCell.text().trim() === 'Finished') {
 						dateIndex--;
+						if (dateIndex === -1) {
+							dateIndex = 1;
+						}
 						maybeIncreaseDate = false;
 					}
 
@@ -125,14 +131,20 @@ module.exports = (callback) => {
 						var matchTime = $timeCell.text();
 					
 						game.id = matchInfo.substring(0, 7);
-
-						if (date !== undefined) {
-							game.date = new Date(date.month + " " + date.day + ", " + date.year + " " + matchTime + ":00 GMT+02:00");
-						}
+						var dateInfo = twoDates[dateIndex];	//tried to reuse date = here and it was undefined.
+						
+						game.date = new Date(dateInfo.month + " " + dateInfo.day + ", " + dateInfo.year + " " + matchTime + ":00 GMT+02:00");
+						
 						gameInfo.push(game);
 					} else {
 						dateToIncrease = false;
 					}
+					
+					if (dateToIncrease) {
+ 						maybeIncreaseDate = true;
+ 						dateIndex++;
+ 						dateToIncrease = false;
+ 					}
 				}
 				next();
 
