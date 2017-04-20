@@ -334,12 +334,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	//================
 
 	if ($('.section-wrapper').attr('id') === 'score-wrapper') {
+		$('#score-wrapper').append($('<div/>').prop('id', 'all-scores-list'));
+		$('#score-wrapper').append($('<div/>').prop('id', 'user-scores-list').addClass('hide'));
 
-		//var playerScores = contestInfo.players;
-		console.log(userInfo);
-		console.log(contestInfo);
-
+		var userPlayers = [];
+		var userPlayersScores = [];
 		var allPlayers = [];
+
 		$.ajax({ url: "../js/lib/AllStats.csv", success: function(csv) {
 			allPlayers = processData(csv);
 			var playersInfo = contestInfo.players;
@@ -356,23 +357,52 @@ document.addEventListener('DOMContentLoaded', function() {
 						scores.push(playersInfo[j].points);
 					}
 				}
+
+				for (var j = 0; j < userInfo.team.length; j++) {
+					var playerID = parseInt(allPlayers[i][1].split(':')[1]);
+					if (playerID === userInfo.team[j]) {
+						userPlayers.push(allPlayers[i]);
+						userPlayersScores.push(playersInfo[j].points);
+					}
+				}
 			}
 
-			console.log(players);
-			console.log(scores);
 			//List all usernames corresponding to the user ids that are in the contest entries
-			$('#score-wrapper').append($('<div/>').addClass('score-listing'));
-			$('#score-wrapper').find('div.score-listing').last().append($('<div/>').addClass('score-listing-header'));
-			$('#score-wrapper').find('div.score-listing-header').last().append($('<div/>').text("Name").addClass('player-name-header'));
-			$('#score-wrapper').find('div.score-listing-header').last().append($('<div/>').text("Score").addClass('player-score-header'));
+			$('#all-scores-list').append($('<div/>').addClass('score-listing'));
+			$('#all-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-listing-header'));
+			$('#all-scores-list').find('div.score-listing-header').last().append($('<div/>').text("Name").addClass('player-name-header'));
+			$('#all-scores-list').find('div.score-listing-header').last().append($('<div/>').text("Score").addClass('player-score-header'));
 			
 			for (var i = 0; i < players.length; i++) {
 				var name = players[i][0].split(":")[1];
-				$('#score-wrapper').find('div.score-listing').last().append($('<div/>').addClass('score-player-listing'));
-				$('#score-wrapper').find('div.score-player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
-				$('#score-wrapper').find('div.score-player-listing').last().append($('<div/>').text(scores[i]).addClass('contest-player-score'));
+				$('#all-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-player-listing'));
+				$('#all-scores-list').find('div.score-player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
+				$('#all-scores-list').find('div.score-player-listing').last().append($('<div/>').text(scores[i]).addClass('contest-player-score'));
+			}
+
+			//My players tab
+			$('#user-scores-list').append($('<div/>').addClass('score-listing'));
+			$('#user-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-listing-header'));
+			$('#user-scores-list').find('div.score-listing-header').last().append($('<div/>').text("Name").addClass('player-name-header'));
+			$('#user-scores-list').find('div.score-listing-header').last().append($('<div/>').text("Score").addClass('player-score-header'));
+
+			for (var i = 0; i < userPlayers.length; i++) {
+				var name = userPlayers[i][0].split(":")[1];
+				$('#user-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-player-listing'));
+				$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
+				$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(userPlayersScores[i]).addClass('contest-player-score'));
 			}
 		}});
+
+		$('#change-team-view-button').click(function() {
+			if ($('#all-scores-list').hasClass('hide')) {
+				$('#all-scores-list').removeClass('hide');
+				$('#user-scores-list').addClass('hide');
+			} else {
+				$('#all-scores-list').addClass('hide');
+				$('#user-scores-list').removeClass('hide');
+			}
+		});
 	}
 });
 
