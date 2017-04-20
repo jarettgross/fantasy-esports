@@ -596,9 +596,41 @@ body {
 // 9 Score
 //====================
 
+#score-contest-title {
+	text-align: center;
+	margin-bottom: 5px;
+	font-weight: 700;
+	font-size: 36px;
+	color: #000000;
+}
+
+#change-team-button-wrapper {
+	text-align: center;
+	margin-bottom: 20px;
+
+	#change-team-view-button {
+		display: inline-block;
+		display: inline-block;
+		background-color: $link-color;
+		border-radius: 5px;
+		padding: 10px 20px;
+		color: #FFFFFF;
+		cursor: pointer;
+		@include transition(background-color .2s ease);
+
+		&:hover {
+			background-color: $dark-link-color;
+		}
+	}
+}
+
+#all-scores-list {
+	margin-bottom: 50px;
+}
+
 .score-listing-header {
 	font-size: 22px;
-	width: 50%;
+	width: 40%;
 	margin: auto;
 	padding: 0 30px;
 	border-style: solid solid solid solid;
@@ -622,13 +654,13 @@ body {
 
 	.player-score-header {
 		width: 35%;
-		text-align: center;
+		text-align: right;
 	}
 }
 
 .score-player-listing {
 	margin: auto;
-	width: 50%;
+	width: 40%;
 	border-style: hidden solid solid solid;
 	border-width: 1px;
     border-color: #000;
@@ -648,8 +680,15 @@ body {
 
 	.contest-player-score {
 		width: 35%;
-		text-align: center;
+		text-align: right;
 	}
+}
+
+.score-listing-footer {
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;	
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
 }
 
 //====================
@@ -683,13 +722,13 @@ body {
 	width: 80%;
 	margin: auto;
 	padding: 0 30px;
-	border-style: solid solid hidden solid;
+	border-style: solid !important;
 	border-width: 1px;
 	border-color: #000;
 	color: #000000;
 	border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
-	background-color: $primary-color;
+	background-color: $primary-color !important;
 
 	> div {
 		display: inline-block;
@@ -736,10 +775,12 @@ body {
 .player-listing {
 	margin: auto;
 	width: 80%;
-	border-style: solid solid hidden solid;
+	border-style: hidden solid solid solid;
 	border-width: 1px;
+	border-color: #000000;
 	padding: 5px 30px;
-	color: black;
+	color: #FFFFFF;
+	background-color: $indigo-color;
 
 	> div {
 		display: inline-block;
@@ -839,7 +880,11 @@ body {
 }
 
 #submit-message {
-	color: #40ED77;
+	display: inline-block;
+	border-radius: 5px;
+	padding: 5px 10px;
+	color: #000000;
+	font-weight: 700;
 }
 
 #error-message {

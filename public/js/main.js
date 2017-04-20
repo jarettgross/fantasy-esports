@@ -309,6 +309,8 @@ document.addEventListener('DOMContentLoaded', function() {
 					if (contestsInfo[i].id === $('#select-contest').val()) {
 						setMyTeamButtons(contestsInfo[i]);
 						setMyTeamPlayers(contestsInfo[i]);
+						$('#error-message').addClass('hide');
+						$('#submit-message').addClass('hide');
 					}
 				}
 			}
@@ -334,6 +336,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	//================
 
 	if ($('.section-wrapper').attr('id') === 'score-wrapper') {
+		$('#score-contest-title').html(contestInfo.name);
+
 		$('#score-wrapper').append($('<div/>').prop('id', 'all-scores-list'));
 		$('#score-wrapper').append($('<div/>').prop('id', 'user-scores-list').addClass('hide'));
 
@@ -375,9 +379,15 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			for (var i = 0; i < players.length; i++) {
 				var name = players[i][0].split(":")[1];
-				$('#all-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-player-listing'));
-				$('#all-scores-list').find('div.score-player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
-				$('#all-scores-list').find('div.score-player-listing').last().append($('<div/>').text(scores[i]).addClass('contest-player-score'));
+				if (i === players.length - 1) {
+					$('#all-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-player-listing').addClass('score-listing-footer'));
+					$('#all-scores-list').find('div.score-player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
+					$('#all-scores-list').find('div.score-player-listing').last().append($('<div/>').text(scores[i]).addClass('contest-player-score'));
+				} else {
+					$('#all-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-player-listing'));
+					$('#all-scores-list').find('div.score-player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
+					$('#all-scores-list').find('div.score-player-listing').last().append($('<div/>').text(scores[i]).addClass('contest-player-score'));
+				}
 			}
 
 			//My players tab
@@ -388,9 +398,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			for (var i = 0; i < userPlayers.length; i++) {
 				var name = userPlayers[i][0].split(":")[1];
-				$('#user-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-player-listing'));
-				$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
-				$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(userPlayersScores[i]).addClass('contest-player-score'));
+				if (i === userPlayers.length - 1) {
+					$('#user-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-player-listing').addClass('score-listing-footer'));
+					$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
+					$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(userPlayersScores[i]).addClass('contest-player-score'));
+				} else {
+					$('#user-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-player-listing'));
+					$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
+					$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(userPlayersScores[i]).addClass('contest-player-score'));
+				}
 			}
 		}});
 

@@ -461,9 +461,38 @@ body {
   margin: auto;
   margin-bottom: 30px; }
 
+#score-contest-title {
+  text-align: center;
+  margin-bottom: 5px;
+  font-weight: 700;
+  font-size: 36px;
+  color: #000000; }
+
+#change-team-button-wrapper {
+  text-align: center;
+  margin-bottom: 20px; }
+  #change-team-button-wrapper #change-team-view-button {
+    display: inline-block;
+    display: inline-block;
+    background-color: #26B3DE;
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: #FFFFFF;
+    cursor: pointer;
+    -webkit-transition: background-color 0.2s ease;
+    -moz-transition: background-color 0.2s ease;
+    -ms-transition: background-color 0.2s ease;
+    -o-transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease; }
+    #change-team-button-wrapper #change-team-view-button:hover {
+      background-color: #24A1C7; }
+
+#all-scores-list {
+  margin-bottom: 50px; }
+
 .score-listing-header {
   font-size: 22px;
-  width: 50%;
+  width: 40%;
   margin: auto;
   padding: 0 30px;
   border-style: solid solid solid solid;
@@ -482,11 +511,11 @@ body {
     width: 65%; }
   .score-listing-header .player-score-header {
     width: 35%;
-    text-align: center; }
+    text-align: right; }
 
 .score-player-listing {
   margin: auto;
-  width: 50%;
+  width: 40%;
   border-style: hidden solid solid solid;
   border-width: 1px;
   border-color: #000;
@@ -500,7 +529,13 @@ body {
     color: #26B3DE; }
   .score-player-listing .contest-player-score {
     width: 35%;
-    text-align: center; }
+    text-align: right; }
+
+.score-listing-footer {
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px; }
 
 #my-team-wrapper {
   width: 100%;
@@ -525,13 +560,13 @@ body {
   width: 80%;
   margin: auto;
   padding: 0 30px;
-  border-style: solid solid hidden solid;
+  border-style: solid !important;
   border-width: 1px;
   border-color: #000;
   color: #000000;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
-  background-color: #E85F66; }
+  background-color: #E85F66 !important; }
   .player-listing-header > div {
     display: inline-block;
     font-size: 12px;
@@ -561,10 +596,12 @@ body {
 .player-listing {
   margin: auto;
   width: 80%;
-  border-style: solid solid hidden solid;
+  border-style: hidden solid solid solid;
   border-width: 1px;
+  border-color: #000000;
   padding: 5px 30px;
-  color: black; }
+  color: #FFFFFF;
+  background-color: #30415D; }
   .player-listing > div {
     display: inline-block; }
   .player-listing .player-name {
@@ -653,7 +690,11 @@ body {
       background-color: #24A1C7; }
 
 #submit-message {
-  color: #40ED77; }
+  display: inline-block;
+  border-radius: 5px;
+  padding: 5px 10px;
+  color: #000000;
+  font-weight: 700; }
 
 #error-message {
   color: #D63A42; }
