@@ -15,8 +15,8 @@ module.exports = (callback) => {
 
 			//Gets the list of dates from the page.
 			var $dates = $('.matchListDateBox').toArray();
-			var dateInfo = [];
-			for (var i = 0; i<$dates.length; i++) {
+
+			for (var i = 0; i < 1; i++) {
 				var dateString = $dates[i]['children'][0]['data'];
 				var dStringLength = dateString.length;
 				var date = {};
@@ -84,9 +84,9 @@ module.exports = (callback) => {
 				else {
 					console.log("INVALID DATE MONTH FOUND!");
 				}
-				date.year = dateString.substring(dStringLength-4, dStringLength);
-				dateInfo.push(date);
+				date.year = dateString.substring(dStringLength - 4, dStringLength);
             }
+
 			var gameInfo = [];	//Returned array.
 			var dateIndex = 0;	//Counter for which dateString to associate with this match.
 			var dateToIncrease = false;	//Boolean that determines whether or not we should increase the dateIndex.
@@ -94,10 +94,10 @@ module.exports = (callback) => {
 			//Simply Delete the below variable if you want to get all upcoming games, not just the ones for the upcoming day.
 			var dateHasIncreased = false; //Boolean to keep track of if the date has increased once, if so, we don't add any more games to gameInfo.
 			var maybeIncreaseDate = false;
-			
+
 			async.each($matches, (match, next) => {
 				if (!dateHasIncreased) {
-					var game = {}
+					var game = {};
 					
 					//This check has to occur before cheerio.load(match), as that function modifies the match variable.
 					//The length = 1 edge case is to account for a random error in the code of hltv page that happens very rarely.
@@ -114,6 +114,7 @@ module.exports = (callback) => {
 						dateIndex--;
 						maybeIncreaseDate = false;
 					}
+
 					if (maybeIncreaseDate) {
                         dateHasIncreased = true;
                     }
@@ -124,24 +125,17 @@ module.exports = (callback) => {
 						var matchTime = $timeCell.text();
 					
 						game.id = matchInfo.substring(0, 7);
-						gameDate = dateInfo[dateIndex];
-					
-						game.date = new Date(gameDate.month + " " + gameDate.day + ", " + gameDate.year + " " + matchTime + ":00 GMT+02:00");
+
+						if (date !== undefined) {
+							game.date = new Date(date.month + " " + date.day + ", " + date.year + " " + matchTime + ":00 GMT+02:00");
+						}
 						gameInfo.push(game);
-					}
-					else {
+					} else {
 						dateToIncrease = false;
 					}
-					
-					
-					if (dateToIncrease) {
-						maybeIncreaseDate = true;
-						dateIndex++;
-						dateToIncrease = false;
-					}
-					
 				}
 				next();
+
 			}, (err) => {
 				if (err) {
 					callback(err);

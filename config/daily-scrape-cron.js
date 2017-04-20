@@ -37,17 +37,16 @@ function beginScoreUpdates(date, gameID) {
 
 			hltvGameInfo(function(games) {
 				if (games.length >= 1) {
-					//var cleanedName = contest.name.replace(/\s+/g, '-').toLowerCase();
 		    		var live = new Livescore({
 		    			listid: gameID
 		    		});
 					
 					//Figure out what contest this match is in. This code didn't seem to work in my test file, but it looks correct to me?
 					var contest = null;
-					for (var i = 0; i<games.length; i++) {
-						if (games[i]['id'] === gameId) {
-							var contestName = games[i]['tournament'];
-							Contest.findOne({ "name": contestName }, function(err, contestInfo) {
+					for (var i = 0; i < games.length; i++) {
+						if (games[i].id == gameID) {
+							var contestName = games[i].tournament;
+							Contest.findOne({ 'name': contestName }, function(err, contestInfo) {
 								contest = contestInfo;
 							});
 						}
@@ -62,7 +61,7 @@ function beginScoreUpdates(date, gameID) {
 							//Can get (rating, kills, assists, deaths) from each player
 							var players1 = team1.players;
 							var players2 = team2.players;
-
+							console.log('SCOREBOARD UPDATE');
 							updateContestScores(contest, 'SCOREBOARD', players1, players2);
 						});
 
@@ -71,6 +70,7 @@ function beginScoreUpdates(date, gameID) {
 							live.on('roundEnd', function(roundData) {
 								if (roundData.winType === 'BOMB_DEFUSED') {
 									var playerDefuser = [defuseData.player];
+									console.log('BOMB DEFUSED');
 									updateContestScores(contest, 'BOMB_DEFUSED', playerDefuser, null);
 								}
 							});
@@ -81,6 +81,7 @@ function beginScoreUpdates(date, gameID) {
 							live.on('roundEnd', function(roundData) {
 								if (roundData.winType === 'TARGET_BOMBED') {
 									var playerBomber = [plantedData.player];
+									console.log('TARGET BOMBED');
 									updateContestScores(contest, 'TARGET_BOMBED', playerBomber, null);
 								}
 							});
@@ -89,11 +90,11 @@ function beginScoreUpdates(date, gameID) {
 						//Read data when a player commits suicide -- subtract points from that player's score
 						live.on('suicide', function(suicideData) {
 							var playerSuicide = suicideData.player;
+							console.log('SUICIDE');
 							updateContestScores(contest, 'SUICIDE', playerSuicide, null);
 						});
-					}
-					else {
-						console.log("Contest not found for match " + gameID  + "!");
+					} else {
+						console.log("Contest not found for match " + gameID);
 					}
 				}
 			});
@@ -121,17 +122,13 @@ function updateContestScores(contest, scoreType, players1, players2) {
 		} else if (scoreType === 'SUICIDE') {
 			playerScore -= 1;
 		}
-		//Now we need to update the databse with the newly calculated playerScore, possibly only if it's changed?
 	}
 
 	//Update score for each player on team 2 (if provided)
 	if (scoreType === 'SCOREBOARD') {
 		for (var i = 0; i < players2.length; i++) {
 			var player = players2[i];
-			//if (player.hltvid === user.contests[j].teams[k]) { I don't think this line is needed here.
 			var playerScore = player.kills + player.assists - player.deaths;
-			//}
-			//Now we need to update the databse with the newly calculated playerScore, possibly only if it's changed?
 		}
 	}
 
@@ -150,6 +147,7 @@ function updateContestScores(contest, scoreType, players1, players2) {
 						for (var m = 0; m < contest.players.length; m++) {
 							if (playerID === contest.players[m].id) {
 								user.contests[j].points += contest.players[m].points;
+								console.log(user.contests[j].points);
 							}
 						}
 					}
