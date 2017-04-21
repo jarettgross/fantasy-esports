@@ -126,7 +126,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text('Score').addClass('contest-score-header'));
 			
 			//Sort the users by points
-			contestUsers.sort(function(a,b) {
+			contestUsers.sort(function(a, b) {
+				if (a === null) {
+					return -1;
+				}
 				if (a.points < b.points) {
 	                return -1;
 	            }
@@ -138,13 +141,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			//List all usernames corresponding to the user ids that are in the contest entries
 			for (var i = 0; i < contestUsers.length; i++) {
-				if (i === contestUsers.length - 1) {
-					$('#contest-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('user-listing').addClass('user-listing-footer'));
-				} else {
-					$('#contest-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('user-listing'));
+				if (contestUsers[i] !== null) {
+					if (i === contestUsers.length - 1) {
+						$('#contest-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('user-listing').addClass('user-listing-footer'));
+					} else {
+						$('#contest-wrapper').find('div.scoreboard').last().append($('<div/>').addClass('user-listing'));
+					}
+					$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text(contestUsers[i].username).addClass('contest-player-name'));
+					$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text(contestUsers[i].points).addClass('contest-score'));
 				}
-				$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text(contestUsers[i].username).addClass('contest-player-name'));
-				$('#contest-wrapper').find('div.scoreboard div.user-listing').last().append($('<div/>').text(contestUsers[i].points).addClass('contest-score'));
 			}
 		}
 	}
