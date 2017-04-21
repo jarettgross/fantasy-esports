@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					if (data.success) {
 						window.location = data.redirect;
 					} else {
-						//Error
+						$('#sign-up-error').html(data.errors[0]);
 					}
 				});
 		});
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					if (data.success) {
 						window.location = data.redirect;
 					} else {
-						//Error
+						$('#sign-in-error').html(data.errors[0]);
 					}
 				});
 		});
@@ -100,8 +100,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		//Create Draft button
 		if (new Date(contestInfo.startDate) <= new Date()) {
-			$('#contest-wrapper').append($('<div/>').addClass('draft-button-wrapper'));
-			$('#contest-wrapper').find('.draft-button-wrapper').last().append($('<a/>').attr('href', '/score/' + contestInfo._id).text('VIEW MY TEAM').addClass('draft-button'));
+			if (userDidEnter == true) {
+				$('#contest-wrapper').append($('<div/>').addClass('draft-button-wrapper'));
+				$('#contest-wrapper').find('.draft-button-wrapper').last().append($('<a/>').attr('href', '/score/' + contestInfo._id).text('VIEW MY TEAM').addClass('draft-button'));
+			}
 		}
 		else {
 			$('#contest-wrapper').append($('<div/>').addClass('draft-button-wrapper'));
@@ -343,8 +345,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	if ($('.section-wrapper').attr('id') === 'score-wrapper') {
 		$('#score-contest-title').html(contestInfo.name);
 
-		$('#score-wrapper').append($('<div/>').prop('id', 'all-scores-list'));
-		$('#score-wrapper').append($('<div/>').prop('id', 'user-scores-list').addClass('hide'));
+		$('#score-wrapper').append($('<div/>').prop('id', 'all-scores-list').addClass('hide'));
+		$('#score-wrapper').append($('<div/>').prop('id', 'user-scores-list'));
 
 		var userPlayers = [];
 		var userPlayersScores = [];

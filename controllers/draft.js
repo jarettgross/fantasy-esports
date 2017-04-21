@@ -47,11 +47,10 @@ module.exports = {
 					for (var i = 0; i < req.user.contests.length; i++) {
 						if (req.user.contests[i].id === contest._id) {
 							//Send user's contest info and regular contest info to draft page
-							res.render('draft', {
+							return res.render('draft', {
 								userInfo:    JSON.stringify(req.user.contests[i]),
 								contestInfo: JSON.stringify(contest)
 							});
-							return;
 						}
 					}
 					
@@ -60,6 +59,11 @@ module.exports = {
 						id: contest._id
 					});
 					req.user.save();
+
+					return res.render('draft', {
+						userInfo:    JSON.stringify(req.user.contests[req.user.contests.length - 1]),
+						contestInfo: JSON.stringify(contest)
+					});
 				} else {
 					res.redirect('/404');
 				}

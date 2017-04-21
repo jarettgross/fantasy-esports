@@ -4,6 +4,7 @@ block scripts
 	script(type='text/javascript').
 		var contestInfo = JSON.parse("#{contest}".replace(/&quot;/g,'"'));
 		var contestUsers = JSON.parse("#{contestUsers}".replace(/&quot;/g,'"'));
+		var userDidEnter = "#{userDidEnter}";
 
 block content
 	include partials/header

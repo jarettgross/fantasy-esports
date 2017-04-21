@@ -7,7 +7,8 @@ const async        = require('async');
 module.exports = {
 
 	getInfo: function(req, res, next) {
-
+		var userDidEnter = false;
+		
 		Contest.findById(req.params.id, function(err, contest) {
 			if (contest !== null) {
 				var userIDs = contest.entries.user_ids;
@@ -27,6 +28,11 @@ module.exports = {
 											});
 										}
 									}
+
+									if (req.user._id === user._id) {
+										userDidEnter = true;
+									}
+
 									done(null);
 								} else {
 									done(null);
@@ -40,7 +46,8 @@ module.exports = {
 				], function (err, contestUsersInfo) {
 					res.render('contest', {
 						contest:      JSON.stringify(contest),
-						contestUsers: JSON.stringify(contestUsersInfo)
+						contestUsers: JSON.stringify(contestUsersInfo),
+						didEnter:     userDidEnter
 					});
 				});
 
