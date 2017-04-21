@@ -116,19 +116,20 @@ module.exports = (callback) => {
 					if ($timeCell.text().trim() === 'Postponed' || $timeCell.text().trim() === 'Finished') {
 						dateIndex--;
 						
-						if ($timeCell.text().trim() === 'Finished' && dateIndex <= -1) {
-							//If we encounter a finished game, then we know that all games below it for that day are finished, so move on to the next day.
-							dateIndex = 1;
-						}
-						else if ($timeCell.text().trim() === 'Postponed' && dateIndex <= -1) {
-							//In case the first game we encounter on a day is postopned.
+						if (dateIndex <= -1) {
+							//Ensures that dateIndex never goes below 0
 							dateIndex = 0;
 						}
 						maybeIncreaseDate = false;
 					}
 
 					if (maybeIncreaseDate) {
-                        dateHasIncreased = true;
+						if (gameInfo.length === 0) {
+							dateIndex = 1;
+						}
+						else {
+							dateHasIncreased = true;
+						}
                     }
 					
 					if (!dateHasIncreased && $timeCell.text().trim() !== 'LIVE' && $timeCell.text().trim() !== 'Finished' && $timeCell.text().trim() !== 'Postponed') {
