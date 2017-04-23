@@ -379,11 +379,13 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				}
 
-				for (var j = 0; j < userInfo.team.length; j++) {
-					var playerID = parseInt(allPlayers[i][1].split(':')[1]);
-					if (playerID === userInfo.team[j]) {
-						userPlayers.push(allPlayers[i]);
-						userPlayersScores.push(playersInfo[j].points);
+				if (userInfo !== '') {
+					for (var j = 0; j < userInfo.team.length; j++) {
+						var playerID = parseInt(allPlayers[i][1].split(':')[1]);
+						if (playerID === userInfo.team[j]) {
+							userPlayers.push(allPlayers[i]);
+							userPlayersScores.push(playersInfo[j].points);
+						}
 					}
 				}
 			}

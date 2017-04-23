@@ -19,7 +19,10 @@ module.exports = {
 							});
 						}
 					}
-					res.redirect('/');
+					return res.render('score', {
+						userInfo:    JSON.stringify(''),
+						contestInfo: JSON.stringify(contest)
+					});
 				} else {
 					res.redirect('/404');
 				}
