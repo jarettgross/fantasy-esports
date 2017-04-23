@@ -109,6 +109,10 @@ def get_contest_info(pathToContest, i, j):
         }
         contestDict = contestCollection.find_one({"name": contestName[0]})
         if contestDict == None: #This contest doesn't exist in the database yet!
+                doubleCheckDict = contestCollection.find_one({"startDate": modifiedStartDate, "endDate": modifiedEndDate, "players": playerList})
+                if doubleCheckDict == None:
+                        print('NOT updated player list 2')
+                        return
                 contestCollection.insert_one(contest)
                 print('insertedContest')
         else:   #The contest exists, check to see if there are more players attending now.

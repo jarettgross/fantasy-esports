@@ -24,14 +24,14 @@ module.exports = {
 			});
 		},
 		start: false,
-		timeZone: 'America/New_York'
+		timeZone: 'Europe/Paris'
 	})
 };
 
 //Runs CronJob for getting the scoreboard of a game once the game begins
 function beginScoreUpdates(date, gameID) {
 	var job = new CronJob({
-		cronTime: date, 
+		cronTime: date,
 		onTick: function() {
 			console.log('CronJob running for game: ' + gameID + ' at date: ' + date);
 
@@ -100,8 +100,9 @@ function beginScoreUpdates(date, gameID) {
 			});
 		},
 		start: false,
-		timeZone: 'America/New_York'
+		timeZone: 'Europe/Paris'
 	});
+	job.start();
 }
 
 //Take data for each player and update each user's score who has these players
