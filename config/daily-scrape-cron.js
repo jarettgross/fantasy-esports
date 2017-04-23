@@ -113,17 +113,26 @@ function beginScoreUpdates(date, gameID) {
 //players1  - players on team1
 //players2  - players on team2
 function updateContestScores(contest, scoreType, players1, players2) {
-
+	var killWeight = 4;
+	var deathWeight = 1;
+	var assistWeight = 2;
 	//Update score for each player on team 1
 	for (var i = 0; i < players1.length; i++) {
 		var player = players1[i];
-		var playerScore = player.kills + player.assists - player.deaths;
+		var playerScore = player.kills * killWeight + player.assists * assistWeight - player.deaths * deathWeight;
 		if (scoreType === 'BOMB_DEFUSED') {
-			playerScore += 1;
+			playerScore += 5;
 		} else if (scoreType === 'TARGET_BOMBED') {
-			playerScore += 1;
+			playerScore += 5;
 		} else if (scoreType === 'SUICIDE') {
-			playerScore -= 1;
+			playerScore -= 3;
+		}
+
+		for (var j = 0; j < contest.players.length; j++) {
+			if (player.hltvid === contest.players[j].id) {
+				contest.players[j].points = playerScore;
+				contest.save();
+			}
 		}
 	}
 
@@ -131,7 +140,14 @@ function updateContestScores(contest, scoreType, players1, players2) {
 	if (scoreType === 'SCOREBOARD') {
 		for (var i = 0; i < players2.length; i++) {
 			var player = players2[i];
-			var playerScore = player.kills + player.assists - player.deaths;
+			var playerScore = player.kills * killWeight + player.assists * assistWeight - player.deaths * deathWeight;
+			
+			for (var j = 0; j < contest.players.length; j++) {
+				if (player.hltvid === contest.players[j].id) {
+					contest.players[j].points = playerScore;
+					contest.save();
+				}
+			}
 		}
 	}
 

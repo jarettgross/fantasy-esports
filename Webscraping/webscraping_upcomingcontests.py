@@ -93,6 +93,9 @@ def get_contest_info(pathToContest, i, j):
         encodedID = base64.b64encode(contestID)
         shortenedID = encodedID[len(encodedID)/2:len(encodedID)]
         
+        #Get rid of all dashes in the string
+        contestName[0] = contestName[0].reqplace("-", " ");
+        
         contest = {
         "_id": encodedID,
         "name": contestName[0],
