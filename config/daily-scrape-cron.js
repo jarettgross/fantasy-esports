@@ -11,26 +11,26 @@ const Livescore = require('hltv-livescore');
 */
 module.exports = {
 	dailyScrape: new CronJob({
-		cronTime: '00 20 21 * * *',
+		cronTime: '00 59 23 * * *',
 		onTick: function() {
 			console.log('Daily CronJob running');
 
 			hltvUpcomingGameInfo(function(games) {
 				if (games.length >= 1) {
 					for (var i = 0; i < games.length; i++) {
-						beginScoreUpdates(games[i].date, games[i].id);
+						beginScoreUpdates(games[i].date, 2309966);
 					}
 				}
 			});
 		},
 		start: false,
-		timeZone: 'Europe/Paris'
+		timeZone: 'Europe/Paris',
+		runOnInit: true
 	})
 };
 
 //Runs CronJob for getting the scoreboard of a game once the game begins
 function beginScoreUpdates(date, gameID) {
-	date.setMinutes(date.getMinutes() + 5);
 	var job = new CronJob({
 		cronTime: date,
 		onTick: function() {
@@ -47,61 +47,62 @@ function beginScoreUpdates(date, gameID) {
 					for (var i = 0; i < games.length; i++) {
 						if (games[i].id == gameID) {
 							var contestName = games[i].tournament;
-							Contest.findOne({ 'name': contestName }, function(err, contestInfo) {
+							Contest.findOne({ 'name' : { $regex : new RegExp('^' + contestName + '$', 'i') } }, function(err, contestInfo) {
 								contest = contestInfo;
+
+								if (contest !== null) {
+									//Read data when a "scoreboard" update is sent
+									live.on('scoreboard', function(data) {
+										var team1 = data.teams['1'];
+										var team2 = data.teams['2'];
+
+										//Can get (rating, kills, assists, deaths) from each player
+										var players1 = team1.players;
+										var players2 = team2.players;
+										console.log('SCOREBOARD UPDATE');
+										updateContestScores(contest, 'SCOREBOARD', players1, players2);
+									});
+
+									//Read data when the bomb is defused -- award points if the round is won by the defused bomb
+									live.on('bombDefused', function(defuseData) {
+										live.on('roundEnd', function(roundData) {
+											if (roundData.winType === 'BOMB_DEFUSED') {
+												var playerDefuser = [defuseData.player];
+												console.log('BOMB DEFUSED');
+												updateContestScores(contest, 'BOMB_DEFUSED', playerDefuser, null);
+											}
+										});
+									});
+
+									//Read data when the bomb is planted -- award points if the round is won by the bomb
+									live.on('bombPlanted', function(plantedData) {
+										live.on('roundEnd', function(roundData) {
+											if (roundData.winType === 'TARGET_BOMBED') {
+												var playerBomber = [plantedData.player];
+												console.log('TARGET BOMBED');
+												updateContestScores(contest, 'TARGET_BOMBED', playerBomber, null);
+											}
+										});
+									});
+
+									//Read data when a player commits suicide -- subtract points from that player's score
+									live.on('suicide', function(suicideData) {
+										var playerSuicide = suicideData.player;
+										console.log('SUICIDE');
+										updateContestScores(contest, 'SUICIDE', playerSuicide, null);
+									});
+								} else {
+									console.log("Contest not found for match " + gameID);
+								}
 							});
 						}
-					}
-					
-					if (contest !== null) {
-						//Read data when a "scoreboard" update is sent
-						live.on('scoreboard', function(data) {
-							var team1 = data.teams['1'];
-							var team2 = data.teams['2'];
-
-							//Can get (rating, kills, assists, deaths) from each player
-							var players1 = team1.players;
-							var players2 = team2.players;
-							console.log('SCOREBOARD UPDATE');
-							updateContestScores(contest, 'SCOREBOARD', players1, players2);
-						});
-
-						//Read data when the bomb is defused -- award points if the round is won by the defused bomb
-						live.on('bombDefused', function(defuseData) {
-							live.on('roundEnd', function(roundData) {
-								if (roundData.winType === 'BOMB_DEFUSED') {
-									var playerDefuser = [defuseData.player];
-									console.log('BOMB DEFUSED');
-									updateContestScores(contest, 'BOMB_DEFUSED', playerDefuser, null);
-								}
-							});
-						});
-
-						//Read data when the bomb is planted -- award points if the round is won by the bomb
-						live.on('bombPlanted', function(plantedData) {
-							live.on('roundEnd', function(roundData) {
-								if (roundData.winType === 'TARGET_BOMBED') {
-									var playerBomber = [plantedData.player];
-									console.log('TARGET BOMBED');
-									updateContestScores(contest, 'TARGET_BOMBED', playerBomber, null);
-								}
-							});
-						});
-
-						//Read data when a player commits suicide -- subtract points from that player's score
-						live.on('suicide', function(suicideData) {
-							var playerSuicide = suicideData.player;
-							console.log('SUICIDE');
-							updateContestScores(contest, 'SUICIDE', playerSuicide, null);
-						});
-					} else {
-						console.log("Contest not found for match " + gameID);
 					}
 				}
 			});
 		},
 		start: false,
-		timeZone: 'Europe/Paris'
+		timeZone: 'Europe/Paris',
+		runOnInit: true
 	});
 	job.start();
 }
@@ -124,13 +125,6 @@ function updateContestScores(contest, scoreType, players1, players2) {
 		} else if (scoreType === 'SUICIDE') {
 			playerScore -= 1;
 		}
-
-		for (var j = 0; j < contest.players.length; j++) {
-			if (player.hltvid === contest.players[j].id) {
-				contest.players[j].points = playerScore;
-				contest.save();
-			}
-		}
 	}
 
 	//Update score for each player on team 2 (if provided)
@@ -138,13 +132,6 @@ function updateContestScores(contest, scoreType, players1, players2) {
 		for (var i = 0; i < players2.length; i++) {
 			var player = players2[i];
 			var playerScore = player.kills + player.assists - player.deaths;
-			
-			for (var j = 0; j < contest.players.length; j++) {
-				if (player.hltvid === contest.players[j].id) {
-					contest.players[j].points = playerScore;
-					contest.save();
-				}
-			}
 		}
 	}
 
