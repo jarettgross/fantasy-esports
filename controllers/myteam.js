@@ -13,8 +13,9 @@ module.exports = {
 
 					Contest.findById(contests[i].id, function(err, contestInfo) {
 						if (contestInfo !== null) {
-							if (contestInfo.entries.user_ids.indexOf(req.user._id) !== -1) {
+							if (contestInfo.entries.user_ids.indexOf(req.user._id) === -1) {
 								contestInfo.entries.user_ids.push(req.user._id);
+								contestInfo.entries.numCurrent = contestInfo.entries.user_ids.length;
 								contestInfo.save();
 							}
 						}
