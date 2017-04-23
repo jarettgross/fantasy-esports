@@ -63,26 +63,18 @@ function beginScoreUpdates(date, gameID) {
 										updateContestScores(contest, 'SCOREBOARD', players1, players2);
 									});
 
-									//Read data when the bomb is defused -- award points if the round is won by the defused bomb
-									live.on('bombDefused', function(defuseData) {
-										live.on('roundEnd', function(roundData) {
-											if (roundData.winType === 'BOMB_DEFUSED') {
-												var playerDefuser = [defuseData.player];
-												console.log('BOMB DEFUSED');
-												updateContestScores(contest, 'BOMB_DEFUSED', playerDefuser, null);
-											}
-										});
-									});
-
-									//Read data when the bomb is planted -- award points if the round is won by the bomb
-									live.on('bombPlanted', function(plantedData) {
-										live.on('roundEnd', function(roundData) {
-											if (roundData.winType === 'TARGET_BOMBED') {
-												var playerBomber = [plantedData.player];
-												console.log('TARGET BOMBED');
-												updateContestScores(contest, 'TARGET_BOMBED', playerBomber, null);
-											}
-										});
+									live.on('roundEnd', function(roundData) {
+										if (roundData.winType === 'BOMB_DEFUSED') {
+											//Read data when the bomb is defused -- award points if the round is won by the defused bomb
+											var playerDefuser = [defuseData.player];
+											console.log('BOMB DEFUSED');
+											updateContestScores(contest, 'BOMB_DEFUSED', playerDefuser, null);
+										} else if (roundData.winType === 'TARGET_BOMBED') {
+											//Read data when the bomb is planted -- award points if the round is won by the bomb
+											var playerBomber = [plantedData.player];
+											console.log('TARGET BOMBED');
+											updateContestScores(contest, 'TARGET_BOMBED', playerBomber, null);
+										}
 									});
 
 									//Read data when a player commits suicide -- subtract points from that player's score

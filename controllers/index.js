@@ -9,6 +9,7 @@ module.exports = {
 				var todaysDate = new Date();
 				for (var i = 0; i < contests.length; i++) {
 					var contestDate = new Date(contests[i].endDate);
+					contestDate.setHours(23);
 					if (contestDate < todaysDate) {
 						contests.splice(i, 1);
 						i--;
