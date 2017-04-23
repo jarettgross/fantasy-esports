@@ -11,7 +11,7 @@ const Livescore = require('hltv-livescore');
 */
 module.exports = {
 	dailyScrape: new CronJob({
-		cronTime: '00 59 23 * * *',
+		cronTime: '00 20 21 * * *',
 		onTick: function() {
 			console.log('Daily CronJob running');
 
@@ -30,6 +30,7 @@ module.exports = {
 
 //Runs CronJob for getting the scoreboard of a game once the game begins
 function beginScoreUpdates(date, gameID) {
+	date.setMinutes(date.getMinutes() + 5);
 	var job = new CronJob({
 		cronTime: date,
 		onTick: function() {
@@ -123,6 +124,13 @@ function updateContestScores(contest, scoreType, players1, players2) {
 		} else if (scoreType === 'SUICIDE') {
 			playerScore -= 1;
 		}
+
+		for (var j = 0; j < contest.players.length; j++) {
+			if (player.hltvid === contest.players[j].id) {
+				contest.players[j].points = playerScore;
+				contest.save();
+			}
+		}
 	}
 
 	//Update score for each player on team 2 (if provided)
@@ -130,6 +138,13 @@ function updateContestScores(contest, scoreType, players1, players2) {
 		for (var i = 0; i < players2.length; i++) {
 			var player = players2[i];
 			var playerScore = player.kills + player.assists - player.deaths;
+			
+			for (var j = 0; j < contest.players.length; j++) {
+				if (player.hltvid === contest.players[j].id) {
+					contest.players[j].points = playerScore;
+					contest.save();
+				}
+			}
 		}
 	}
 
