@@ -18,14 +18,13 @@ module.exports = {
 			hltvUpcomingGameInfo(function(games) {
 				if (games.length >= 1) {
 					for (var i = 0; i < games.length; i++) {
-						beginScoreUpdates(games[i].date, 2309966);
+						beginScoreUpdates(games[i].date, games[i].id);
 					}
 				}
 			});
 		},
 		start: false,
-		timeZone: 'Europe/Paris',
-		runOnInit: true
+		timeZone: 'Europe/Paris'
 	})
 };
 
@@ -93,8 +92,7 @@ function beginScoreUpdates(date, gameID) {
 			});
 		},
 		start: false,
-		timeZone: 'Europe/Paris',
-		runOnInit: true
+		timeZone: 'Europe/Paris'
 	});
 	job.start();
 }
