@@ -252,6 +252,13 @@ body {
   border-bottom-width: 1px;
   margin-bottom: 50px; }
 
+#page-draft-name {
+  text-align: center;
+  font-size: 36px;
+  color: #E85F66;
+  font-weight: 700;
+  margin-bottom: 10px; }
+
 .draft-listing-header {
   font-size: 12px;
   width: 80%;

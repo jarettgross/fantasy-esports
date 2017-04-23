@@ -13,8 +13,10 @@ module.exports = {
 
 					Contest.findById(contests[i].id, function(err, contestInfo) {
 						if (contestInfo !== null) {
-							contestInfo.entries.user_ids.push(req.user._id);
-							contestInfo.save();
+							if (contestInfo.entries.user_ids.indexOf(req.user._id) !== -1) {
+								contestInfo.entries.user_ids.push(req.user._id);
+								contestInfo.save();
+							}
 						}
 					});
 					return res.send({

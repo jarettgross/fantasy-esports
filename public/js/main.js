@@ -104,8 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				$('#contest-wrapper').append($('<div/>').addClass('draft-button-wrapper'));
 				$('#contest-wrapper').find('.draft-button-wrapper').last().append($('<a/>').attr('href', '/score/' + contestInfo._id).text('VIEW MY TEAM').addClass('draft-button'));
 			}
-		}
-		else {
+		} else {
 			$('#contest-wrapper').append($('<div/>').addClass('draft-button-wrapper'));
 			$('#contest-wrapper').find('.draft-button-wrapper').last().append($('<a/>').attr('href', '/draft/' + contestInfo._id).text('DRAFT').addClass('draft-button'));
 		}
@@ -161,6 +160,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	//=================
 
 	if ($('.section-wrapper').attr('id') === 'draft-wrapper') {
+		$('#draft-wrapper').append($('<div/>').text(contestInfo.name + ' Draft').attr('id', 'page-draft-name'));
+
 		$('#my-team-button').click(function() {
 			$.post('/draft/' + contestInfo._id, 
 				'isMyTeam=' + true + '&contestID=' + contestInfo._id,
@@ -281,6 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	if ($('.section-wrapper').attr('id') === 'my-team-wrapper') {
 		var setDefault = false;
+		var nonNullContest = 0;
 		var setFirst = false;
 		for (var i = 0; i < contestsInfo.length; i++) {
 			if (contestsInfo[i] !== null) {
@@ -301,12 +303,16 @@ document.addEventListener('DOMContentLoaded', function() {
 			    	setMyTeamPlayers(contestsInfo[i]);
 			    	setDefault = true;
 			    } else if (!setDefault && !setFirst) {
-			    	$('#select-contest').val(contestsInfo[i].id);
-			    	setMyTeamButtons(contestsInfo[i]);
-			    	setMyTeamPlayers(contestsInfo[i]);
+			    	nonNullContest = i;
 			    	setFirst = true;
 			    }
 			}
+		}
+
+		if (!setDefault && setFirst) {
+			$('#select-contest').val(contestsInfo[nonNullContest].id);
+	    	setMyTeamButtons(contestsInfo[nonNullContest]);
+	    	setMyTeamPlayers(contestsInfo[nonNullContest]);
 		}
 
 		//Display different team when contest dropdown selection changes
@@ -330,6 +336,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				'contestID=' + $('#select-contest').val(),
 				function(data) {
 					if (data.success) {
+						if ($('#enter-team-button').html() === 'Update team ➜') {
+							$('#submit-message').html('Your team has been updated!');
+						}
+
 						$('#submit-message').removeClass('hide');
 					} else {
 						$('#error-message').removeClass('hide');
@@ -415,17 +425,29 @@ document.addEventListener('DOMContentLoaded', function() {
 					$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(userPlayersScores[i]).addClass('contest-player-score'));
 				}
 			}
+
+			if (userPlayers.length === 0) {
+				$('#score-wrapper').append($('<div/>').addClass('nothing-here').text('You did not draft anyone for this contest!'));
+				$('#user-scores-list').addClass('hide');
+			}
 		}});
 
 		$('#change-team-view-button').click(function() {
 			if ($('#all-scores-list').hasClass('hide')) {
+				//Show all players in contest
 				$('#all-scores-list').removeClass('hide');
 				$('#user-scores-list').addClass('hide');
 				$('#change-team-view-button').html('VIEW MY PLAYERS');
+				$('.nothing-here').addClass('hide');
 			} else {
+				//Show my team players in contest
 				$('#all-scores-list').addClass('hide');
 				$('#user-scores-list').removeClass('hide');
 				$('#change-team-view-button').html('VIEW ALL PLAYERS');
+				if (userPlayers.length === 0) {
+					$('.nothing-here').removeClass('hide');
+					$('#user-scores-list').addClass('hide');
+				}
 			}
 		});
 	}
@@ -480,28 +502,26 @@ function projectScore(kills, headshots, deaths, roundsPlayed, assists) {
 	var weightsSum = k * kWeight + h * hWeight + d * dWeight + a * aWeight;
 	var projectedScore = Math.round(10*weightsSum/(rp*rpWeight)*finalWeight);
 	projectedScore = projectedScore/10;
-	
-	//console.log(projectedScore);
+
 	return projectedScore;
 }
 
 function setMyTeamButtons(info) {
 	if (info.status === 'upcoming' && !info.entered) {
-		$('#view-scoreboard-button').addClass('hide');
 		$('#enter-team-button').removeClass('hide');
 		$('#continue-drafting-button').removeClass('hide');
 		$('#continue-drafting-button').attr('href', '/draft/' + info.id);
 		$('#continue-drafting-button').css('margin', '0');
-		$('#view-scoreboard-button').css('margin', '0');
 	} else if (info.status === 'ongoing' || info.status === 'finished') {
 		$('#continue-drafting-button').addClass('hide');
 		$('#enter-team-button').addClass('hide');
 		$('#view-scoreboard-button').removeClass('hide');
 		$('#view-scoreboard-button').css('margin', 'auto');
-		$('#view-scoreboard-button').attr('href', '/contest/' + info.id);
-		if (info.entered == false) {
-			$('#submit-message').removeClass('hide');
-		}
+	}
+	$('#view-scoreboard-button').attr('href', '/contest/' + info.id);
+	if (info.entered == true) {
+		$('#submit-message').removeClass('hide');
+		$('#enter-team-button').html('Update team ➜');
 	}
 }
 
