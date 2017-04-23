@@ -67,7 +67,9 @@ module.exports = (callback) => {
 
 					game.tournament = matchInfo.substring(tournamentIdx);
 					game.id         = matchInfo.substring(0, 7);
-
+					
+					game.tournament = game.tournament.replace('-', ' ');
+					
 					updated.push(game);
 				}
 
