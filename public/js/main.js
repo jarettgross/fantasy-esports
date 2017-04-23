@@ -515,6 +515,7 @@ function setMyTeamButtons(info) {
 		$('#continue-drafting-button').attr('href', '/draft/' + info.id);
 		$('#continue-drafting-button').css('margin', '0');
 	} else if (info.status === 'ongoing' || info.status === 'finished') {
+		$('#continue-drafting-button').css('margin', '0');
 		$('#continue-drafting-button').addClass('hide');
 		$('#enter-team-button').addClass('hide');
 		$('#view-scoreboard-button').removeClass('hide');
