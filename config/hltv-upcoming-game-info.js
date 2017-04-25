@@ -115,7 +115,6 @@ module.exports = (callback) => {
 					//	which has either finished or been postponed.
 					if ($timeCell.text().trim() === 'Postponed' || $timeCell.text().trim() === 'Finished') {
 						dateIndex--;
-						
 						if (dateIndex <= -1) {
 							//Ensures that dateIndex never goes below 0
 							dateIndex = 0;
@@ -132,16 +131,18 @@ module.exports = (callback) => {
 						}
                     }
 					
-					if (!dateHasIncreased && $timeCell.text().trim() !== 'LIVE' && $timeCell.text().trim() !== 'Finished' && $timeCell.text().trim() !== 'Postponed') {
+					if (!dateHasIncreased && $timeCell.text().trim() === 'LIVE' && $timeCell.text().trim() !== 'Finished' && $timeCell.text().trim() !== 'Postponed') {
 						var matchURL = $b('.matchActionCell').html().match(/"(.*)"/)[1];
 						var matchInfo = matchURL.substring(7);
 						var matchTime = $timeCell.text();
 					
 						game.id = matchInfo.substring(0, 7);
 						var dateInfo = twoDates[dateIndex];	//tried to reuse date = here and it was undefined.
-						
-						game.date = new Date(dateInfo.month + " " + dateInfo.day + ", " + dateInfo.year + " " + matchTime + ":00 GMT+02:00");
-						
+						if ($timeCell.text().trim() !== 'LIVE')
+							game.date = new Date(dateInfo.month + " " + dateInfo.day + ", " + dateInfo.year + " " + matchTime + ":00 GMT+02:00");
+						else
+							game.date = new Date();
+						console.log(game)
 						gameInfo.push(game);
 					} else {
 						dateToIncrease = false;

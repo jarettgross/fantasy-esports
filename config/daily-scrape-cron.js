@@ -24,7 +24,8 @@ module.exports = {
 			});
 		},
 		start: false,
-		timeZone: 'Europe/Paris'
+		timeZone: 'Europe/Paris',
+		runOnInit: true
 	})
 };
 
@@ -92,7 +93,8 @@ function beginScoreUpdates(date, gameID) {
 			});
 		},
 		start: false,
-		timeZone: 'Europe/Paris'
+		timeZone: 'Europe/Paris',
+		runOnInit: true
 	});
 	job.start();
 }
