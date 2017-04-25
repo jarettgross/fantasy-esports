@@ -24,8 +24,7 @@ module.exports = {
 			});
 		},
 		start: false,
-		timeZone: 'Europe/Paris',
-		runOnInit: true
+		timeZone: 'Europe/Paris'
 	})
 };
 
@@ -52,7 +51,6 @@ function beginScoreUpdates(date, gameID) {
 
 								if (contest !== null) {
 									//Read data when a "scoreboard" update is sent
-									console.log('near scoreboard');
 									live.on('scoreboard', function(data) {
 										var team1 = data.teams['1'];
 										var team2 = data.teams['2'];
@@ -94,8 +92,7 @@ function beginScoreUpdates(date, gameID) {
 			});
 		},
 		start: false,
-		timeZone: 'Europe/Paris',
-		runOnInit: true
+		timeZone: 'Europe/Paris'
 	});
 	job.start();
 }

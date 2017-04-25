@@ -667,6 +667,7 @@ body {
     #my-team-buttons-wrapper #continue-drafting-button:hover {
       background-color: #D63A42; }
   #my-team-buttons-wrapper #enter-team-button {
+    margin: auto;
     background-color: #26B3DE;
     color: #FFFFFF;
     padding: 10px 30px;
@@ -681,6 +682,7 @@ body {
     #my-team-buttons-wrapper #enter-team-button:hover {
       background-color: #24A1C7; }
   #my-team-buttons-wrapper #view-scoreboard-button {
+    margin: auto;
     background-color: #26B3DE;
     color: #FFFFFF;
     padding: 10px 30px;
