@@ -19,6 +19,10 @@ module.exports = {
 						async.map(userIDs, function(id, done) {
 							User.findById(id, '_id username contests', function(err, user) {
 								if (user !== null) {
+									if (req.user._id === user._id) {
+										userDidEnter = true;
+									}
+									
 									for (var j = 0; j < user.contests.length; j++) {
 										if (user.contests[j].id === contest._id && user.contests[j].entered) {
 											return done(null, {
@@ -27,10 +31,6 @@ module.exports = {
 												points:   user.contests[j].points
 											});
 										}
-									}
-
-									if (req.user._id === user._id) {
-										userDidEnter = true;
 									}
 
 									done(null);
@@ -47,7 +47,7 @@ module.exports = {
 					res.render('contest', {
 						contest:      JSON.stringify(contest),
 						contestUsers: JSON.stringify(contestUsersInfo),
-						didEnter:     userDidEnter
+						userDidEnter:     userDidEnter
 					});
 				});
 

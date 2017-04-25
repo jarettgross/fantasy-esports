@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		//Create Draft button
 		if (new Date(contestInfo.startDate) <= new Date()) {
-			if (userDidEnter == true) {
+			if (userDidEnter == 'true') {
 				$('#contest-wrapper').append($('<div/>').addClass('draft-button-wrapper'));
 				$('#contest-wrapper').find('.draft-button-wrapper').last().append($('<a/>').attr('href', '/score/' + contestInfo._id).text('VIEW MY TEAM').addClass('draft-button'));
 			}
@@ -513,9 +513,7 @@ function setMyTeamButtons(info) {
 		$('#enter-team-button').removeClass('hide');
 		$('#continue-drafting-button').removeClass('hide');
 		$('#continue-drafting-button').attr('href', '/draft/' + info.id);
-		$('#continue-drafting-button').css('margin', '0');
 	} else if (info.status === 'ongoing' || info.status === 'finished') {
-		$('#continue-drafting-button').css('margin', '0');
 		$('#continue-drafting-button').addClass('hide');
 		$('#enter-team-button').addClass('hide');
 		$('#view-scoreboard-button').removeClass('hide');
@@ -535,7 +533,6 @@ function setMyTeamPlayers(info, isHeader) {
 		$('#continue-drafting-button').css('margin', 'auto');
 		$('#my-team-list').addClass('hide');
 	} else {
-		$('#continue-drafting-button').css('margin', '0');
 		$('#my-team-no-team-msg').addClass('hide');
 		$('#my-team-list').removeClass('hide');
 		$('#my-team-list').empty();
