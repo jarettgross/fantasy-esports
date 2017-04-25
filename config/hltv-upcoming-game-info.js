@@ -131,18 +131,20 @@ module.exports = (callback) => {
 						}
                     }
 					
-					if (!dateHasIncreased && $timeCell.text().trim() === 'LIVE' && $timeCell.text().trim() !== 'Finished' && $timeCell.text().trim() !== 'Postponed') {
+					if (!dateHasIncreased && $timeCell.text().trim() !== 'Finished' && $timeCell.text().trim() !== 'Postponed') {
 						var matchURL = $b('.matchActionCell').html().match(/"(.*)"/)[1];
 						var matchInfo = matchURL.substring(7);
 						var matchTime = $timeCell.text();
 					
 						game.id = matchInfo.substring(0, 7);
 						var dateInfo = twoDates[dateIndex];	//tried to reuse date = here and it was undefined.
-						if ($timeCell.text().trim() !== 'LIVE')
+						if ($timeCell.text().trim() !== 'LIVE') {
 							game.date = new Date(dateInfo.month + " " + dateInfo.day + ", " + dateInfo.year + " " + matchTime + ":00 GMT+02:00");
-						else
+						}
+						else {
 							game.date = new Date();
-						console.log(game)
+							dateToIncrease = false;
+						}
 						gameInfo.push(game);
 					} else {
 						dateToIncrease = false;
