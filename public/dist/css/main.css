@@ -634,8 +634,6 @@ body {
     text-align: center; }
 
 .player-listing-footer {
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
   border-bottom-style: solid;
   border-bottom-width: 1px; }
 
