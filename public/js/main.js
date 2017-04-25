@@ -94,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	//=================
 
 	if ($('.section-wrapper').attr('id') === 'contest-wrapper') {
-
 		$('#contest-wrapper').append($('<div/>').text(contestInfo.name).attr('id', 'page-contest-name'));
 		$('#contest-wrapper').append($('<div/>').text(contestInfo.startDate + ' to ' + contestInfo.endDate).attr('id', 'page-contest-date'));
 
@@ -116,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				break;
 			}
 		}
-
+		
 		if (contestUsers.length === 0 || isNulls) {
 			$('#contest-wrapper').append($('<div/>').addClass('nothing-here').text('There is no one signed up for this contest!'));
 		} else {
@@ -132,10 +131,10 @@ document.addEventListener('DOMContentLoaded', function() {
 					return -1;
 				}
 				if (a.points < b.points) {
-	                return -1;
+	                return 1;
 	            }
 				if (a.points > b.points) {
-	                return 1;
+	                return -1;
 	            }
 				return 0;
 			});
@@ -358,8 +357,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		$('#score-wrapper').append($('<div/>').prop('id', 'all-scores-list').addClass('hide'));
 		$('#score-wrapper').append($('<div/>').prop('id', 'user-scores-list'));
 
-		var userPlayers = [];
-		var userPlayersScores = [];
+		var userPlayersAndScore = [];
+		//var userPlayers = [];
+		//var userPlayersScores = [];
 		var allPlayers = [];
 
 		$.ajax({ url: "../js/lib/AllStats.csv", success: function(csv) {
@@ -367,15 +367,18 @@ document.addEventListener('DOMContentLoaded', function() {
 			var playersInfo = contestInfo.players;
 
 			//Get player data for each player that is in the contest
-			var players = [];
-			var scores = [];
+			var playersAndScore = [];
+			//var players = [];
+			//var scores = [];
 
 			for (var i = 0; i < allPlayers.length; i++) {
 				for (var j = 0; j < playersInfo.length; j++) {
 					var playerID = parseInt(allPlayers[i][1].split(':')[1]);
 					if (playerID === playersInfo[j].id) {
-						players.push(allPlayers[i]);
-						scores.push(playersInfo[j].points);
+						var playerAndScore = [allPlayers[i], playersInfo[j].points];
+						playersAndScore.push(playerAndScore);
+						//players.push(allPlayers[i]);
+						//scores.push(playersInfo[j].points);
 					}
 				}
 
@@ -383,8 +386,10 @@ document.addEventListener('DOMContentLoaded', function() {
 					for (var j = 0; j < userInfo.team.length; j++) {
 						var playerID = parseInt(allPlayers[i][1].split(':')[1]);
 						if (playerID === userInfo.team[j]) {
-							userPlayers.push(allPlayers[i]);
-							userPlayersScores.push(playersInfo[j].points);
+							var playerAndScore = [allPlayers[i], playersInfo[j].points];
+							userPlayersAndScore.push(playerAndScore);
+							//userPlayers.push(allPlayers[i]);
+							//userPlayersScores.push(playersInfo[j].points);
 						}
 					}
 				}
@@ -396,16 +401,36 @@ document.addEventListener('DOMContentLoaded', function() {
 			$('#all-scores-list').find('div.score-listing-header').last().append($('<div/>').text("Name").addClass('player-name-header'));
 			$('#all-scores-list').find('div.score-listing-header').last().append($('<div/>').text("Score").addClass('player-score-header'));
 			
-			for (var i = 0; i < players.length; i++) {
-				var name = players[i][0].split(":")[1];
-				if (i === players.length - 1) {
+			//Sort the players by points and name
+			playersAndScore.sort(function(a, b) {
+				if (a === null) {
+					return -1;
+				}
+				if (a[1] < b[1]) {
+	                return 1;
+	            }
+				if (a[1] > b[1]) {
+	                return -1;
+	            }
+				if (a[0] < b[0]) {
+	                return 1;
+	            }
+				if (a[0] > b[0]) {
+	                return -1;
+	            }
+				return 0;
+			});
+			
+			for (var i = 0; i < playersAndScore.length; i++) {
+				var name = playersAndScore[i][0][0].split(":")[1];
+				if (i === playersAndScore.length - 1) {
 					$('#all-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-player-listing').addClass('score-listing-footer'));
 					$('#all-scores-list').find('div.score-player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
-					$('#all-scores-list').find('div.score-player-listing').last().append($('<div/>').text(scores[i]).addClass('contest-player-score'));
+					$('#all-scores-list').find('div.score-player-listing').last().append($('<div/>').text(playersAndScore[i][1]).addClass('contest-player-score'));
 				} else {
 					$('#all-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-player-listing'));
 					$('#all-scores-list').find('div.score-player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
-					$('#all-scores-list').find('div.score-player-listing').last().append($('<div/>').text(scores[i]).addClass('contest-player-score'));
+					$('#all-scores-list').find('div.score-player-listing').last().append($('<div/>').text(playersAndScore[i][1]).addClass('contest-player-score'));
 				}
 			}
 
@@ -414,21 +439,42 @@ document.addEventListener('DOMContentLoaded', function() {
 			$('#user-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-listing-header'));
 			$('#user-scores-list').find('div.score-listing-header').last().append($('<div/>').text("Name").addClass('player-name-header'));
 			$('#user-scores-list').find('div.score-listing-header').last().append($('<div/>').text("Score").addClass('player-score-header'));
-
-			for (var i = 0; i < userPlayers.length; i++) {
-				var name = userPlayers[i][0].split(":")[1];
-				if (i === userPlayers.length - 1) {
+			
+			//Sort the players by points and name
+			userPlayersAndScore.sort(function(a, b) {
+				if (a === null) {
+					return -1;
+				}
+				if (a[1] < b[1]) {
+	                return 1;
+	            }
+				if (a[1] > b[1]) {
+	                return -1;
+	            }
+				if (a[0] < b[0]) {
+	                return 1;
+	            }
+				if (a[0] > b[0]) {
+	                return -1;
+	            }
+				return 0;
+			});
+			
+			
+			for (var i = 0; i < userPlayersAndScore.length; i++) {
+				var name = userPlayersAndScore[i][0][0].split(":")[1];
+				if (i === userPlayersAndScore.length - 1) {
 					$('#user-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-player-listing').addClass('score-listing-footer'));
 					$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
-					$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(userPlayersScores[i]).addClass('contest-player-score'));
+					$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(userPlayersAndScore[i][1]).addClass('contest-player-score'));
 				} else {
 					$('#user-scores-list').find('div.score-listing').last().append($('<div/>').addClass('score-player-listing'));
 					$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(name).addClass('contest-player-name'));
-					$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(userPlayersScores[i]).addClass('contest-player-score'));
+					$('#user-scores-list').find('div.score-player-listing').last().append($('<div/>').text(userPlayersAndScore[i][1]).addClass('contest-player-score'));
 				}
 			}
 
-			if (userPlayers.length === 0) {
+			if (userPlayersAndScore.length === 0) {
 				$('#score-wrapper').append($('<div/>').addClass('nothing-here').text('You did not draft anyone for this contest!'));
 				$('#user-scores-list').addClass('hide');
 			}
@@ -446,7 +492,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				$('#all-scores-list').addClass('hide');
 				$('#user-scores-list').removeClass('hide');
 				$('#change-team-view-button').html('VIEW ALL PLAYERS');
-				if (userPlayers.length === 0) {
+				if (userPlayersAndScore.length === 0) {
 					$('.nothing-here').removeClass('hide');
 					$('#user-scores-list').addClass('hide');
 				}
