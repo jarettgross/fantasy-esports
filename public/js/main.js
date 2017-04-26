@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	//=================
 
 	if ($('.section-wrapper').attr('id') === 'contest-wrapper') {
+		
 		$('#contest-wrapper').append($('<div/>').text(contestInfo.name).attr('id', 'page-contest-name'));
 		$('#contest-wrapper').append($('<div/>').text(contestInfo.startDate + ' to ' + contestInfo.endDate).attr('id', 'page-contest-date'));
 
@@ -358,8 +359,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		$('#score-wrapper').append($('<div/>').prop('id', 'user-scores-list'));
 
 		var userPlayersAndScore = [];
-		//var userPlayers = [];
-		//var userPlayersScores = [];
 		var allPlayers = [];
 
 		$.ajax({ url: "../js/lib/AllStats.csv", success: function(csv) {
@@ -368,8 +367,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			//Get player data for each player that is in the contest
 			var playersAndScore = [];
-			//var players = [];
-			//var scores = [];
 
 			for (var i = 0; i < allPlayers.length; i++) {
 				for (var j = 0; j < playersInfo.length; j++) {
@@ -377,8 +374,6 @@ document.addEventListener('DOMContentLoaded', function() {
 					if (playerID === playersInfo[j].id) {
 						var playerAndScore = [allPlayers[i], playersInfo[j].points];
 						playersAndScore.push(playerAndScore);
-						//players.push(allPlayers[i]);
-						//scores.push(playersInfo[j].points);
 					}
 				}
 
@@ -386,10 +381,13 @@ document.addEventListener('DOMContentLoaded', function() {
 					for (var j = 0; j < userInfo.team.length; j++) {
 						var playerID = parseInt(allPlayers[i][1].split(':')[1]);
 						if (playerID === userInfo.team[j]) {
-							var playerAndScore = [allPlayers[i], playersInfo[j].points];
-							userPlayersAndScore.push(playerAndScore);
-							//userPlayers.push(allPlayers[i]);
-							//userPlayersScores.push(playersInfo[j].points);
+							for (var k = 0; k < playersInfo.length; k++) {
+								if (playersInfo[k].id === playerID) {
+									var playerAndScore = [allPlayers[i], playersInfo[k].points];
+									console.log(userInfo.team[j]);
+									userPlayersAndScore.push(playerAndScore);
+								}
+							}
 						}
 					}
 				}
@@ -459,7 +457,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	            }
 				return 0;
 			});
-			
 			
 			for (var i = 0; i < userPlayersAndScore.length; i++) {
 				var name = userPlayersAndScore[i][0][0].split(":")[1];
